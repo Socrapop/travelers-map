@@ -1,0 +1,80 @@
+#travelersmap-container {
+  background: #f4f4f4;
+}
+#travelersmap-container * {
+  box-sizing: border-box;
+}
+#travelersmap-container .leaflet-popup-content-wrapper {
+  border-radius: 0;
+  padding: 0;
+}
+#travelersmap-container .leaflet-popup-tip {
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+  background: #4a4a4a;
+}
+#travelersmap-container .leaflet-popup-content {
+  width: 300px;
+  margin: 0;
+}
+#travelersmap-container .leaflet-popup-content:hover .img-mask:after {
+  background: rgba(0, 0, 0, 0.3);
+}
+#travelersmap-container .leaflet-popup-content:hover .img-mask img {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+#travelersmap-container .img-mask {
+  overflow: hidden;
+  max-height: 200px;
+  height: 200px;
+}
+#travelersmap-container .img-mask:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  transition: 400ms background cubic-bezier(0.05, 0.9, 0.13, 0.99);
+}
+#travelersmap-container .img-mask img {
+  width: 100%;
+  height: auto;
+  transition: 2000ms -webkit-transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
+  transition: 2000ms transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
+  transition: 2000ms transform cubic-bezier(0.05, 0.9, 0.13, 0.99), 2000ms -webkit-transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
+}
+#travelersmap-container .img-mask .nothumbplaceholder {
+  max-width: 100%;
+  width: 300px;
+  height: 200px;
+  background: #0f0c29;
+  background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+}
+#travelersmap-container a.tooltip-link {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: block;
+  vertical-align: middle;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-decoration: none;
+  overflow: hidden;
+}
+#travelersmap-container a.tooltip-link .title {
+  color: white;
+  padding: 40px 0;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  width: 90%;
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, 50%);
+          transform: translate(-50%, 50%);
+}
