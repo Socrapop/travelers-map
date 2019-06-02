@@ -135,9 +135,9 @@ function cttm_meta_callback($post){
 		  //Query user's markers
 			$the_query = new WP_Query( $cttm_marker_query_args );
 			
-			if ( $the_query->have_posts() ) {
-
-				$markerchecked = false; 
+			$markerchecked = false; 
+            
+            if ( $the_query->have_posts() ) {
 
 				while ( $the_query->have_posts() ) {
 
