@@ -1,4 +1,4 @@
-=== Travelers' Map ===
+﻿=== Travelers' Map ===
 Contributors: socrapop
 Donate link: https://www.paypal.me/CamilleVerrier
 Tags: travel, openstreetmap, leaftlet, map, pin, travelers, markers, traveler
@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 0.8.0
+Version 0.8.1
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -59,8 +59,12 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 
 == Changelog ==
 
+= 0.8.1 = 
+* Fixed error when no custom marker is created
+
 = 0.8.0 = 
 * First version released publicly on wordpress.org
+
 
 == Frequently Asked Questions ==
 
