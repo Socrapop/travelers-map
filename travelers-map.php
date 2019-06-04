@@ -3,7 +3,7 @@
 Plugin Name: Travelers' Map
 Plugin URI: https://wordpress.org/plugins/travelers-map
 Description: Pin your Wordpress posts on a dynamic OpenStreetMap map
-Version: 0.8.0
+Version: 0.8.1
 Author: Camille Verrier
 Author URI: https://verriercamille.com/
 License: GPLv3 or later
