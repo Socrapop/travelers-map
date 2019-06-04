@@ -18,7 +18,13 @@ function cttm_add_page() {
 function cttm_options_page(){
     ?>
     <div class="wrap">
-        <h1>Travelers' Map  <small>| version 0.8.0</small></h1>
+        <h1>Travelers' Map  
+        <?php 
+        $cttm_data = get_plugin_data( plugin_dir_path( __FILE__ ) . 'travelers-map.php', false, false);
+            ;
+        echo "<small>| version ".$cttm_data['Version']."</small>";
+        ?>
+        </h1>
         <p><small>Please understand this plugin is under development. More settings will be added in future updates!<br>Also, don't hesitate to <a href="https://wordpress.org/plugins/travelers-map/#reviews" target="_blank">rate this plugin and give me some feedbacks</a> to make Travelers' Map better!</small></p><hr>
         <p><strong>Need some help setting up this plugin?</strong><br>
             Please check the <a href="https://camilles-travels.com/get-started-with-travelers-map-wordpress-plugin/" target="_blank">"Get Started" tutorial</a> on my blog. <br> </p>
