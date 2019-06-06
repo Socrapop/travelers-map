@@ -3,7 +3,7 @@
 Plugin Name: Travelers' Map
 Plugin URI: https://wordpress.org/plugins/travelers-map
 Description: Pin your Wordpress posts on a dynamic OpenStreetMap map
-Version: 0.8.1
+Version: 0.8.2
 Author: Camille Verrier
 Author URI: https://verriercamille.com/
 License: GPLv3 or later
@@ -34,12 +34,8 @@ register_activation_hook(__FILE__, 'cttm_activation');
 
 function cttm_activation() {
 
-    // Leaflet map options 
-    $cctm_options = array(
-        'tileurl' => 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-        'subdomains' => 'abcd',
-        'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and &copy; <a href="https://carto.com/attributions">CARTO</a>' );
-    add_option( 'cttm_options', $cctm_options );
+    require_once plugin_dir_path( __FILE__ ) . 'cttm-activation.php';
+    
 
 }
 

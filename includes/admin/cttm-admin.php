@@ -154,7 +154,6 @@ function cttm_meta_callback($post){
 
 						echo '<label><input type="radio" name="marker" value="'.get_the_ID().'">';
 					}
-					
 					echo '<img src="'.get_the_post_thumbnail_url().'"></label>';
 				}
 				

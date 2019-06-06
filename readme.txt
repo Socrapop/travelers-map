@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 0.8.1
+Version 0.8.2
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -58,6 +58,12 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map, filter the posts you want to show by categories and tags.
 
 == Changelog ==
+
+= 0.8.2 =
+* Added new default markers on plugin activation.
+* "Delete data" button in options page now remove every custom marker too.
+* Clarified the "Delete button" description in options page.
+* Fixed options not being removed when uninstalling the plugin.
 
 = 0.8.1 = 
 * Fixed error when no custom marker is created

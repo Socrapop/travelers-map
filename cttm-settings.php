@@ -37,13 +37,13 @@ function cttm_options_page(){
                 <input type="submit" name="Reset" value="Reset settings to default" class="button button-secondary" style="margin:30px 0" onclick="return confirm('Are you sure you wish to reset settings to default? Current settings will be deleted.');">
                 <hr style="margin:30px 0">
                 
-                <h2>Delete all markers and clean database</h2>
-                <p>This button cleans every marker information added in your database using this plugin.<br>
+                <h2>Clean database - Delete all geolocalisation data, markers</h2>
+                <p>This button cleans every geolocalisation meta-data added to your posts and every custom markers added.<br>
                 <strong>Please understand this is irreversible.</strong><br></p>
-                <input type="submit" name="Delete" value="Delete all markers in database" style="background:#e64949;border-color:#c91c1c;box-shadow: 0 1px 0 #831212;color: #fff;text-decoration: none;text-shadow: 0 -1px 1px #990b00,1px 0 1px #c50e0e,0 1px 1px #990500,-1px 0 1px #900;" class="button" onclick="return confirm('Are you sure you wish to delete every marker in your database? This action is irreversible.');"  >
+                <input type="submit" name="Delete" value="Delete all plugin data in database" style="background:#e64949;border-color:#c91c1c;box-shadow: 0 1px 0 #831212;color: #fff;text-decoration: none;text-shadow: 0 -1px 1px #990b00,1px 0 1px #c50e0e,0 1px 1px #990500,-1px 0 1px #900;" class="button" onclick="return confirm('Are you sure you wish to delete every geolocalisation data and custom markers in your database? This action is irreversible.');"  >
                 <p class="description"><br>To prevent unintentional loss of data, this is how Travelers' Map works: <br>
-                    - Upon deactivation, every data (markers and settings) is kept.   <br>
-                    - When uninstalling, above settings are deleted from database while markers are kept to prevent unintentional loss. <br>
+                    - Upon deactivation, every data (geolocalisation meta-data and settings) is kept.   <br>
+                    - When uninstalling, above settings are deleted from database while geolocalisation data are kept to prevent unintentional loss. <br>
                 </p>
                 
                 <hr style="margin:30px 0">
@@ -168,6 +168,43 @@ function cttm_validate_option($input){
             }
             
         }
+
+        //Reset Wp_Query
+        wp_reset_postdata();
+
+        //Get all markers from custom post type cttm-marker and delete them
+        $cttm_markers_posts_args = array(
+            'post_type' => 'cttm-marker',
+            'posts_per_page' => -1,
+            'post_status' => array('any', 'trash')
+        );
+        $cttm_markers_posts_query =  new WP_Query($cttm_markers_posts_args);
+
+        if( ($cttm_markers_posts_query->have_posts())) {
+
+            $cttm_markers_posts = $cttm_markers_posts_query->posts;
+            $array = [];
+            $i=0;
+            foreach($cttm_markers_posts as $post) {
+                
+                $array[$i] = $post->post_content ;
+                $i++;
+                //Check if current marker is a Default marker by checking if has content (content field is hidden to users)
+                if ($post->post_content) {
+                    //Get the thumbnail ID and delete it from media library
+                    if(has_post_thumbnail(  $post->ID )){
+                      $cttm_attachment_id = get_post_thumbnail_id( $post->ID );
+                      wp_delete_attachment($cttm_attachment_id, true);
+                    }
+                }
+                
+                //Delete post and force deletion (second argument : true)
+                wp_delete_post( $post->ID, true );
+                
+
+            }
+        }
+
         return $input;
     }
 }
