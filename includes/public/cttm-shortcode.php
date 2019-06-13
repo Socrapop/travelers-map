@@ -61,6 +61,7 @@ function cttm_shortcode($attr) {
 		    $cttm_postdatas['thumb'] = get_the_post_thumbnail_url($post->ID, "travelersmap-thumb" );
 			$cttm_postdatas['url'] = get_permalink($post->ID);
 			$cttm_postdatas['thetitle'] = get_the_title($post->ID);
+      $cttm_postdatas['excerpt'] = get_the_excerpt( $post->ID );
 			$latlngmarkerarr = get_post_meta( $post->ID, '_latlngmarker');
 			
 			//Create the $cttm_metas array to store all the markers and posts informations. This will be send to out javascript file

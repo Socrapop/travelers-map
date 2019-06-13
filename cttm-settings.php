@@ -37,7 +37,7 @@ function cttm_options_page(){
                 <input type="submit" name="Reset" value="Reset settings to default" class="button button-secondary" style="margin:30px 0" onclick="return confirm('Are you sure you wish to reset settings to default? Current settings will be deleted.');">
                 <hr style="margin:30px 0">
                 
-                <h2>Clean database - Delete all geolocalisation data, markers</h2>
+                <h2>Clean database - Delete all geolocalisation data and markers</h2>
                 <p>This button cleans every geolocalisation meta-data added to your posts and every custom markers added.<br>
                 <strong>Please understand this is irreversible.</strong><br></p>
                 <input type="submit" name="Delete" value="Delete all plugin data in database" style="background:#e64949;border-color:#c91c1c;box-shadow: 0 1px 0 #831212;color: #fff;text-decoration: none;text-shadow: 0 -1px 1px #990b00,1px 0 1px #c50e0e,0 1px 1px #990500,-1px 0 1px #900;" class="button" onclick="return confirm('Are you sure you wish to delete every geolocalisation data and custom markers in your database? This action is irreversible.');"  >
@@ -64,10 +64,22 @@ function cttm_admin_init(){
     add_settings_field( 'tileurl', 'Tiles Server URL', 'cttm_tileurl_html' , 'cttm_travelersmap', 'map-data-config');
     add_settings_field( 'subdomains', 'Tiles Server sub-domains', 'cttm_subdomains_html' , 'cttm_travelersmap', 'map-data-config');
     add_settings_field( 'attribution', 'Attribution', 'cttm_attribution_html' , 'cttm_travelersmap', 'map-data-config');
+
+    //add popup settings section 
+    add_settings_section('popup-config', 'Popup configurations', 'cttm_popup_section_html', 'cttm_travelersmap');
+    
+    add_settings_field( 'popup_style', 'Popup style', 'cttm_popupstyle_html' , 'cttm_travelersmap', 'popup-config');
+    add_settings_field( 'popup_css', 'Disable popup CSS', 'cttm_popupcss_html' , 'cttm_travelersmap', 'popup-config');
+   
+
 }
 
 //Draw the section header and help
 function cttm_map_section_html(){
+
+}
+//Draw the section header and help
+function cttm_popup_section_html(){
 
 }
 
@@ -108,8 +120,37 @@ function cttm_attribution_html(){
     echo '<br><br>Attribution is shown to the lower right of the map. It is necessary to give credit to the Openstreetmap datas and your tile provider. <br> 
         
         <p class="description">It is not necessary, but you can support this plugin by adding : <code> | Built with &lt;a href="https://wordpress.org/plugins/travelers-map/" target="_blank"&gt;Travelers\' Map&lt;/a&gt;</code> </p>';
+echo "<br>";
+}
+
+function cttm_popupstyle_html(){
+    $options = get_option('cttm_options');
+    $popup_style = $options["popup_style"];
+
+    echo '<span  style="margin:5px 0 20px; display:block">Choose the content shown in popups and their style : </span>';
+    echo '<label style="display:inline-block;margin:0 0 10px 10px;background:#fff; padding:10px; box-shadow: #d1d1d1 0px 0px 4px;"><div style="text-align:center; font-weight:bold;  "><input type="radio" name="cttm_options[popup_style]" value="img_title" '. checked( $popup_style, "img_title",false).'>Title and thumbnail (default) </div><img src="'.plugins_url('includes\admin\images\img_title.png', __FILE__).'"></label>';
+    echo '<label style="display:inline-block;margin:0 0 10px 10px;background:#fff; padding:10px; box-shadow: #d1d1d1 0px 0px 4px;"><div style="text-align:center; font-weight:bold;  "><input type="radio" name="cttm_options[popup_style]" value="img_title_descr" '. checked( $popup_style, "img_title_descr",false).'> Title, thumbnail and excerpt </div><img src="'.plugins_url('includes\admin\images\img_title_excerpt.png', __FILE__).'"></label>';
+    echo '<label style="display:inline-block;margin:0 0 10px 10px;background:#fff; padding:10px 10px 0; box-shadow: #d1d1d1 0px 0px 4px;"><div style="text-align:center; font-weight:bold; margin-bottom:10px; "><input type="radio" name="cttm_options[popup_style]" value="title_descr" '. checked( $popup_style, "title_descr",false).'> Title and excerpt </div><img src="'.plugins_url('includes\admin\images\title_excerpt.png', __FILE__).'"></label>';
+
+
 
 }
+
+function cttm_popupcss_html(){
+    $options = get_option('cttm_options');
+
+    //Check if popup_css is set to prevent error.
+    //For an unknown reason, popup_css disappears from cttm_option when user click on "delete all plugin data in database" button.
+
+    if (isset($options["popup_css"])){
+        $popup_css = $options["popup_css"];
+    }else{
+        $popup_css = 0;
+    }
+
+    echo '<label><input type="checkbox" name="cttm_options[popup_css]" value="1" '. checked( $popup_css, 1,false).'> Check this box to disable Travelers\' Map Popup CSS.</label> <br><span class="description" style="margin-top:5px; display:block">Leaflet default CSS is still loaded. Please note that only the content chosen above is loaded.</span>';
+}
+
 function cttm_validate_option($input){
 
     //In order to sanitize attribution without removing html code, we load HTMLPurifier http://htmlpurifier.org/
@@ -120,24 +161,30 @@ function cttm_validate_option($input){
 
     //If Save Changes button is clicked
     if (isset($_POST['Submit'])) {
-
+        //Sanitize every option before returning the values
         $input[ 'tileurl' ] = sanitize_text_field($input[ 'tileurl' ]);
         $input[ 'subdomains' ] = sanitize_text_field( $input[ 'subdomains' ] );
         $input[ 'attribution' ] =  $purifier->purify( $input[ 'attribution' ] );
+        $input[ 'popup_style' ] =  sanitize_key($input[ 'popup_style' ]);
+        $input[ 'popup_css' ] =  intval($input[ 'popup_css' ]);
         return $input;
+
     }
 
     //If Reset to default is clicked
     else if (isset($_POST['Reset'])) {
-
         $cctm_options_default = array(
         'tileurl' => 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
         'subdomains' => 'abcd',
-        'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and &copy; <a href="https://carto.com/attributions">CARTO</a>' );
+        'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        'popup_style' => 'img_title',
+        'popup_css' => 0 );
 
         $input[ 'tileurl' ] = sanitize_text_field($cctm_options_default['tileurl']);
         $input[ 'subdomains' ] = sanitize_text_field($cctm_options_default['subdomains']);
         $input[ 'attribution' ] =  $purifier->purify($cctm_options_default['attribution']);
+        $input[ 'popup_style' ] =  sanitize_key($cctm_options_default['popup_style']);
+        $input[ 'popup_css' ] =  intval($cctm_options_default['popup_css']);
         return $input;
     }
 

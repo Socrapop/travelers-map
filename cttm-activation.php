@@ -5,16 +5,7 @@ if (!defined('ABSPATH')) {
     exit; 
 }
 
-
-/**
- * Set default options
- */
-    // Leaflet map options 
-    $cttm_options = array(
-        'tileurl' => 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-        'subdomains' => 'abcd',
-        'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and &copy; <a href="https://carto.com/attributions">CARTO</a>' );
-    add_option( 'cttm_options', $cttm_options );
+cttm_option_update();
 
 /**
  * Create default markers custom posts
