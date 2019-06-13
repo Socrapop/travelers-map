@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 0.8.2
+Version 0.9.0
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -59,6 +59,13 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 
 == Changelog ==
 
+= 0.9.0 =
+* NEW: Popup customization - You can now choose between pre-defined popups.
+* You can now show excerpt in popups.
+* Popups CSS can be turned off for developers.
+* Fixed map not displaying in Internet Explorer...
+
+
 = 0.8.2 =
 * Added new default markers on plugin activation.
 * "Delete data" button in options page now remove every custom marker too.
@@ -83,13 +90,12 @@ However, you may have to pay if you were to choose a premium Tile Provider.
 You should visit the awesome [Leaflet-providers demo](https://leaflet-extras.github.io/leaflet-providers/preview/) to find a tile provider. Some of them require to register and request an API key.
 
 = Can I use Google Maps = 
-No, I decided to create Travelers' Map after Google Maps' pricing plans were updated. Furthermore, loading tiles from Google Maps by simply specifying the URL of Leaflet is against the Google Maps terms of service.
+No, I decided to create Travelers' Map after Google Maps' pricing plans were updated. Furthermore, loading tiles from Google Maps by simply specifying the tiles URL to Leaflet is against the Google Maps terms of service.
 If you really want to use Google Maps (but really, why?), you can use the plugin Novo-Map that I used to use on my personal blog.
 
-= I only have one marker image, why? =
+= Can I add more markers images? =
 
-For now, this plugin comes with only one default marker. More will be added in future updates. 
-However, you can add your own custom markers in "Travelers' Map" > "Customize markers" in your Wordpress admin area.
+Yes, you can add your own custom markers in "Travelers' Map" > "Customize markers" in your Wordpress admin area.
 
 = Is this plugin only available in English? =
 At this time, yes. Translations will be added in future updates.
@@ -99,5 +105,5 @@ The user guide is also [available in French](https://camilles-travels.com/demarr
 I am afraid not. You can only display one map per page. 
 
 = Can I change the marker popup style? =
-Not yet, right now the popup shows the post thumbnail and title in a beautiful way. Excrept is not yet available in popup.
+Not yet, right now the popup shows the post thumbnail and title in a beautiful way. Excrept is not yet available in popup. 
 

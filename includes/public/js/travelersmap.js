@@ -5,14 +5,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	 * Create leaflet map object "cttm_map"
 	 */
 
-	var cttm_map = L.map('travelersmap-container') ;//Zoom 3
+	var cttm_map = L.map('travelersmap-container') ;
 	
 	/**
 	 * Disable Scrollwheel zoom when map is not in focus
 	 */
 	cttm_map.scrollWheelZoom.disable();
 	//Enable Scrollwheel Zoom on focus
-	cttm_map.on('focus', () => { cttm_map.scrollWheelZoom.enable(); });
+	cttm_map.on('focus', function () {
+	    cttm_map.scrollWheelZoom.enable();
+	  });
 
 	
 
@@ -51,6 +53,44 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	//Get markers metas and linked posts datas from shortcode
 	var json_cttm_metas = php_params.cttm_metas;
 	
+	//Define popup class and create HMTL output for popups depending of style set in plugin settings
+	switch(cttm_options['popup_style']){
+			case "img_title_descr": 
+				var popupOptions = { 'className' : 'thumb-title-exc-popup' };
+				var popupOutput = '<a class="tooltip-link" href="%s_url">';
+		        popupOutput += '<div class="nothumbplaceholder"></div>';
+				popupOutput += '<div class="title">%s_title</div></a>';
+				popupOutput += '<div class="excerpt">%s_excerpt</div>';
+			break;
+
+
+			case "title_descr":
+				var popupOptions = { 'className' : 'title-exc-popup' };
+		       
+				var popupOutput = '<a class="tooltip-link" href="%s_url">';
+				popupOutput += '<div class="title">%s_title</div>';
+				popupOutput += '<div class="excerpt">%s_excerpt</div></a>';
+			break;
+
+
+			default:
+				var popupOptions = { 'className' : 'default-popup' };
+				
+				var popupOutput = '<div class="img-mask">';
+		        popupOutput += '<div class="nothumbplaceholder"></div>';
+				popupOutput += '</div><a class="tooltip-link" href="%s_url">';
+				popupOutput += '<div class="title">%s_title</div></a>';
+
+		}
+	//If css is disabled, change popup class
+	if (cttm_options['popup_css']) {		
+		popupOptions = { 'className' : 'custom-popup' };
+	}
+
+	
+
+
+
 	//If posts with markers exist
 	if (json_cttm_metas!=0){
 		//Clean json string to be usable
@@ -81,7 +121,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	        var posturl = postdatas.url;
 	        var posttitle = postdatas.thetitle;
 
+	        var postexcerpt = postdatas.excerpt;
+
+	        var postpopupOutput = popupOutput;
+
 	        // Create a leaflet icon object and add it to the map, use default
+	        
 	        if (markerURL!="d") {
 	        	var myIcon = L.icon({
 				    iconUrl: markerURL,
@@ -100,23 +145,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				var marker = L.marker( [markerlatitude, markerlongitude]);
 				
 	        }
-	        
 
-			//Create HMTL markup for popups and bind it to our freshly created marker
-			var output = '<div class="img-mask">';
+	        //Replace output dynamic contents for this post
 			if (postthumb) {
-	        	output += '<img src="'+postthumb+'" alt="">';
-	        }else{
-	        	output += '<div class="nothumbplaceholder"></div>';
-	        }
-			
-			output += '</div><a class="tooltip-link" href="'+posturl+'">';
-			output += '<div class="title">'+posttitle+'</div></a>';
+				postpopupOutput = postpopupOutput.replace('<div class="nothumbplaceholder"></div>', '<img src="'+postthumb+'" alt="">');
+			}
+			if (postexcerpt){
+				postpopupOutput = postpopupOutput.replace('%s_excerpt', postexcerpt);
+			}else{
+				postpopupOutput = postpopupOutput.replace('%s_excerpt', "");
+			}
 
-			//add the marker in our cluster group layer with its popup
-	        markerscluster.addLayer(marker.bindPopup(output));
+	        postpopupOutput = postpopupOutput.replace('%s_title', posttitle);
+	       postpopupOutput = postpopupOutput.replace('%s_url', posturl);
 
-	    } //ENF For Loop through cttm_metas 
+	       
+			//Add the marker in our cluster group layer with its popup
+	        markerscluster.addLayer(marker.bindPopup(postpopupOutput,popupOptions));
+
+	    } //END For Loop through cttm_metas 
 
 	   
 	    //add markercluster layer to the map
