@@ -1,4 +1,4 @@
-﻿=== Travelers' Map ===
+=== Travelers' Map ===
 Contributors: socrapop
 Donate link: https://www.paypal.me/CamilleVerrier
 Tags: travel, openstreetmap, leaftlet, map, pin, travelers, markers, traveler
@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 0.9.0
+Version 1.0.0
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -59,6 +59,10 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 
 == Changelog ==
 
+= 1.0.0 =
+* Travelers' Map is now translatable.
+* French language added.
+
 = 0.9.0 =
 * NEW: Popup customization - You can now choose between pre-defined popups.
 * You can now show excerpt in popups.
@@ -98,12 +102,11 @@ If you really want to use Google Maps (but really, why?), you can use the plugin
 Yes, you can add your own custom markers in "Travelers' Map" > "Customize markers" in your Wordpress admin area.
 
 = Is this plugin only available in English? =
-At this time, yes. Translations will be added in future updates.
-The user guide is also [available in French](https://camilles-travels.com/demarrez-avec-travelers-map-extension-wordpress) 
+Since version 1.0.0, this plugin has English and French version. You can contribute and [translate the plugin into your language] (https://translate.wordpress.org/projects/wp-plugins/travelers-map/)! Thank you.
 
 = Can I add two maps on the same page? =
 I am afraid not. You can only display one map per page. 
 
 = Can I change the marker popup style? =
-Not yet, right now the popup shows the post thumbnail and title in a beautiful way. Excrept is not yet available in popup. 
+Yes you can, since version 0.9.0. You can even disable the plugin's CSS to customize.
 

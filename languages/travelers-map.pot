@@ -1,0 +1,430 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2019-06-19 20:41+0900\n"
+"PO-Revision-Date: 2019-06-19 21:24+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.3\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: cttm-activation.php:14
+msgid "Default - Black."
+msgstr "Défaut - Noir"
+
+#: cttm-activation.php:15
+msgid "Default - Blue"
+msgstr "Défaut - Bleu"
+
+#: cttm-activation.php:16
+msgid "Default - Green"
+msgstr "Défaut - Vert"
+
+#: cttm-activation.php:17
+msgid "Default - Orange"
+msgstr "Défaut - Orange"
+
+#: cttm-activation.php:18
+msgid "Default - Red"
+msgstr "Défaut - Rouge"
+
+#: cttm-activation.php:19
+msgid "Default - Violet"
+msgstr "Défaut - Violet"
+
+#: cttm-functions.php:21 cttm-functions.php:23
+msgid "Markers"
+msgstr "Marqueurs"
+
+#: cttm-functions.php:22
+msgid "Marker"
+msgstr "Marqueur"
+
+#: cttm-functions.php:24
+msgid "Travelers' Map Markers"
+msgstr "Marqueurs Travelers' Map"
+
+#: cttm-functions.php:25
+msgid "Add new"
+msgstr "Ajouter"
+
+#: cttm-functions.php:26
+msgid "Add new marker"
+msgstr "Ajouter un marqueur"
+
+#: cttm-functions.php:27
+msgid "New marker"
+msgstr "Nouveau marqueur"
+
+#: cttm-functions.php:28
+msgid "Edit marker"
+msgstr "Modifier le marqueur"
+
+#: cttm-functions.php:29
+msgid "View marker"
+msgstr "Voir le marqueur"
+
+#: cttm-functions.php:30
+msgid "Customize markers"
+msgstr "Personnaliser les marqueurs"
+
+#: cttm-functions.php:31
+msgid "Search marker"
+msgstr "Chercher un marqueur"
+
+#: cttm-functions.php:32
+msgid "No marker found"
+msgstr "Aucun marqueur trouvé"
+
+#: cttm-functions.php:33
+msgid "No marker found in trash"
+msgstr "Aucun marqueur trouvé dans la corbeille"
+
+#: cttm-functions.php:64
+msgid "Travelers Map Markers"
+msgstr "Marqueurs Travelers' Map"
+
+#: cttm-functions.php:80
+msgid "No thumbnail found."
+msgstr "Aucune image mise en avant trouvé"
+
+#: cttm-settings.php:25
+msgid "version"
+msgstr "version"
+
+#: cttm-settings.php:28 includes/admin/cttm-shortcode-helper.php:23
+msgid ""
+"Please understand this plugin is under development. More settings will be "
+"added in future updates!"
+msgstr ""
+"Cette extension est en cours de développement, plus d'options seront "
+"ajoutées lors des prochaines mises à jour. Merci de votre compréhension."
+
+#: cttm-settings.php:28 includes/admin/cttm-shortcode-helper.php:23
+#, php-format
+msgid ""
+"Also, don't hesitate to <a href=\"%1$s\" target=\"_blank\">rate this plugin "
+"and give me some feedbacks</a> to make Travelers' Map better!"
+msgstr ""
+"De plus, n'hésitez pas à <a href=\"%1$s\" target=\"_blank\">noter cette "
+"extension et me faire vos retours</a> pour améliorer Travelers' Map !"
+
+#: cttm-settings.php:29
+msgid "Need some help setting up this plugin?"
+msgstr "Besoin d'aide quant à l'utilisation de cette extension ?"
+
+#: cttm-settings.php:30
+#, php-format
+msgid ""
+"Please check the <a href=\"%1$s\" target=\"_blank\">\"Get Started\" "
+"tutorial</a> on my blog."
+msgstr ""
+"Merci de visiter le guide d'utilisation sur mon blog : <a href=\"%1$s\" "
+"target=\"_blank\">\"Démarrez avec Travelers’ Map\"</a>"
+
+#: cttm-settings.php:37
+msgid "Save Changes"
+msgstr "Sauvegarder les changements"
+
+#: cttm-settings.php:38
+msgid "Reset settings to default"
+msgstr "Réinitialiser les paramètres"
+
+#: cttm-settings.php:38
+msgid ""
+"Are you sure you wish to reset settings to default? Current settings will be "
+"deleted."
+msgstr ""
+"Êtes-vous certain de vouloir réinitialiser les paramètres par défaut ? Les "
+"paramètres actuels seront effacés."
+
+#: cttm-settings.php:41
+msgid "Clean database - Delete all geolocalisation data and markers"
+msgstr ""
+"Nettoyer la base de données - Supprime toutes les données de géolocalisation "
+"et les marqueurs"
+
+#: cttm-settings.php:42
+msgid ""
+"This button cleans every geolocalisation meta-data added to your posts and "
+"every custom markers added."
+msgstr ""
+"Ce bouton supprime toutes les métadonnées de géolocalisation ajoutées à vos "
+"articles et tous les marqueurs personnalisés ajoutés."
+
+#: cttm-settings.php:43
+msgid "Please understand this is irreversible."
+msgstr "Attention, cette action est irréversible."
+
+#: cttm-settings.php:44
+msgid "Delete all plugin data in database"
+msgstr "Supprimer toutes les données de l'extension"
+
+#: cttm-settings.php:44
+msgid ""
+"Are you sure you wish to delete every geolocalisation data and custom "
+"markers in your database? This action is irreversible."
+msgstr ""
+"Êtes-vous certain de vouloir supprimer toutes les données de géolocalisation "
+"et tous vos marqueurs personnalisés de votre base de données ? Cette action "
+"est irréversible."
+
+#: cttm-settings.php:45
+msgid ""
+"To prevent unintentional loss of data, this is how Travelers' Map works:"
+msgstr ""
+"Pour éviter toute perte de donnée non-intentionnelle, voici comme fonctionne "
+"Travelers' Map :"
+
+#: cttm-settings.php:46
+msgid ""
+"Upon deactivation, every data (geolocalisation meta-data and settings) is "
+"kept. "
+msgstr ""
+"Lors de la désactivation, toutes les données (métadonnées de géolocalisation "
+"et  paramètres) sont gardés."
+
+#: cttm-settings.php:47
+msgid ""
+"When uninstalling, above settings are deleted from database while "
+"geolocalisation data are kept to prevent unintentional loss. "
+msgstr ""
+"Lors de la désinstallation, les paramètres ci-dessus sont supprimés de la "
+"base de données alors que les métadonnées de géolocalisation de vos articles "
+"sont gardées pour éviter les pertes non-intentionnelles."
+
+#: cttm-settings.php:63
+msgid "Map configuration"
+msgstr "Configuration de la carte"
+
+#: cttm-settings.php:65
+msgid "Tiles Server URL"
+msgstr "Adresse vers le serveur de tuiles"
+
+#: cttm-settings.php:66
+msgid "Tiles Server sub-domains"
+msgstr "Sous-domaines du serveur de tuiles"
+
+#: cttm-settings.php:67
+msgid "Attribution"
+msgstr "Attribution"
+
+#: cttm-settings.php:70
+msgid "Popup configurations"
+msgstr "Configuration des popups"
+
+#: cttm-settings.php:72
+msgid "Popup style"
+msgstr "Forme des popups"
+
+#: cttm-settings.php:73
+msgid "Disable popup CSS"
+msgstr "Désactiver le CSS des popups"
+
+#: cttm-settings.php:94
+#, php-format
+msgid ""
+" You can find a list of free tile providers <a href=\"%1$s\" target=\"_blank"
+"\">here</a>."
+msgstr ""
+"Vous pouvez trouver une liste de fournisseurs de tuiles gratuits <a href="
+"\"%1$s\" target=\"_blank\">ici</a>."
+
+#: cttm-settings.php:95
+msgid ""
+"If your tile provider require an API key, please insert it directly as "
+"explained on their website. "
+msgstr ""
+"Si votre fournisseur de tuile demande une clé API, veuillez l'insérer "
+"directement dans l'adresse comme indiqué sur leur site internet."
+
+#: cttm-settings.php:97
+msgid "Exemple (thunderforest.com):"
+msgstr "Exemple (thunderforest.com) :"
+
+#: cttm-settings.php:106
+msgid "In this plugin, default is <code>abcd</code> because we use CartoDB."
+msgstr ""
+"Dans cette extension,  <code>abcd</code>  est utilisé par défaut car nous "
+"utilisons CartoDB."
+
+#: cttm-settings.php:106
+msgid ""
+"However the most common subdomain is <code>abc</code>, you can find the "
+"information on your provider's website."
+msgstr ""
+"Cependant, la plupart des fournisseurs utilisent les sous-domaines "
+"<code>abc</code>, vous pouvez trouver cette information sur leur site "
+"internet."
+
+#: cttm-settings.php:108
+#, php-format
+msgid ""
+" If you use the <a href=\"%1$s\" target=\"_blank\">free tile providers list</"
+"a>, subdomains are displayed when different from \"abc\"."
+msgstr ""
+"Si vous utilisez  <a href=\"%1$s\" target=\"_blank\">la liste des "
+"fournisseurs gratuits</a>, les sous-domaines sont affichés lorsqu'ils sont "
+"différents de \"abc\"."
+
+#: cttm-settings.php:124
+msgid "Preview:"
+msgstr "Aperçu : "
+
+#: cttm-settings.php:125
+msgid ""
+"Attribution is shown to the lower right of the map. It is necessary to give "
+"credit to the Openstreetmap datas and your tile provider. "
+msgstr ""
+"L'attribution est affichée en bas à droite de la carte. Il est nécessaire de "
+"créditer Openstreetmap et votre fournisseur de tuiles."
+
+#: cttm-settings.php:127
+msgid "It is not necessary, but you can support this plugin by adding: "
+msgstr "Vous pouvez soutenir cette extension en ajoutant :"
+
+#: cttm-settings.php:135
+msgid "Choose the content shown in popups and their style: "
+msgstr "Choisissez le contenu affiché dans les popups ainsi que leur forme."
+
+#: cttm-settings.php:136
+msgid "Title and thumbnail (default)"
+msgstr "Titre et image mise en avant (défaut)"
+
+#: cttm-settings.php:137
+msgid "Title, thumbnail and excerpt"
+msgstr "Titre, image mise en avant et résumé"
+
+#: cttm-settings.php:138
+msgid "Title and excerpt"
+msgstr "Titre et résumé"
+
+#: cttm-settings.php:156
+msgid "Check this box to disable Travelers' Map Popup CSS. "
+msgstr "Cochez cette case pour désactiver le CSS des popups de Travelers' Map."
+
+#: cttm-settings.php:156
+msgid ""
+"Leaflet default CSS is still loaded. Please note that only the content "
+"chosen above is loaded. "
+msgstr ""
+"Le CSS ajouté par défaut par Leaflet sera cependant toujours actif. Seul le "
+"contenu des popups choisi ci-dessus est chargé (et non la forme)."
+
+#: includes/admin/cttm-admin.php:86
+msgid "Travelers' Map - Add / edit your post marker"
+msgstr "Travelers' Map - Ajouter ou modifier votre marqueur"
+
+#: includes/admin/cttm-admin.php:119
+msgid "Latitude"
+msgstr "Latitude"
+
+#: includes/admin/cttm-admin.php:123
+msgid "Longitude"
+msgstr "Longitude"
+
+#: includes/admin/cttm-admin.php:127
+msgid "Choose a marker:"
+msgstr "Choisissez votre marqueur :"
+
+#: includes/admin/cttm-shortcode-helper.php:14
+msgid "Travelers' Map - Shortcode Helper"
+msgstr "Travelers' Map - Assistant Shorcode"
+
+#: includes/admin/cttm-shortcode-helper.php:14
+#: includes/admin/cttm-shortcode-helper.php:22
+msgid "Shortcode Helper"
+msgstr "Assistant Shortcode"
+
+#: includes/admin/cttm-shortcode-helper.php:25
+msgid "Your shortcode"
+msgstr "Votre shortcode"
+
+#: includes/admin/cttm-shortcode-helper.php:26
+msgid ""
+"Copy and paste this shortcode into the content of a Post or a Page to add a "
+"dynamic map:"
+msgstr ""
+"Copiez-collez ce shortcode dans le contenu d'une de vos pages pour ajouter "
+"une carte dynamique."
+
+#: includes/admin/cttm-shortcode-helper.php:28
+msgid "Shortcode settings"
+msgstr "Paramètres du shortcode"
+
+#: includes/admin/cttm-shortcode-helper.php:29
+msgid ""
+"The above shortcode is automatically updated when you modify the settings "
+"below :"
+msgstr ""
+"Le shortcode ci-dessus est automatiquement mis à jour quand vous modifiez un "
+"paramètre ci-dessous :"
+
+#: includes/admin/cttm-shortcode-helper.php:34
+msgid "Width:"
+msgstr "Largeur :"
+
+#: includes/admin/cttm-shortcode-helper.php:36
+#, php-format
+msgid ""
+" Any <a href=\"%1$s\" target=\"_blank\">valid CSS unit</a> is accepted. "
+"Exemple: <code>780px</code> or <code>50%%</code> "
+msgstr ""
+"Toute <a href=\"%1$s\" target=\"_blank\">unité valide en CSS</a> est "
+"acceptée. Exemple : <code>780px</code> ou <code>50%%</code> "
+
+#: includes/admin/cttm-shortcode-helper.php:41
+msgid "Height:"
+msgstr "Hauteur :"
+
+#: includes/admin/cttm-shortcode-helper.php:43
+#, php-format
+msgid ""
+" Any <a href=\"%1$s\" target=\"_blank\">valid CSS unit</a> is accepted, "
+"although <code>px</code> and <code>vh</code> are recommended. Exemple: "
+"<code>500px</code> or <code>25vh</code>"
+msgstr ""
+"Toute <a href=\"%1$s\" target=\"_blank\">unité valide en CSS</a> est "
+"acceptée, cependant <code>px</code> et <code>vh</code> sont recommendés. "
+"Exemple : <code>500px</code> ou <code>25vh</code>"
+
+#: includes/admin/cttm-shortcode-helper.php:47
+msgid "Max width:"
+msgstr "Largeur maximale"
+
+#: includes/admin/cttm-shortcode-helper.php:50
+#: includes/admin/cttm-shortcode-helper.php:56
+msgid "Exemple:"
+msgstr "Exemple :"
+
+#: includes/admin/cttm-shortcode-helper.php:54
+msgid "Max height:"
+msgstr "Hauteur maximale :"
+
+#: includes/admin/cttm-shortcode-helper.php:61
+msgid "Categories:"
+msgstr "Catégories :"
+
+#: includes/admin/cttm-shortcode-helper.php:62
+msgid ""
+"Select the categories you want to show on the map. Default: All categories."
+msgstr ""
+"Sélectionnez la catégorie que vous voulez afficher sur la carte. Par "
+"défaut : Toutes les catégories."
+
+#: includes/admin/cttm-shortcode-helper.php:83
+msgid "Tags:"
+msgstr "Étiquettes :"
+
+#: includes/admin/cttm-shortcode-helper.php:84
+msgid "Select the tags you want to show on the map. Default: All tags."
+msgstr ""
+"Sélectionnez les étiquettes que vous voulez afficher sur la carte. Par "
+"défaut : Toutes les étiquettes."

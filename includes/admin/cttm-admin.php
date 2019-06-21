@@ -83,7 +83,7 @@ function cttm_localize_script( $hook ) {
 add_action( 'add_meta_boxes', 'cttm_add_custom_metaboxes' );
 
 function cttm_add_custom_metaboxes() {
-    add_meta_box( 'LatLngMarker', 'Travelers Map - Add / edit your post marker', 'cttm_meta_callback', 'post' );
+    add_meta_box( 'LatLngMarker', __( 'Travelers\' Map - Add / edit your post marker', 'text-domain' ), 'cttm_meta_callback', 'post' );
 }
 
 /**
@@ -116,15 +116,15 @@ function cttm_meta_callback($post){
 
     ?>
     <p>
-        <label for="latitude" class="">Latitude</label>
+        <label for="latitude" class=""><?php _e( 'Latitude', 'text-domain' ); ?> </label>
         <input id="cttm-latfield" type="number" name="latitude" step="0.00001" max="90" min="-90" value="<?php if ( isset ( $latitude ) ) echo $latitude ?>" />
     </p> 
     <p>
-        <label for="longitude" class="">Longitude</label>
+        <label for="longitude" class=""><?php _e( 'Longitude', 'text-domain' ); ?></label>
         <input id="cttm-lngfield" type="number" name="longitude" step="0.00001" value="<?php if ( isset ( $longitude ) ) echo $longitude ?>" />
     </p> 
     <p>
-    	Choose a marker :
+    	<?php _e( 'Choose a marker:', 'text-domain' ); ?>
     	<style>
     		#cttm-markers label{
 				display: inline-block;

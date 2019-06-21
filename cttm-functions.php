@@ -17,20 +17,20 @@ add_action('init', 'cttm_markers_register_post_type');
  * Register cttm-marker Post Type used to add different markers images
  */
 function cttm_markers_register_post_type(){
-   $labels = array(
-        'name'               => 'Markers',
-        'singular_name'      => 'Marker',
-        'menu_name'          => 'Markers',
-        'name_admin_bar'     => 'Travelers\' Map Markers',
-        'add_new'            => 'Add new',
-        'add_new_item'       => 'Add new marker',
-        'new_item'           => 'New marker',
-        'edit_item'          => 'Edit marker',
-        'view_item'          => 'View marker',
-        'all_items'          => 'Customize markers',
-        'search_items'       => 'Search marker',
-        'not_found'          => 'No marker found',
-        'not_found_in_trash' => 'No marker found in trash',
+   $labels = array( 
+        'name'               => __( 'Markers', 'travelers-map' ),
+        'singular_name'      => __( 'Marker', 'travelers-map' ),
+        'menu_name'          => __( 'Markers', 'travelers-map' ),
+        'name_admin_bar'     => __( 'Travelers\' Map Markers', 'travelers-map' ),
+        'add_new'            => __( 'Add new', 'travelers-map' ),
+        'add_new_item'       => __( 'Add new marker', 'travelers-map' ),
+        'new_item'           => __( 'New marker', 'travelers-map' ),
+        'edit_item'          => __( 'Edit marker', 'travelers-map' ),
+        'view_item'          => __( 'View marker', 'travelers-map' ),
+        'all_items'          => __( 'Customize markers', 'travelers-map' ),
+        'search_items'       => __( 'Search marker', 'travelers-map' ),
+        'not_found'          => __( 'No marker found', 'travelers-map' ),
+        'not_found_in_trash' => __( 'No marker found in trash', 'travelers-map' ),
     );
 
     $args = array(
@@ -49,6 +49,7 @@ function cttm_markers_register_post_type(){
      register_post_type( 'cttm-marker', $args );
 
 }
+
 /**
  * Register a private taxonomy for posts, automatically added to posts with markers metadata. Used to avoid heavy metadata queries, thus speeding up the query when showing the map in front-end. "Private" means it's only available internally by the plugin, and doesn't generate a url on it's own.
  * 
@@ -76,7 +77,7 @@ function cttm_thumbnail_column_content($column)
     if ($column == 'featuredimage')
         {
         global $post;
-        echo (has_post_thumbnail($post->ID)) ? the_post_thumbnail() : '<p>No thumbnail found</p>' ;
+        echo (has_post_thumbnail($post->ID)) ? the_post_thumbnail() : "<p>".__( 'No thumbnail found.', 'travelers-map' )."</p>" ;
         }
     }
 
