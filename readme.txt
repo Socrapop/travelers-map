@@ -1,14 +1,14 @@
 === Travelers' Map ===
 Contributors: socrapop
 Donate link: https://www.paypal.me/CamilleVerrier
-Tags: travel, openstreetmap, leaftlet, map, pin, travelers, markers, traveler
+Tags: travel blog, openstreetmap, leaftlet, map, pin, travelers, markers, geolocalize
 Requires at least: 4.4.0
 Tested up to: 5.2
 Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.0.0
+Version 1.1.0
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -21,7 +21,7 @@ How to use: [Get started with Travelers' Map](https://camilles-travels.com/get-s
 
 = Features of Travelers' Map =
 
-* **Geolocate your posts** on a map and choose the marker image. A **search module** is available to quickly locate the desired location.
+* **Geolocalize your posts** on a map and choose the marker image. A **search module** is available to quickly locate the desired location.
 * Add your own images to **customize your markers**.
 * **Insert a dynamic map** that displays your articles using a **simple shortcode**. Choose the dimensions of your map.
 * **Filter the posts** you want to display on the map by their categories and tags.
@@ -58,6 +58,14 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map, filter the posts you want to show by categories and tags.
 
 == Changelog ==
+= 1.1.0 =
+
+* Improvement of Travelers' Map backend UX.
+* Changed Leaflet default icon to match with the plugin icons.
+* Latitude and longitude are now below the map to avoid confusion.
+* Changing Latitude and Longitude manually in the input field now change the marker position on the map.
+* New button added to delete current marker data.
+* Search input is now open by default to increase visibility.
 
 = 1.0.0 =
 * Travelers' Map is now translatable.
@@ -108,5 +116,5 @@ Since version 1.0.0, this plugin has English and French version. You can contrib
 I am afraid not. You can only display one map per page. 
 
 = Can I change the marker popup style? =
-Yes you can, since version 0.9.0. You can even disable the plugin's CSS to customize.
+Yes you can, since version 0.9.0. You can also disable the plugin's CSS to customize.
 

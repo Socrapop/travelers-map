@@ -14,6 +14,7 @@ function cttm_add_page() {
     add_menu_page( "Travelers' Map", "Travelers' Map", "manage_options", "cttm_travelersmap", 'cttm_options_page', 'dashicons-admin-site-alt' );
 }
 
+
 //Draw the options page
 function cttm_options_page(){
     ?>
@@ -25,6 +26,7 @@ function cttm_options_page(){
         echo "<small>| ".__( 'version', 'travelers-map' )." ".$cttm_data['Version']."</small>";
         ?>
         </h1>
+        
         <p><small><?php _e( 'Please understand this plugin is under development. More settings will be added in future updates!', 'travelers-map' ); ?> <br><?php printf( __( 'Also, don\'t hesitate to <a href="%1$s" target="_blank">rate this plugin and give me some feedbacks</a> to make Travelers\' Map better!', 'travelers-map' ), 'https://wordpress.org/plugins/travelers-map/#reviews' ); ?> </small></p><hr>
         <p><strong><?php _e( 'Need some help setting up this plugin?', 'travelers-map' ); ?> </strong><br>
             <?php printf( __( 'Please check the <a href="%1$s" target="_blank">"Get Started" tutorial</a> on my blog.', 'travelers-map' ), 'https://camilles-travels.com/get-started-with-travelers-map-wordpress-plugin/' ); ?>

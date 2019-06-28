@@ -83,7 +83,7 @@ function cttm_localize_script( $hook ) {
 add_action( 'add_meta_boxes', 'cttm_add_custom_metaboxes' );
 
 function cttm_add_custom_metaboxes() {
-    add_meta_box( 'LatLngMarker', __( 'Travelers\' Map - Add / edit your post marker', 'text-domain' ), 'cttm_meta_callback', 'post' );
+    add_meta_box( 'LatLngMarker', __( 'Travelers\' Map - Add / edit your post marker', 'travelers-map' ), 'cttm_meta_callback', 'post' );
 }
 
 /**
@@ -110,21 +110,14 @@ function cttm_meta_callback($post){
     	'post_type' => 'cttm-marker',
     	'posts_per_page' => 1,
     	'nopaging' => true,
-    	'orderby' => 'title',
+    	'orderby' => 'ID',
     	'order' => 'ASC'
     )
 
     ?>
+    
     <p>
-        <label for="latitude" class=""><?php _e( 'Latitude', 'text-domain' ); ?> </label>
-        <input id="cttm-latfield" type="number" name="latitude" step="0.00001" max="90" min="-90" value="<?php if ( isset ( $latitude ) ) echo $latitude ?>" />
-    </p> 
-    <p>
-        <label for="longitude" class=""><?php _e( 'Longitude', 'text-domain' ); ?></label>
-        <input id="cttm-lngfield" type="number" name="longitude" step="0.00001" value="<?php if ( isset ( $longitude ) ) echo $longitude ?>" />
-    </p> 
-    <p>
-    	<?php _e( 'Choose a marker:', 'text-domain' ); ?>
+    	<strong><?php _e( 'Choose a marker:', 'travelers-map' ); ?></strong>
     	<style>
     		#cttm-markers label{
 				display: inline-block;
@@ -177,7 +170,16 @@ function cttm_meta_callback($post){
 		</div>
     </p> 
     <div id="travelersmap-container" style="min-height: 400px;width: 100%;"></div>
-
+    <p><strong><?php _e( 'Current marker informations:', 'travelers-map' ); ?></strong></p>
+    <div style="margin-bottom: 20px;">
+      
+        <label for="latitude" class=""><?php _e( 'Latitude', 'travelers-map' ); ?> </label>
+        <input id="cttm-latfield" type="number" name="latitude" step="0.00001" max="90" min="-90" value="<?php if ( isset ( $latitude ) ) echo $latitude ?>" />
+    
+        <label for="longitude" class="" style="margin-left: 20px;"><?php _e( 'Longitude', 'travelers-map' ); ?></label>
+        <input id="cttm-lngfield" type="number" name="longitude" step="0.00001" value="<?php if ( isset ( $longitude ) ) echo $longitude ?>" />
+        <button id="btn-delete-current-marker" class="components-button is-link is-destructive" style="margin-left: 20px;"><?php _e( 'Delete current marker', 'travelers-map' ); ?></button>
+    </div> 
 <?php
 }
 

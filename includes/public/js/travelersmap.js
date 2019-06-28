@@ -7,6 +7,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	var cttm_map = L.map('travelersmap-container') ;
 	
+	//Change default leaflet icon options 
+	L.Icon.Default.prototype.options.iconSize = [32, 45];
+	L.Icon.Default.prototype.options.iconAnchor = [16, 45];
+	L.Icon.Default.prototype.options.popupAnchor = [0, -42];
+	L.Icon.Default.prototype.options.shadowSize = [0,0];
+	
+				    
 	/**
 	 * Disable Scrollwheel zoom when map is not in focus
 	 */
@@ -128,23 +135,26 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	        // Create a leaflet icon object and add it to the map, use default
 	        
 	        if (markerURL!="d") {
+	        	
+	        	//Create custom icon
 	        	var myIcon = L.icon({
 				    iconUrl: markerURL,
 				    iconSize: [markerwidth, markerheight],
 				    iconAnchor: [markerwidth/2, markerheight],
 				    popupAnchor: [0, -markerheight+3]
 				});
-				//Create actual marker object wih our custom icon
+				//Create marker object wih our icon
 				var marker = L.marker( [markerlatitude, markerlongitude], {
 					icon: myIcon
 				});
-
-	        }else{
-	        	//Create actual marker object with default icon
 				
+	        }else{
+	        	//Create marker object with default icon
 				var marker = L.marker( [markerlatitude, markerlongitude]);
 				
 	        }
+
+	        
 
 	        //Replace output dynamic contents for this post
 			if (postthumb) {

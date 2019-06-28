@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		var iconurl;
 		var latinput = document.getElementById("cttm-latfield");
 		var lnginput = document.getElementById("cttm-lngfield");
-
+		var deletemarkerbtn = document.getElementById("btn-delete-current-marker");
 
 		// Get all markers input, and loop through each
 		var radios = document.getElementById("cttm-markers").querySelectorAll("input[name='marker']");
@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		//Set marker on map if already chosen
 		
 		var marker;
+
 		if (latinput.value != "" && lnginput.value != "") {
 			marker = L.marker([latinput.value, lnginput.value],{
 			        draggable: true,
@@ -104,13 +105,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		//On map click, add a marker or move the existing one to the click location
 		cttm_map.on('click', function(e){
 			// If a marker already exist
-			if (marker) {
+			if (cttm_map.hasLayer(marker)) {
 
 				//add transition style only on click, we don't want the transition if the user drag&drop the marker.
 				marker._icon.style.transition = "transform 0.3s ease-out";
 
 				// set new latitude and longitude
 				marker.setLatLng(e.latlng);
+
 
 				//remove transform style after the transition timeout
 				setTimeout(function () {
@@ -151,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			propertyName: 'display_name',
 			propertyLoc: ['lat','lon'],
 			autoCollapse: true,
+			collapsed: false,
 			autoType: true,
 			minLength: 2,
 			zoom: 13,
@@ -160,14 +163,55 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	  	//When using the search input of Leaflet.search, "Enter" key was publishing/updating the Wordpress post.
 	  	//This function disable this behaviour when typing in the search input.
 		document.querySelector('#searchtext9').addEventListener('keydown', disableEnterKey);
-		       	
+		
+		// Disable enter key on latitude and Longitude input field too, to avoid activating "delete current marker" button  	
+		latinput.addEventListener('keydown', disableEnterKey);
+		lnginput.addEventListener('keydown', disableEnterKey);
+
 		function disableEnterKey(e) {
+
 		    if (e.keyCode === 13) { // 13 is enter
 		     	e.preventDefault();
+		     	if (e.target.id == 'cttm-latfield' || e.target.id == 'cttm-lngfield') {
+		     		e.target.blur();
+		     	}
 		     	return false;
 	    	};
+
 	    };
+
+	    latinput.addEventListener('change', updateMarkerLatLng);
+		lnginput.addEventListener('change', updateMarkerLatLng);
+
+		function updateMarkerLatLng(e) {
+			//add transition style only on click, we don't want the transition if the user drag&drop the marker.
+			marker._icon.style.transition = "transform 0.3s ease-out";
+
+			inputlatlng = {lat:latinput.value, lng:lnginput.value};
+			marker.setLatLng(inputlatlng);
+			
+			//remove transform style after the transition timeout
+				setTimeout(function () {
+		            marker._icon.style.transition = null;
+		        }, 300);
+
+	    };
+
+
+	   	/*
+	  		Delete current marker information on "delete current marker" button click.
+	  	 */
+	  	deletemarkerbtn.addEventListener("click", function(){
+			latinput.value="";
+			lnginput.value="";
+			if (cttm_map.hasLayer(marker)){
+				cttm_map.removeLayer(marker);
+			}
+	  	});
+
+
   	}//END IF document.getElementById("cttm-latfield")!=null
+  	
   	
 
   	//If Shortcode Helper page

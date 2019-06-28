@@ -11,12 +11,13 @@ cttm_option_update();
  * Create default markers custom posts
  */
 
-cttm_create_new_marker(__( 'Default - Black.', 'travelers-map' ),'black', 'cttm_markers-black.png');
-cttm_create_new_marker(__( 'Default - Blue', 'travelers-map' ),'blue', 'cttm_markers-blue.png');
-cttm_create_new_marker(__( 'Default - Green', 'travelers-map' ),'green', 'cttm_markers-green.png');
-cttm_create_new_marker(__( 'Default - Orange', 'travelers-map' ),'orange', 'cttm_markers-orange.png');
-cttm_create_new_marker(__( 'Default - Red', 'travelers-map' ),'red', 'cttm_markers-red.png');
+cttm_create_new_marker(__( 'Default - Black', 'travelers-map' ),'black', 'cttm_markers-black.png');
 cttm_create_new_marker(__( 'Default - Violet', 'travelers-map' ),'violet', 'cttm_markers-violet.png');
+cttm_create_new_marker(__( 'Default - Red', 'travelers-map' ),'red', 'cttm_markers-red.png');
+cttm_create_new_marker(__( 'Default - Orange', 'travelers-map' ),'orange', 'cttm_markers-orange.png');
+cttm_create_new_marker(__( 'Default - Green', 'travelers-map' ),'green', 'cttm_markers-green.png');
+cttm_create_new_marker(__( 'Default - Blue', 'travelers-map' ),'blue', 'cttm_markers-blue.png');
+
 
 // Create a post in custom post type cttm-marker, using $title as title and $imagename for the thumbnail.
 function cttm_create_new_marker($title, $content, $imagename){
