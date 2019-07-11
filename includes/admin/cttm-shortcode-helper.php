@@ -57,6 +57,8 @@ function cttm_shortcodehelper_page(){
         </div>
         <br>
         
+
+
         <div class="container">
             <label><strong><?php _e( 'Categories:', 'travelers-map' ); ?></strong></label><br>
             <p class="description"> <?php _e( 'Select the categories you want to show on the map. Default: All categories.', 'travelers-map' ); ?></p>
@@ -70,15 +72,13 @@ function cttm_shortcodehelper_page(){
                  
                  foreach ($cttm_allcategories as $cttm_cat) {
                    
-                     echo '<label style="margin-right:20px;"><input type="checkbox" class="cttm-cat-checkbox" name="'.$cttm_cat->name.'" value="'.$cttm_cat->slug.'">'.$cttm_cat->name.'</label>';
+                     echo '<label style="margin-right:30px;"><input type="checkbox" style="margin-right:8px" class="cttm-cat-checkbox" name="'.$cttm_cat->name.'" value="'.$cttm_cat->slug.'">'.$cttm_cat->name.'</label>';
                 }
             ?>
-         </div>
-       
-        
-         
-        
-    </div>
+             </div>
+                
+        </div>
+
     <div class="container" >
             <label><strong><?php _e( 'Tags:', 'travelers-map' ); ?></strong></label><br>
             <p class="description"><?php _e( 'Select the tags you want to show on the map. Default: All tags.', 'travelers-map' ); ?></p>
@@ -92,15 +92,38 @@ function cttm_shortcodehelper_page(){
                  
                  foreach ($cttm_alltags as $cttm_tag) {
                    
-                    echo '<label style="margin-right:20px;"><input type="checkbox" class="cttm-tag-checkbox" name="'.$cttm_tag->name.'" value="'.$cttm_tag->slug.'">'.$cttm_tag->name.'</label>';
+                    echo '<label style="margin-right:30px;"><input type="checkbox" style="margin-right:8px" class="cttm-tag-checkbox" name="'.$cttm_tag->name.'" value="'.$cttm_tag->slug.'">'.$cttm_tag->name.'</label>';
                 }
             ?>
        
         </div>
-       <hr>
-         
-        
+       
     </div>
+
+    <div class="container">
+            <label><strong><?php _e( 'Post types:', 'travelers-map' ); ?></strong></label><br>
+            <p class="description"> <?php _e( 'Select the post types you want to show on the map. Default: All post types selected in the plugin option page.', 'travelers-map' ); ?></p>
+            
+            <div style="padding: 10px 0 10px 20px; margin: 10px 0 20px; border:#cecece solid 1px; max-width: 1200px;display: inline-block;background: #e8f5e8;">
+            <?php 
+                 //get all public registered post types
+                $registered_posttypes = get_post_types( ['public' => true],'objects');
+                
+
+                //Add a checkbox for each registered post type, and check it if already checked in options.
+                foreach ($registered_posttypes as $registered_posttype) {
+                    if ($registered_posttype->name != 'attachment') {
+
+                        echo '<label style="margin-right:30px;"><input type="checkbox" style="margin-right:8px" class="cttm-posttype-checkbox" name="'.$registered_posttype->name.'" value="'.$registered_posttype->name.'">'.$registered_posttype->labels->singular_name.'</label>';
+                        
+                    }
+                   
+                }
+                
+            ?>
+            </div>
+            <hr>
+        </div>
     <?php
 }
 

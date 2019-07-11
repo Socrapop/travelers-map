@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.1.0
+Version 1.2.0
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -58,8 +58,18 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map, filter the posts you want to show by categories and tags.
 
 == Changelog ==
-= 1.1.0 =
+= 1.2.0 =
+* You can now geolocalize and add markers to pages and custom post types.
+* New setting in option page to select on which post type you want to activate markers.
+* Updated shortcode parameters to accept post type filter using 'post_type='.
+* Updated Shortcode Helper page. 
+* "Delete all plugin data" now delete every marker of every possible public post type, even unchecked ones.
+* "Markers" posts can no longer be accessed from URL.
+* Bugfix: "Delete current marker" button no longer refresh the page with Classic Editor.
+* French translation update.
 
+
+= 1.1.0 =
 * Improvement of Travelers' Map backend UX.
 * Changed Leaflet default icon to match with the plugin icons.
 * Latitude and longitude are now below the map to avoid confusion.
