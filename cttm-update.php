@@ -12,6 +12,7 @@ update_option('travelersmap_version', TRAVELERSMAP_VERSION);
  */
     // Travelers map default options 
     $cttm_default_options = array(
+        'posttypes' => 'post',
         'tileurl' => 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
         'subdomains' => 'abcd',
         'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and &copy; <a href="https://carto.com/attributions">CARTO</a>',

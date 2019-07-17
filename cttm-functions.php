@@ -30,13 +30,13 @@ function cttm_markers_register_post_type(){
         'all_items'          => __( 'Customize markers', 'travelers-map' ),
         'search_items'       => __( 'Search marker', 'travelers-map' ),
         'not_found'          => __( 'No marker found', 'travelers-map' ),
-        'not_found_in_trash' => __( 'No marker found in trash', 'travelers-map' ),
+        'not_found_in_trash' => __( 'No marker found in trash', 'travelers-map' )
     );
 
     $args = array(
         'labels'             => $labels,
         'public'             => false,
-        'publicly_queryable' => true,
+        'publicly_queryable' => false,
         'show_ui'            => true,
         'show_in_menu'       => 'cttm_travelersmap',
         'capability_type'    => 'post',
@@ -57,9 +57,12 @@ function cttm_markers_register_post_type(){
 add_action( 'init', 'cttm_create_private_markers_taxonomy' );
 
 function cttm_create_private_markers_taxonomy() {
+    //Get all public post types that could be geolocalized to set them the private taxonomy.
+    $public_posttypes = get_post_types( ['public' => true]);
+
     register_taxonomy(
         'cttm-markers-tax',
-        'post',
+        $public_posttypes,
         array(
             'label' => __( 'Travelers Map Markers' ),
             'public' => false,

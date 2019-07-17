@@ -7,7 +7,6 @@
 add_action( 'admin_enqueue_scripts', 'cttm_styles_admin' );
 
 function cttm_styles_admin( $hook ) {
-        
     if($hook != 'post.php' && $hook != 'post-new.php') {
         return;
     }
@@ -60,7 +59,7 @@ add_action( 'admin_enqueue_scripts', 'cttm_localize_script', 20);
 
 function cttm_localize_script( $hook ) {
 	//Get options from the setting page
-    //cttm_options is an array, containing 'tileurl', 'subdomains' and 'attribution'
+    //cttm_options is an array
     $cttm_options = json_encode(get_option( 'cttm_options'));
 
 
@@ -83,11 +82,14 @@ function cttm_localize_script( $hook ) {
 add_action( 'add_meta_boxes', 'cttm_add_custom_metaboxes' );
 
 function cttm_add_custom_metaboxes() {
-    add_meta_box( 'LatLngMarker', __( 'Travelers\' Map - Add / edit your post marker', 'travelers-map' ), 'cttm_meta_callback', 'post' );
+    $cttm_options = get_option( 'cttm_options');
+    $posttypes = explode(',', $cttm_options['posttypes']);
+    
+    add_meta_box( 'LatLngMarker', __( 'Travelers\' Map - Add / edit your post marker', 'travelers-map' ), 'cttm_meta_callback', $posttypes); 
 }
 
 /**
- * Output metabox in "new/edit post" pages.
+ * Output metabox in "new/edit post" pages (and selected custom post types in plugin settings).
  * Display a leaflet map with leaflet-search.js for searching location.
  * Show existing markers to choose from, and a link to add new markers.
  * Display Lat/lng box for entering data manually (auto-complete when clicking on the map or searching a location)
@@ -118,6 +120,7 @@ function cttm_meta_callback($post){
     
     <p>
     	<strong><?php _e( 'Choose a marker:', 'travelers-map' ); ?></strong>
+    </p>
     	<style>
     		#cttm-markers label{
 				display: inline-block;
@@ -158,7 +161,8 @@ function cttm_meta_callback($post){
 			}
 			?>
 		<label>
-		<?php 
+
+		<?php  
 			// If no marker was selected already, check default marker by default
 			if($markerchecked==false){
 		   		echo '<input type="radio" name="marker" value="default" checked="checked">';
@@ -168,7 +172,9 @@ function cttm_meta_callback($post){
 		  <img src="<?php echo (plugins_url('images/marker-icon.png', __FILE__)) ?>">
 		</label>
 		</div>
-    </p> 
+    <p>
+        <strong><?php _e( 'Locate your marker on the map:', 'travelers-map' ); ?></strong>
+    </p>
     <div id="travelersmap-container" style="min-height: 400px;width: 100%;"></div>
     <p><strong><?php _e( 'Current marker informations:', 'travelers-map' ); ?></strong></p>
     <div style="margin-bottom: 20px;">
@@ -178,13 +184,22 @@ function cttm_meta_callback($post){
     
         <label for="longitude" class="" style="margin-left: 20px;"><?php _e( 'Longitude', 'travelers-map' ); ?></label>
         <input id="cttm-lngfield" type="number" name="longitude" step="0.00001" value="<?php if ( isset ( $longitude ) ) echo $longitude ?>" />
-        <button id="btn-delete-current-marker" class="components-button is-link is-destructive" style="margin-left: 20px;"><?php _e( 'Delete current marker', 'travelers-map' ); ?></button>
+        <button id="btn-delete-current-marker" type="button" class="components-button is-link is-destructive" style="margin-left: 20px;"><?php _e( 'Delete current marker', 'travelers-map' ); ?></button>
     </div> 
 <?php
 }
 
-//Hook only to "post" post_type, using this hook : save_post_{post-type}, WP 3.7 minimum
-add_action( 'save_post_post', 'cttm_meta_save' );
+//Hook cttm_meta_save function only to chosen post_type in plugin settings, using this hook : save_post_{post-type}, WP 3.7 minimum
+//Loop through each selected post_type and add action to them
+$cttm_options = get_option( 'cttm_options');
+$posttypes = explode(',', $cttm_options['posttypes']);
+
+foreach ($posttypes as $posttype) {
+    $cttm_action_string = 'save_post_'.$posttype;
+    add_action( $cttm_action_string, 'cttm_meta_save' );
+}
+
+
 
 /**
  * Saves the custom meta input sent by the form

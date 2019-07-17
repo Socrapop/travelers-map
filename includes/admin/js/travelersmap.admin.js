@@ -226,6 +226,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	  	var maxheight = '';
 	  	var categoriesstring ='';
 	  	var tagsstring = '';
+	  	var posttypestring = '';
 
 	  	/*
 	  	Define all Event Listeners on form, so the shortcode is updated each time the user change a form element.
@@ -345,6 +346,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		    });
 		}
 
+		/*
+				Post types Event Listener
+		 */
+		
+		// Get all post types checkboxes
+		var posttypeCheckboxes = document.getElementsByClassName('cttm-posttype-checkbox');
+
+		// Loop through checkboxes and set Event Listener on change.
+		for(var i = 0; i < posttypeCheckboxes.length; i++) {
+		    posttypeCheckboxes[i].addEventListener("change", function(e) {
+		       	posttypestring = cttmCheckboxToString(posttypeCheckboxes, "posttype");
+		       	cttmShortcodeUpdate();
+		    });
+		}
+		
 
 		/*
 			// Get all current checkboxes and add the checked ones to a string
@@ -380,6 +396,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 						checkedString = " cats=" + checkedString;
 					}else if(type=="tag"){
 						checkedString = " tags=" + checkedString;
+					}else if(type=="posttype"){
+						checkedString = " post_types=" +checkedString;
 					}
 			};
 			
@@ -391,7 +409,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			// Get all string variables and add them to shortcode.
 		 */
 		function cttmShortcodeUpdate(){
-			shortcode.innerText = '[travelers-map' + width + maxwidth + height + maxheight + categoriesstring + tagsstring +']'; 
+			shortcode.innerText = '[travelers-map' + width + maxwidth + height + maxheight + categoriesstring + tagsstring + posttypestring +']'; 
 		}
 
 	}  	

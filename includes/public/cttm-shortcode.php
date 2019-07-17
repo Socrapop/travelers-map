@@ -21,19 +21,30 @@ function cttm_shortcode($attr) {
   wp_enqueue_script('travelersmap_init');
 
 
+    //Get post types selected in plugin settings
+    $cttm_options = get_option( 'cttm_options');
+    $settings_posttypes = $cttm_options['posttypes'];
+
+
    // define attributes and their defaults, return only supported attributes
+   // Extract all values to independant variables
     extract(shortcode_atts( array (
         'height' => '600px',
         'width' => '100%',
         "maxwidth" => '',
         "maxheight" => '',
         'cats' => '', //by slug, separated by a comma when multiple categories
-        'tags' => '' // by slug, separated by a comma when multiple tags
+        'tags' => '', // by slug, separated by a comma when multiple tags
+        'post_types' => $settings_posttypes // by slug, separated by a comma when multiple posttypes
     ), $attr ));
   
+    //transform post types string to array
+    $post_types = explode(',', $post_types);
+
     // define query parameters based on shortcode attributes. We only get private taxonomy 'cttm-markers-tax', which is set automatically when a marker is assigned to a post.
+  
     $cttm_options = array(
-        'post_type' => 'post',
+        'post_type' => $post_types,
         'posts_per_page' => -1,
         'tax_query' => array(
         	array(
@@ -65,7 +76,7 @@ function cttm_shortcode($attr) {
 			$latlngmarkerarr = get_post_meta( $post->ID, '_latlngmarker');
 			
 			//Create the $cttm_metas array to store all the markers and posts informations. This will be send to out javascript file
-		    $cttm_metas[$i]['markerdatas'] = $latlngmarkerarr[0];
+		  $cttm_metas[$i]['markerdatas'] = $latlngmarkerarr[0];
 			$cttm_metas[$i]['postdatas'] = $cttm_postdatas;
 
 			$i+=1;
@@ -78,7 +89,7 @@ function cttm_shortcode($attr) {
     $cttm_metas = json_encode($cttm_metas);
 
     //Get options from the setting page to show the map in front-end
-    //cttm_options is an array, containing 'tileurl', 'subdomains' and 'attribution'
+    //cttm_options is an array
     $cttm_options = json_encode(get_option( 'cttm_options'));
 
 

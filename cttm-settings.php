@@ -46,7 +46,7 @@ function cttm_options_page(){
                 <input type="submit" name="Delete" value="<?php _e( 'Delete all plugin data in database', 'travelers-map' );?>" style="background:#e64949;border-color:#c91c1c;box-shadow: 0 1px 0 #831212;color: #fff;text-decoration: none;text-shadow: 0 -1px 1px #990b00,1px 0 1px #c50e0e,0 1px 1px #990500,-1px 0 1px #900;" class="button" onclick="return confirm('<?php _e( 'Are you sure you wish to delete every geolocalisation data and custom markers in your database? This action is irreversible.', 'travelers-map' );?>');"  >
                 <p class="description"><br><?php _e( 'To prevent unintentional loss of data, this is how Travelers\' Map works:', 'travelers-map' ); ?> <br>
                     - <?php _e( 'Upon deactivation, every data (geolocalisation meta-data and settings) is kept. ', 'travelers-map' ); ?>  <br>
-                    - <?php _e( 'When uninstalling, above settings are deleted from database while geolocalisation data are kept to prevent unintentional loss. ', 'travelers-map' ); ?><br>
+                    - <?php _e( 'When uninstalling, above settings are deleted from database while geolocalisation data are kept. ', 'travelers-map' ); ?><br>
                 </p>
                 
                 <hr style="margin:30px 0">
@@ -61,19 +61,31 @@ add_action( 'admin_init', 'cttm_admin_init');
 function cttm_admin_init(){
     //Register new setting "cttm_options" in database (array). 
     register_setting( 'cttm_options', 'cttm_options', 'cttm_validate_option');
+
+    //add Travelers Map main settings section 
+    add_settings_section('main-config', __( 'Plugin main settings', 'travelers-map' ), 'cttm_main_section_html', 'cttm_travelersmap');
+    //add every setting field to our section
+    add_settings_field( 'set-post-types', __( 'Activate Travelers\' Map on:' , 'travelers-map' ), 'cttm_posttypes_html' , 'cttm_travelersmap', 'main-config');
+  
+
     //add map tiles settings section 
-    add_settings_section('map-data-config', __( 'Map configuration', 'travelers-map' ), 'cttm_map_section_html', 'cttm_travelersmap');
+    add_settings_section('map-data-config', __( 'Map settings', 'travelers-map' ), 'cttm_map_section_html', 'cttm_travelersmap');
     //add every setting field to our section
     add_settings_field( 'tileurl', __( 'Tiles Server URL', 'travelers-map' ), 'cttm_tileurl_html' , 'cttm_travelersmap', 'map-data-config');
     add_settings_field( 'subdomains', __( 'Tiles Server sub-domains', 'travelers-map' ), 'cttm_subdomains_html' , 'cttm_travelersmap', 'map-data-config');
     add_settings_field( 'attribution', __( 'Attribution', 'travelers-map' ), 'cttm_attribution_html' , 'cttm_travelersmap', 'map-data-config');
 
     //add popup settings section 
-    add_settings_section('popup-config', __( 'Popup configurations', 'travelers-map' ), 'cttm_popup_section_html', 'cttm_travelersmap');
+    add_settings_section('popup-config', __( 'Popup settings', 'travelers-map' ), 'cttm_popup_section_html', 'cttm_travelersmap');
     
     add_settings_field( 'popup_style', __( 'Popup style', 'travelers-map' ), 'cttm_popupstyle_html' , 'cttm_travelersmap', 'popup-config');
     add_settings_field( 'popup_css', __( 'Disable popup CSS', 'travelers-map' ), 'cttm_popupcss_html' , 'cttm_travelersmap', 'popup-config');
    
+
+}
+
+//Draw the section header and help
+function cttm_main_section_html(){
 
 }
 
@@ -86,7 +98,32 @@ function cttm_popup_section_html(){
 
 }
 
-//Display and fill the form fields
+function cttm_posttypes_html(){
+    //get option array from database
+    $options = get_option('cttm_options');
+
+    //get checked post types string and transform it into an array
+    $posttypes = explode(',',$options["posttypes"]);
+    //get all public registered post types
+    $registered_posttypes = get_post_types( ['public' => true],'objects');
+    
+
+    //Add a checkbox for each registered post type, and check it if already checked in options.
+    foreach ($registered_posttypes as $registered_posttype) {
+        if ($registered_posttype->name != 'attachment') {
+
+             echo '<label style="margin-right:20px;"><input type="checkbox" name="cttm_options[posttypes_'.$registered_posttype->name.']" value="'.$registered_posttype->name.'" '.checked( in_array($registered_posttype->name, $posttypes), true ,false).'>'.$registered_posttype->labels->singular_name.'</label>';
+            
+        }
+       
+    }
+
+    echo '<p class="description">'.__( 'By default, Travelers\' Map is activated on posts only. You can also activate the plugin on pages and custom post types.', 'travelers-map' ).'<br>';
+    
+}
+
+
+
 function cttm_tileurl_html(){
     //get option array from database
     $options = get_option('cttm_options');
@@ -146,14 +183,7 @@ function cttm_popupstyle_html(){
 function cttm_popupcss_html(){
     $options = get_option('cttm_options');
 
-    //Check if popup_css is set to prevent error.
-    //For an unknown reason, popup_css disappears from cttm_option when user click on "delete all plugin data in database" button.
-
-    if (isset($options["popup_css"])){
-        $popup_css = $options["popup_css"];
-    }else{
-        $popup_css = 0;
-    }
+    $popup_css = $options["popup_css"];
 
     echo '<label><input type="checkbox" name="cttm_options[popup_css]" value="1" '. checked( $popup_css, 1,false).'> '.__( 'Check this box to disable Travelers\' Map Popup CSS. ', 'travelers-map' ).'</label> <br><span class="description" style="margin-top:5px; display:block">'.__( 'Leaflet default CSS is still loaded. Please note that only the content chosen above is loaded. ', 'travelers-map' ).'</span>';
 }
@@ -168,7 +198,20 @@ function cttm_validate_option($input){
 
     //If Save Changes button is clicked
     if (isset($_POST['Submit'])) {
-        //Sanitize every option before returning the values
+       
+        $input['posttypes'] = '';
+        
+        //Loop through each $_POST variable, check if it begins with 'posttypes_'.
+        //If so, add it to the $input['posttypes'] array
+        foreach ($_POST['cttm_options'] as $key => $value) {
+            if (strpos($key, 'posttypes_') === 0) {
+                $input['posttypes'] .= ','.$value;
+                //remove unecessary keys in cttm_options
+                unset($input[$key]);
+            }
+        }
+        //Sanitize every option before returning the values        
+        $input[ 'posttypes'] = cttm_sanitize_post_types($input['posttypes']);
         $input[ 'tileurl' ] = sanitize_text_field($input[ 'tileurl' ]);
         $input[ 'subdomains' ] = sanitize_text_field( $input[ 'subdomains' ] );
         $input[ 'attribution' ] =  $purifier->purify( $input[ 'attribution' ] );
@@ -180,26 +223,32 @@ function cttm_validate_option($input){
 
     //If Reset to default is clicked
     else if (isset($_POST['Reset'])) {
-        $cctm_options_default = array(
+        $cttm_options_default = array(
+        'posttypes' => 'post',
         'tileurl' => 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
         'subdomains' => 'abcd',
         'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and &copy; <a href="https://carto.com/attributions">CARTO</a>',
         'popup_style' => 'img_title',
         'popup_css' => 0 );
-
-        $input[ 'tileurl' ] = sanitize_text_field($cctm_options_default['tileurl']);
-        $input[ 'subdomains' ] = sanitize_text_field($cctm_options_default['subdomains']);
-        $input[ 'attribution' ] =  $purifier->purify($cctm_options_default['attribution']);
-        $input[ 'popup_style' ] =  sanitize_key($cctm_options_default['popup_style']);
-        $input[ 'popup_css' ] =  intval($cctm_options_default['popup_css']);
+        $input[ 'posttypes'] = $cttm_options_default['posttypes'];
+        $input[ 'tileurl' ] = sanitize_text_field($cttm_options_default['tileurl']);
+        $input[ 'subdomains' ] = sanitize_text_field($cttm_options_default['subdomains']);
+        $input[ 'attribution' ] =  $purifier->purify($cttm_options_default['attribution']);
+        $input[ 'popup_style' ] =  sanitize_key($cttm_options_default['popup_style']);
+        $input[ 'popup_css' ] =  intval($cttm_options_default['popup_css']);
         return $input;
     }
 
     //If Delete all markers in database is clicked
     else if (isset($_POST['Delete'])){
+
+        //Get all public post types, that could have been geolocalized.
+        //We don't get the cttm_option post types set by the user because if one unchecked post types that already had markers, it would not delete them.
+        $public_posttypes = get_post_types( ['public' => true]);
+
         //Get all posts with a marker set
         $cttm_delete_args = array(
-            'post_type' => 'post',
+            'post_type' => $public_posttypes,
             'posts_per_page' => -1,
             'tax_query' => array(
                 array(
@@ -258,7 +307,45 @@ function cttm_validate_option($input){
 
             }
         }
-
+        $options = get_option('cttm_options');
+        $input[ 'posttypes'] = $options['posttypes'];
+        $input[ 'tileurl' ] = $options['tileurl'];
+        $input[ 'subdomains' ] = $options['subdomains'];
+        $input[ 'attribution' ] =  $options['attribution'];
+        $input[ 'popup_style' ] =  $options['popup_style'];
+        $input[ 'popup_css' ] =  $options['popup_css'];
         return $input;
     }
+}
+
+/*
+Function to sanitize post types by checking if every post_type is registered.
+Return string of existing post types only, separated by comma.
+If empty, return 'post'.
+ */
+function cttm_sanitize_post_types($posttypes){
+
+    //get all public registered post types
+    $registered_posttypes = get_post_types( ['public' => true]);
+
+    //transform post_types string into array
+    $posttypes = explode(',', $posttypes);
+
+    $sanitized_posttypes = array();
+    
+    // loop through every post types to sanitize, compare them to existing post types.
+    // If it exist, push the post type to the returning array.
+    foreach ($posttypes as $posttype) {
+        if (in_array($posttype, $registered_posttypes)) {
+            array_push($sanitized_posttypes, $posttype);
+        }
+    }
+    // array to string
+    $sanitized_posttypes = implode(',', $sanitized_posttypes);
+
+    //If the array is empty, return default value 'post' to avoid errors.
+    if (empty($sanitized_posttypes)) {
+        $sanitized_posttypes = 'post';
+    }
+    return $sanitized_posttypes;
 }
