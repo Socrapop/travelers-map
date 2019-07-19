@@ -21,7 +21,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	//Enable Scrollwheel Zoom on focus
 	cttm_map.on('focus', function () {
 	    cttm_map.scrollWheelZoom.enable();
-	  });
+	});
+
+
 
 	
 
@@ -175,7 +177,30 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	    } //END For Loop through cttm_metas 
 
-	   
+	    //add Leaflet.search to the map when option is checked
+	    if (cttm_options['search_field']==1) {
+	    	
+			cttm_map.addControl( new L.Control.Search({
+				url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+				jsonpParam: 'json_callback',
+				propertyName: 'display_name',
+				propertyLoc: ['lat','lon'],
+				autoCollapse: true,
+				collapsed: false,
+				autoType: true,
+				minLength: 2,
+				zoom: 7,
+				firstTipSubmit:true,
+				hideMarkerOnCollapse : true
+			}) );
+
+			//On focus, enable zoom with mousewheel on map.
+			document.querySelector('#searchtext9').addEventListener('focus', function () {
+			    cttm_map.scrollWheelZoom.enable();
+				},true);
+	   		};
+	   	
+
 	    //add markercluster layer to the map
 	  	cttm_map.addLayer(markerscluster);
 

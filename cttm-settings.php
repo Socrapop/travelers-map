@@ -74,6 +74,7 @@ function cttm_admin_init(){
     add_settings_field( 'tileurl', __( 'Tiles Server URL', 'travelers-map' ), 'cttm_tileurl_html' , 'cttm_travelersmap', 'map-data-config');
     add_settings_field( 'subdomains', __( 'Tiles Server sub-domains', 'travelers-map' ), 'cttm_subdomains_html' , 'cttm_travelersmap', 'map-data-config');
     add_settings_field( 'attribution', __( 'Attribution', 'travelers-map' ), 'cttm_attribution_html' , 'cttm_travelersmap', 'map-data-config');
+    add_settings_field( 'search_field', __( 'Enable search module in frontend', 'travelers-map' ), 'cttm_searchfield_html' , 'cttm_travelersmap', 'map-data-config');
 
     //add popup settings section 
     add_settings_section('popup-config', __( 'Popup settings', 'travelers-map' ), 'cttm_popup_section_html', 'cttm_travelersmap');
@@ -167,6 +168,14 @@ function cttm_attribution_html(){
 echo "<br>";
 }
 
+function cttm_searchfield_html(){
+    $options = get_option('cttm_options');
+
+    $search_field = $options["search_field"];
+
+    echo '<label><input type="checkbox" name="cttm_options[search_field]" value="1" '. checked( $search_field, 1,false).'> '.__( 'Check this box to add a search module on your dynamic maps.', 'travelers-map' ).'</label> <br><span class="description" style="margin-top:5px; display:block">'.__( 'The search box will show up on the top left corner of each map. ', 'travelers-map' ).'</span>';
+}
+
 function cttm_popupstyle_html(){
     $options = get_option('cttm_options');
     $popup_style = $options["popup_style"];
@@ -216,7 +225,19 @@ function cttm_validate_option($input){
         $input[ 'subdomains' ] = sanitize_text_field( $input[ 'subdomains' ] );
         $input[ 'attribution' ] =  $purifier->purify( $input[ 'attribution' ] );
         $input[ 'popup_style' ] =  sanitize_key($input[ 'popup_style' ]);
-        $input[ 'popup_css' ] =  intval($input[ 'popup_css' ]);
+        
+        if (isset($input[ 'popup_css' ])) {
+            $input[ 'popup_css' ] = intval($input[ 'popup_css' ]);
+        }else{
+            $input[ 'popup_css' ] =0;
+        }
+        
+        if (isset($input[ 'search_field' ] )) {
+            $input[ 'search_field' ]  = intval($input[ 'search_field' ] );
+        }else{
+            $input[ 'search_field' ] =0;
+        }
+
         return $input;
 
     }
@@ -229,13 +250,15 @@ function cttm_validate_option($input){
         'subdomains' => 'abcd',
         'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and &copy; <a href="https://carto.com/attributions">CARTO</a>',
         'popup_style' => 'img_title',
-        'popup_css' => 0 );
+        'popup_css' => 0,
+        'search_field' => 0);
         $input[ 'posttypes'] = $cttm_options_default['posttypes'];
         $input[ 'tileurl' ] = sanitize_text_field($cttm_options_default['tileurl']);
         $input[ 'subdomains' ] = sanitize_text_field($cttm_options_default['subdomains']);
         $input[ 'attribution' ] =  $purifier->purify($cttm_options_default['attribution']);
         $input[ 'popup_style' ] =  sanitize_key($cttm_options_default['popup_style']);
         $input[ 'popup_css' ] =  intval($cttm_options_default['popup_css']);
+        $input[ 'search_field' ] =  intval($cttm_options_default[ 'search_field' ]);
         return $input;
     }
 
@@ -314,14 +337,15 @@ function cttm_validate_option($input){
         $input[ 'attribution' ] =  $options['attribution'];
         $input[ 'popup_style' ] =  $options['popup_style'];
         $input[ 'popup_css' ] =  $options['popup_css'];
+        $input[ 'search_field' ] =  $options['search_field' ];
         return $input;
     }
 }
 
 /*
-Function to sanitize post types by checking if every post_type is registered.
-Return string of existing post types only, separated by comma.
-If empty, return 'post'.
+    Function to sanitize post types by checking if every post_type is registered.
+    Return string of existing post types only, separated by comma.
+    If empty, return 'post'.
  */
 function cttm_sanitize_post_types($posttypes){
 
@@ -349,3 +373,4 @@ function cttm_sanitize_post_types($posttypes){
     }
     return $sanitized_posttypes;
 }
+

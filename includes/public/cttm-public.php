@@ -16,6 +16,8 @@ function cttm_scripts_frontend() {
 	wp_register_script('leaflet_markercluster', plugins_url('js/leaflet.markercluster.js', __FILE__));
 	//register travelersmap.js in footer so wp_localize_script() works when shortcode is used.
 	wp_register_script('travelersmap_init', plugins_url('js/travelersmap.js', __FILE__),array(), false, true);
+    wp_register_script('leaflet_search', plugins_url('js/leaflet-search.js', __FILE__));
+
 	
 }
 
@@ -28,6 +30,7 @@ function cttm_styles_frontend() {
 	wp_register_style('leaflet_css', plugins_url('css/leaflet.css', __FILE__));
 	wp_register_style('leaflet_markerclustercss', plugins_url('css/MarkerCluster.css', __FILE__));
 	wp_register_style('travelersmap_css', plugins_url('css/cttm-styles.css', __FILE__));
+	wp_register_style('leaflet_search_css', plugins_url('css/leaflet-search.css', __FILE__));
 
 
 }

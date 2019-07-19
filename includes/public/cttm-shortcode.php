@@ -24,6 +24,14 @@ function cttm_shortcode($attr) {
     //Get post types selected in plugin settings
     $cttm_options = get_option( 'cttm_options');
     $settings_posttypes = $cttm_options['posttypes'];
+    $searchfield =  $cttm_options['search_field'];
+
+    if ($searchfield) {
+      wp_enqueue_script('leaflet_search');
+      wp_enqueue_style('leaflet_search_css');
+    }
+
+
 
 
    // define attributes and their defaults, return only supported attributes

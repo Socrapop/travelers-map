@@ -155,14 +155,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			autoCollapse: true,
 			collapsed: false,
 			autoType: true,
-			minLength: 2,
+			minLength: 1,
 			zoom: 13,
+			firstTipSubmit:true,
 			hideMarkerOnCollapse : true
 		}) );
 
 	  	//When using the search input of Leaflet.search, "Enter" key was publishing/updating the Wordpress post.
 	  	//This function disable this behaviour when typing in the search input.
-		document.querySelector('#searchtext9').addEventListener('keydown', disableEnterKey);
+	  	searchinput = document.querySelector('#searchtext9');
+		searchinput.addEventListener('keydown', disableEnterKey);
+		//On focus, enable zoom with mousewheel on map.
+		searchinput.addEventListener('focus', function () {
+			    cttm_map.scrollWheelZoom.enable()
+			},true);
+	   	
+	   	
 		
 		// Disable enter key on latitude and Longitude input field too, to avoid activating "delete current marker" button  	
 		latinput.addEventListener('keydown', disableEnterKey);
