@@ -12,6 +12,8 @@ if (!defined('ABSPATH')) {
 add_action( 'admin_menu', 'cttm_add_page',9 );
 function cttm_add_page() {
     add_menu_page( "Travelers' Map", "Travelers' Map", "manage_options", "cttm_travelersmap", 'cttm_options_page', 'dashicons-admin-site-alt' );
+    add_submenu_page("cttm_travelersmap", __( 'Settings', 'travelers-map' ), __( 'Settings', 'travelers-map' ), 'manage_options', "cttm_travelersmap", 'cttm_options_page');
+   
 }
 
 

@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.3.0
+Version 1.3.1
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -58,10 +58,15 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map, filter the posts you want to show by categories and tags.
 
 == Changelog ==
+= 1.3.1 =
+* Leaflet search in frontend now zoom-in on search like in the admin area.
+* Changed menu label for settings page.
+* Fixed translation not showing up on admin menus.
+
 = 1.3.0 =
 * Community requested: Added an option to enable Leaflet search module in frontend.
 * Focus on search box now enable mousewheel zoom on map.
-* Fixed error showing when unchecking an option in settings.
+* Fixed errors showing when unchecking an option in settings.
 
 = 1.2.0 =
 * You can now geolocalize and add markers to pages and custom post types.

@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				collapsed: false,
 				autoType: true,
 				minLength: 2,
-				zoom: 7,
+				zoom: 13,
 				firstTipSubmit:true,
 				hideMarkerOnCollapse : true
 			}) );
