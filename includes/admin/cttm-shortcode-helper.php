@@ -55,8 +55,19 @@ function cttm_shortcodehelper_page(){
             <br>
             <span class="description"><?php _e( 'Exemple:', 'travelers-map' ); ?> <code>800px</code>.</span>
         </div>
+        <br><br>   
+        <div class="container" style="line-height: 2.2;">
+            <label for="minzoom"><strong><?php _e( 'Min zoom:', 'travelers-map' ); ?> </strong></label><input id="minzoom" type="text" placeholder="Default: 0">
+            <br>
+            <span class="description"><?php _e( 'The minimum zoom level of the map', 'travelers-map' ); ?></span>
+        </div>
+        <br><br>   
+        <div class="container" style="line-height: 2.2;">
+            <label for="maxzoom"><strong><?php _e( 'Max zoom:', 'travelers-map' ); ?> </strong></label><input id="maxzoom" type="text" placeholder="Default: 18">
+            <br>
+            <span class="description"><?php _e( 'The maximum zoom level of the map', 'travelers-map' ); ?></span>
+        </div>
         <br>
-        
 
 
         <div class="container">

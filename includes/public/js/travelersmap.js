@@ -1,19 +1,60 @@
 document.addEventListener("DOMContentLoaded", function(event) { 
 	
+	/**
+	 * Get plugin options from database
+	*/
 	
+	//Get plugin options from the database, set in the setting page.
+	var json_cttm_options = php_params.cttm_options;
+	//Get shortcode options
+	var json_cttm_shortcode = php_params.cttm_shortcode_options;
+
+	//Clean json string to be usable
+	json_cttm_options = json_cttm_options.replace(/&quot;/g, '"');
+	json_cttm_shortcode = json_cttm_shortcode.replace(/&quot;/g, '"');
+	
+	//Get arrays of all the options and shortcode options
+	cttm_options = JSON.parse(json_cttm_options);
+	cttm_shortcode_options = JSON.parse(json_cttm_shortcode);
+
+	
+
+	/**
+	 * Create leaflet map options array
+	 */
+	cttm_map_options = new Object();
+
+
+	// If one-finger touch event is disabled on mobile
+	if (cttm_options['onefinger']) {
+		cttm_map_options.dragging = !L.Browser.mobile;
+		cttm_map_options.tap = !L.Browser.mobile
+	}
+	//Set maxzoom if defined
+	if (cttm_shortcode_options.maxzoom != "") {
+		cttm_map_options.maxZoom = cttm_shortcode_options.maxzoom;
+	}
+	//set minzoom if defined
+	if (cttm_shortcode_options.minzoom != "") {
+		cttm_map_options.minZoom = cttm_shortcode_options.minzoom;
+	}
+
+
 	/**
 	 * Create leaflet map object "cttm_map"
 	 */
+	
+		var cttm_map = L.map('travelersmap-container', cttm_map_options);
+	
+	
+	//Get Tiles server URL + API key + Attribution
+	L.tileLayer(cttm_options['tileurl'], {
+		subdomains: cttm_options['subdomains'],
+		attribution: cttm_options['attribution']
+	
+		}).addTo(cttm_map);
 
-	var cttm_map = L.map('travelersmap-container') ;
-	
-	//Change default leaflet icon options 
-	L.Icon.Default.prototype.options.iconSize = [32, 45];
-	L.Icon.Default.prototype.options.iconAnchor = [16, 45];
-	L.Icon.Default.prototype.options.popupAnchor = [0, -42];
-	L.Icon.Default.prototype.options.shadowSize = [0,0];
-	
-				    
+
 	/**
 	 * Disable Scrollwheel zoom when map is not in focus
 	 */
@@ -23,35 +64,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	    cttm_map.scrollWheelZoom.enable();
 	});
 
-
-
 	
-
-	/**
-	 * Get options from database to assign a tile layer to the cttm_map
-	 */
 	
-	//Get plugin options from the database, set in the setting page.
-	var json_cttm_options = php_params.cttm_options;
 	
-	//Clean json string to be usable
-	json_cttm_options = json_cttm_options.replace(/&quot;/g, '"');
-	
-	//Get an array of all the options
-	cttm_options = JSON.parse(json_cttm_options);
-
-	//Get Tiles server URL + API key + Attribution
-	L.tileLayer(cttm_options['tileurl'], {
-		subdomains: cttm_options['subdomains'],
-		attribution: cttm_options['attribution']
-	
-		}).addTo(cttm_map);
-	 
-
 	/**
    	* Create all markers and popups, and add them to the leaflet map.
    	*/
    
+   	//Change default leaflet icon options 
+	L.Icon.Default.prototype.options.iconSize = [32, 45];
+	L.Icon.Default.prototype.options.iconAnchor = [16, 45];
+	L.Icon.Default.prototype.options.popupAnchor = [0, -42];
+	L.Icon.Default.prototype.options.shadowSize = [0,0];
+
 	//Create a Leaftlet Cluster Group, so we can add our markers in it
 		var markerscluster = L.markerClusterGroup({
 			spiderfyOnMaxZoom: false,
@@ -59,8 +84,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			maxClusterRadius: 45
 		});
 
-	//Get markers metas and linked posts datas from shortcode
-	var json_cttm_metas = php_params.cttm_metas;
 	
 	//Define popup class and create HMTL output for popups depending of style set in plugin settings
 	switch(cttm_options['popup_style']){
@@ -96,9 +119,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		popupOptions = { 'className' : 'custom-popup' };
 	}
 
-	
 
-
+	//Get markers metas and linked posts datas from shortcode
+	var json_cttm_metas = php_params.cttm_metas;
 
 	//If posts with markers exist
 	if (json_cttm_metas!=0){
@@ -205,7 +228,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	  	cttm_map.addLayer(markerscluster);
 
 	  	cttm_map.fitBounds(markerscluster.getBounds(),{
-	  		maxZoom:13,
 	  		padding: [60,60]
 	  	});
 	  	//Get all markers on the map

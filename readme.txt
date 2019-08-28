@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.3.1
+Version 1.4.0
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -21,12 +21,13 @@ How to use: [Get started with Travelers' Map](https://camilles-travels.com/get-s
 
 = Features of Travelers' Map =
 
-* **Geolocalize your posts** on a map and choose the marker image. A **search module** is available to quickly locate the desired location.
+* **Geolocalize your posts, pages or custom post types** on a map and choose the marker image. A **search module** is available to quickly locate the desired location.
 * Add your own images to **customize your markers**.
 * **Insert a dynamic map** that displays your articles using a **simple shortcode**. Choose the dimensions of your map.
-* **Filter the posts** you want to display on the map by their categories and tags.
+* **Filter the posts** you want to display on the map by their type, categories and tags.
 * **Markers clustering** is automatic when marker density is too high, to prevent them from overlapping.
 * **Customize** the appearance of your maps with OpenStreetMap tile providers. By default, the plugin uses CARTO's free and open "Voyager" map tiles.
+* **Customize** the popup style and content for your markers. You can also disable the plugin's CSS if you want to design your own popups.
 * Travelers' Map is **compatible with the new Gutenberg editor** and the classic editor.
 * This plugin **does not add any tables into your database**.
 
@@ -58,6 +59,13 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map, filter the posts you want to show by categories and tags.
 
 == Changelog ==
+
+= 1.4.0 =
+* Added a new option to disable one finger events for mobile users. This option is still in beta and is not yet warning the user to use two fingers.
+* Updated shortcode parameters to accept the maximum and minimum zoom level of the map using 'maxzoom=' and 'minzoom='.
+* Updated shortcode helper page.
+* Updated French translation.
+
 = 1.3.1 =
 * Leaflet search in frontend now zoom-in on search like in the admin area.
 * Changed menu label for settings page.

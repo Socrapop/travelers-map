@@ -3,7 +3,7 @@
 Plugin Name: Travelers' Map
 Plugin URI: https://wordpress.org/plugins/travelers-map
 Description: Pin your Wordpress posts on a dynamic OpenStreetMap map
-Version: 1.3.1
+Version: 1.4.0
 Author: Camille Verrier
 Text Domain: travelers-map
 Domain Path: /languages
@@ -31,10 +31,8 @@ if (!defined('ABSPATH')) {
 
 //Define version constant. We use this to see if the plugin was updated.
 if (!defined('TRAVELERSMAP_VERSION')){
-    define('TRAVELERSMAP_VERSION', '1.3.1');
+    define('TRAVELERSMAP_VERSION', '1.4.0');
 }
-
-
 
 /**
  * Plugin activation function

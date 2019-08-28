@@ -77,6 +77,7 @@ function cttm_admin_init(){
     add_settings_field( 'subdomains', __( 'Tiles Server sub-domains', 'travelers-map' ), 'cttm_subdomains_html' , 'cttm_travelersmap', 'map-data-config');
     add_settings_field( 'attribution', __( 'Attribution', 'travelers-map' ), 'cttm_attribution_html' , 'cttm_travelersmap', 'map-data-config');
     add_settings_field( 'search_field', __( 'Enable search module in frontend', 'travelers-map' ), 'cttm_searchfield_html' , 'cttm_travelersmap', 'map-data-config');
+    add_settings_field( 'onefinger_disable', __( 'Disable one-finger touch event on touch devices (BETA)', 'travelers-map' ), 'cttm_onefinger_html' , 'cttm_travelersmap', 'map-data-config');
 
     //add popup settings section 
     add_settings_section('popup-config', __( 'Popup settings', 'travelers-map' ), 'cttm_popup_section_html', 'cttm_travelersmap');
@@ -177,6 +178,13 @@ function cttm_searchfield_html(){
 
     echo '<label><input type="checkbox" name="cttm_options[search_field]" value="1" '. checked( $search_field, 1,false).'> '.__( 'Check this box to add a search module on your dynamic maps.', 'travelers-map' ).'</label> <br><span class="description" style="margin-top:5px; display:block">'.__( 'The search box will show up on the top left corner of each map. ', 'travelers-map' ).'</span>';
 }
+function cttm_onefinger_html(){
+    $options = get_option('cttm_options');
+
+    $onefinger = $options["onefinger"];
+
+    echo '<label><input type="checkbox" name="cttm_options[onefinger]" value="1" '. checked( $onefinger, 1,false).'> '.__( 'Check this box to disable one-finger events on touch devices. ', 'travelers-map' ).'</label> <br><span class="description" style="margin-top:5px; display:block">'.__( 'User needs to use two fingers to move or zoom the map. ', 'travelers-map' ).'</span>';
+}
 
 function cttm_popupstyle_html(){
     $options = get_option('cttm_options');
@@ -239,7 +247,12 @@ function cttm_validate_option($input){
         }else{
             $input[ 'search_field' ] =0;
         }
-
+        if (isset($input[ 'onefinger' ] )) {
+            $input[ 'onefinger' ]  = intval($input[ 'onefinger' ] );
+        }else{
+            $input[ 'onefinger' ] =0;
+        }
+        
         return $input;
 
     }
@@ -253,12 +266,14 @@ function cttm_validate_option($input){
         'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and &copy; <a href="https://carto.com/attributions">CARTO</a>',
         'popup_style' => 'img_title',
         'popup_css' => 0,
-        'search_field' => 0);
+        'search_field' => 0,
+        'onefinger'=> 0);
         $input[ 'posttypes'] = $cttm_options_default['posttypes'];
         $input[ 'tileurl' ] = sanitize_text_field($cttm_options_default['tileurl']);
         $input[ 'subdomains' ] = sanitize_text_field($cttm_options_default['subdomains']);
         $input[ 'attribution' ] =  $purifier->purify($cttm_options_default['attribution']);
         $input[ 'popup_style' ] =  sanitize_key($cttm_options_default['popup_style']);
+        $input[ 'onefinger' ] =  intval($cttm_options_default['onefinger']);
         $input[ 'popup_css' ] =  intval($cttm_options_default['popup_css']);
         $input[ 'search_field' ] =  intval($cttm_options_default[ 'search_field' ]);
         return $input;
@@ -340,6 +355,7 @@ function cttm_validate_option($input){
         $input[ 'popup_style' ] =  $options['popup_style'];
         $input[ 'popup_css' ] =  $options['popup_css'];
         $input[ 'search_field' ] =  $options['search_field' ];
+        $input[ 'onefinger' ] =  $options['onefinger' ];
         return $input;
     }
 }

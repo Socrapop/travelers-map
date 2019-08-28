@@ -43,7 +43,9 @@ function cttm_shortcode($attr) {
         "maxheight" => '',
         'cats' => '', //by slug, separated by a comma when multiple categories
         'tags' => '', // by slug, separated by a comma when multiple tags
-        'post_types' => $settings_posttypes // by slug, separated by a comma when multiple posttypes
+        'post_types' => $settings_posttypes, // by slug, separated by a comma when multiple posttypes
+        'minzoom' => '',
+        'maxzoom' =>''
     ), $attr ));
   
     //transform post types string to array
@@ -100,11 +102,18 @@ function cttm_shortcode($attr) {
     //cttm_options is an array
     $cttm_options = json_encode(get_option( 'cttm_options'));
 
+    //Create shortcode options array to send to javascript
+    $cttm_shortcode_options = array();
+    $cttm_shortcode_options['minzoom']= $minzoom;
+    $cttm_shortcode_options['maxzoom']= $maxzoom;
+    //Encode to Json
+    $cttm_shortcode_options = json_encode($cttm_shortcode_options);
 
     //Create the array sent to Javascript
 	$cttm_params = array(
 	'cttm_metas' => $cttm_metas,
-	'cttm_options' => $cttm_options
+	'cttm_options' => $cttm_options,
+  'cttm_shortcode_options' => $cttm_shortcode_options
 	);
 
 	//Send Json array of all markers to our javascript file 'travelersmap.js'

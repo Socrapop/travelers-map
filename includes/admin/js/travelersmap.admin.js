@@ -232,6 +232,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	  	var height = '';
 	  	var maxwidth ='';
 	  	var maxheight = '';
+	  	var minzoom = '';
+	  	var maxzoom = '';
 	  	var categoriesstring ='';
 	  	var tagsstring = '';
 	  	var posttypestring = '';
@@ -316,6 +318,49 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		   }else{// Else, set maxheight variable to output in the shortcode.
 
 		   	maxheight= " maxheight=" + cleanedinput;
+
+		   }
+
+		   //Update shortcode function
+		   cttmShortcodeUpdate();
+			
+		});
+
+		// MinZoom Event Listener
+		document.getElementById("minzoom").addEventListener('input', function (e) {
+		   
+		   // Clean every space from the input to avoid shortcode problems.
+		   cleanedinput = this.value.split(' ').join('');
+
+		   // If input is empty, set minzoom to empty string.
+		   if (cleanedinput == '') {
+
+		   		minzoom='';
+		   
+		   }else{// Else, set minzoom variable to output in the shortcode.
+
+		   	minzoom= " minzoom=" + cleanedinput;
+
+		   }
+		   //Update shortcode function
+		   cttmShortcodeUpdate();
+			
+		});
+
+		// MaxZoom Event Listener
+		document.getElementById("maxzoom").addEventListener('input', function (e) {
+		   
+		   // Clean every space from the input to avoid shortcode problems.
+		   cleanedinput = this.value.split(' ').join('');
+
+		   // If input is empty, set maxzoom to empty string.
+		   if (cleanedinput == '') {
+
+		   		maxzoom='';
+		   
+		   }else{// Else, set maxzoom variable to output in the shortcode.
+
+		   	maxzoom= " maxzoom=" + cleanedinput;
 
 		   }
 
@@ -417,7 +462,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			// Get all string variables and add them to shortcode.
 		 */
 		function cttmShortcodeUpdate(){
-			shortcode.innerText = '[travelers-map' + width + maxwidth + height + maxheight + categoriesstring + tagsstring + posttypestring +']'; 
+			shortcode.innerText = '[travelers-map' + width + maxwidth + height + maxheight + minzoom + maxzoom + categoriesstring + tagsstring + posttypestring +']'; 
 		}
 
 	}  	
