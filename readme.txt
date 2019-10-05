@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.4.0
+Version 1.5.0
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -59,6 +59,15 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map, filter the posts you want to show by categories and tags.
 
 == Changelog ==
+
+= 1.5.0 =
+* You can now add multiple maps within a single page or post.
+* Added a new shortcode parameter "this_post=true" to show a map of the current post marker. Usefull when you want to add a map inside your geolocated posts and pages.
+* Updated shortcode helper page with "this_post=true".
+* Code optimization for future updates.
+* Added placeholder message in case leaflet is not loading correctly. 
+* Bugfix: Page no longer scroll to recenter on map after a search.
+* Updated French translation.
 
 = 1.4.0 =
 * Added a new option to disable one finger events for mobile users. This option is still in beta and is not yet warning the user to use two fingers.
@@ -141,7 +150,7 @@ Yes, you can add your own custom markers in "Travelers' Map" > "Customize marker
 Since version 1.0.0, this plugin has English and French version. You can contribute and [translate the plugin into your language] (https://translate.wordpress.org/projects/wp-plugins/travelers-map/)! Thank you.
 
 = Can I add two maps on the same page? =
-I am afraid not. You can only display one map per page. 
+Yes you can since version 1.5.0, you can add multiple shortcodes on the same page.
 
 = Can I change the marker popup style? =
 Yes you can, since version 0.9.0. You can also disable the plugin's CSS to customize.

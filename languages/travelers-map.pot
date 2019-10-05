@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-07-10 09:07+0900\n"
+"POT-Creation-Date: 2019-10-05 17:02+0900\n"
 "PO-Revision-Date: 2019-06-19 21:24+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -96,200 +96,228 @@ msgstr ""
 msgid "No thumbnail found."
 msgstr ""
 
-#: cttm-settings.php:26
+#: cttm-settings.php:15
+msgid "Settings"
+msgstr ""
+
+#: cttm-settings.php:28
 msgid "version"
 msgstr ""
 
-#: cttm-settings.php:30 includes/admin/cttm-shortcode-helper.php:23
+#: cttm-settings.php:32 includes/admin/cttm-shortcode-helper.php:23
 msgid ""
 "Please understand this plugin is under development. More settings will be "
 "added in future updates!"
 msgstr ""
 
-#: cttm-settings.php:30 includes/admin/cttm-shortcode-helper.php:23
+#: cttm-settings.php:32 includes/admin/cttm-shortcode-helper.php:23
 #, php-format
 msgid ""
 "Also, don't hesitate to <a href=\"%1$s\" target=\"_blank\">rate this plugin "
 "and give me some feedbacks</a> to make Travelers' Map better!"
 msgstr ""
 
-#: cttm-settings.php:31
+#: cttm-settings.php:33
 msgid "Need some help setting up this plugin?"
 msgstr ""
 
-#: cttm-settings.php:32
+#: cttm-settings.php:34
 #, php-format
 msgid ""
 "Please check the <a href=\"%1$s\" target=\"_blank\">\"Get Started\" "
 "tutorial</a> on my blog."
 msgstr ""
 
-#: cttm-settings.php:39
+#: cttm-settings.php:41
 msgid "Save Changes"
 msgstr ""
 
-#: cttm-settings.php:40
+#: cttm-settings.php:42
 msgid "Reset settings to default"
 msgstr ""
 
-#: cttm-settings.php:40
+#: cttm-settings.php:42
 msgid ""
 "Are you sure you wish to reset settings to default? Current settings will be "
 "deleted."
 msgstr ""
 
-#: cttm-settings.php:43
+#: cttm-settings.php:45
 msgid "Clean database - Delete all geolocalisation data and markers"
 msgstr ""
 
-#: cttm-settings.php:44
+#: cttm-settings.php:46
 msgid ""
 "This button cleans every geolocalisation meta-data added to your posts and "
 "every custom markers added."
 msgstr ""
 
-#: cttm-settings.php:45
+#: cttm-settings.php:47
 msgid "Please understand this is irreversible."
 msgstr ""
 
-#: cttm-settings.php:46
+#: cttm-settings.php:48
 msgid "Delete all plugin data in database"
 msgstr ""
 
-#: cttm-settings.php:46
+#: cttm-settings.php:48
 msgid ""
 "Are you sure you wish to delete every geolocalisation data and custom "
 "markers in your database? This action is irreversible."
 msgstr ""
 
-#: cttm-settings.php:47
+#: cttm-settings.php:49
 msgid ""
 "To prevent unintentional loss of data, this is how Travelers' Map works:"
 msgstr ""
 
-#: cttm-settings.php:48
+#: cttm-settings.php:50
 msgid ""
 "Upon deactivation, every data (geolocalisation meta-data and settings) is "
 "kept. "
 msgstr ""
 
-#: cttm-settings.php:49
+#: cttm-settings.php:51
 msgid ""
 "When uninstalling, above settings are deleted from database while "
 "geolocalisation data are kept. "
 msgstr ""
 
-#: cttm-settings.php:66
+#: cttm-settings.php:68
 msgid "Plugin main settings"
 msgstr ""
 
-#: cttm-settings.php:68
+#: cttm-settings.php:70
 msgid "Activate Travelers' Map on:"
 msgstr ""
 
-#: cttm-settings.php:72
+#: cttm-settings.php:74
 msgid "Map settings"
 msgstr ""
 
-#: cttm-settings.php:74
+#: cttm-settings.php:76
 msgid "Tiles Server URL"
 msgstr ""
 
-#: cttm-settings.php:75
+#: cttm-settings.php:77
 msgid "Tiles Server sub-domains"
 msgstr ""
 
-#: cttm-settings.php:76
+#: cttm-settings.php:78
 msgid "Attribution"
 msgstr ""
 
 #: cttm-settings.php:79
+msgid "Enable search module in frontend"
+msgstr ""
+
+#: cttm-settings.php:80
+msgid "Disable one-finger touch event on touch devices (BETA)"
+msgstr ""
+
+#: cttm-settings.php:83
 msgid "Popup settings"
 msgstr ""
 
-#: cttm-settings.php:81
+#: cttm-settings.php:85
 msgid "Popup style"
 msgstr ""
 
-#: cttm-settings.php:82
+#: cttm-settings.php:86
 msgid "Disable popup CSS"
 msgstr ""
 
-#: cttm-settings.php:121
+#: cttm-settings.php:125
 msgid ""
 "By default, Travelers' Map is activated on posts only. You can also activate "
 "the plugin on pages and custom post types."
 msgstr ""
 
-#: cttm-settings.php:133
+#: cttm-settings.php:137
 #, php-format
 msgid ""
 " You can find a list of free tile providers <a href=\"%1$s\" target=\"_blank"
 "\">here</a>."
 msgstr ""
 
-#: cttm-settings.php:134
+#: cttm-settings.php:138
 msgid ""
 "If your tile provider require an API key, please insert it directly as "
 "explained on their website. "
 msgstr ""
 
-#: cttm-settings.php:136
+#: cttm-settings.php:140
 msgid "Exemple (thunderforest.com):"
 msgstr ""
 
-#: cttm-settings.php:145
+#: cttm-settings.php:149
 msgid "In this plugin, default is <code>abcd</code> because we use CartoDB."
 msgstr ""
 
-#: cttm-settings.php:145
+#: cttm-settings.php:149
 msgid ""
 "However the most common subdomain is <code>abc</code>, you can find the "
 "information on your provider's website."
 msgstr ""
 
-#: cttm-settings.php:147
+#: cttm-settings.php:151
 #, php-format
 msgid ""
 " If you use the <a href=\"%1$s\" target=\"_blank\">free tile providers list</"
 "a>, subdomains are displayed when different from \"abc\"."
 msgstr ""
 
-#: cttm-settings.php:163
+#: cttm-settings.php:167
 msgid "Preview:"
 msgstr ""
 
-#: cttm-settings.php:164
+#: cttm-settings.php:168
 msgid ""
 "Attribution is shown to the lower right of the map. It is necessary to give "
 "credit to the Openstreetmap datas and your tile provider. "
 msgstr ""
 
-#: cttm-settings.php:166
+#: cttm-settings.php:170
 msgid "It is not necessary, but you can support this plugin by adding: "
 msgstr ""
 
-#: cttm-settings.php:174
+#: cttm-settings.php:179
+msgid "Check this box to add a search module on your dynamic maps."
+msgstr ""
+
+#: cttm-settings.php:179
+msgid "The search box will show up on the top left corner of each map. "
+msgstr ""
+
+#: cttm-settings.php:186
+msgid "Check this box to disable one-finger events on touch devices. "
+msgstr ""
+
+#: cttm-settings.php:186
+msgid "User needs to use two fingers to move or zoom the map. "
+msgstr ""
+
+#: cttm-settings.php:193
 msgid "Choose the content shown in popups and their style: "
 msgstr ""
 
-#: cttm-settings.php:175
+#: cttm-settings.php:194
 msgid "Title and thumbnail (default)"
 msgstr ""
 
-#: cttm-settings.php:176
+#: cttm-settings.php:195
 msgid "Title, thumbnail and excerpt"
 msgstr ""
 
-#: cttm-settings.php:177
+#: cttm-settings.php:196
 msgid "Title and excerpt"
 msgstr ""
 
-#: cttm-settings.php:195
+#: cttm-settings.php:207
 msgid "Check this box to disable Travelers' Map Popup CSS. "
 msgstr ""
 
-#: cttm-settings.php:195
+#: cttm-settings.php:207
 msgid ""
 "Leaflet default CSS is still loaded. Please note that only the content "
 "chosen above is loaded. "
@@ -352,22 +380,22 @@ msgid ""
 "below :"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:34
+#: includes/admin/cttm-shortcode-helper.php:33
 msgid "Width:"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:36
+#: includes/admin/cttm-shortcode-helper.php:35
 #, php-format
 msgid ""
 " Any <a href=\"%1$s\" target=\"_blank\">valid CSS unit</a> is accepted. "
 "Exemple: <code>780px</code> or <code>50%%</code> "
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:41
+#: includes/admin/cttm-shortcode-helper.php:40
 msgid "Height:"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:43
+#: includes/admin/cttm-shortcode-helper.php:42
 #, php-format
 msgid ""
 " Any <a href=\"%1$s\" target=\"_blank\">valid CSS unit</a> is accepted, "
@@ -375,41 +403,65 @@ msgid ""
 "<code>500px</code> or <code>25vh</code>"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:47
+#: includes/admin/cttm-shortcode-helper.php:46
 msgid "Max width:"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:50
-#: includes/admin/cttm-shortcode-helper.php:56
+#: includes/admin/cttm-shortcode-helper.php:49
+#: includes/admin/cttm-shortcode-helper.php:55
 msgid "Exemple:"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:54
+#: includes/admin/cttm-shortcode-helper.php:53
 msgid "Max height:"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:63
+#: includes/admin/cttm-shortcode-helper.php:59
+msgid "Min zoom:"
+msgstr ""
+
+#: includes/admin/cttm-shortcode-helper.php:61
+msgid "The minimum zoom level of the map"
+msgstr ""
+
+#: includes/admin/cttm-shortcode-helper.php:65
+msgid "Max zoom:"
+msgstr ""
+
+#: includes/admin/cttm-shortcode-helper.php:67
+msgid "The maximum zoom level of the map"
+msgstr ""
+
+#: includes/admin/cttm-shortcode-helper.php:72
+msgid "Show current post's marker only"
+msgstr ""
+
+#: includes/admin/cttm-shortcode-helper.php:73
+msgid "Check this box to show a map with the current post's marker only."
+msgstr ""
+
+#: includes/admin/cttm-shortcode-helper.php:83
 msgid "Categories:"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:64
+#: includes/admin/cttm-shortcode-helper.php:84
 msgid ""
 "Select the categories you want to show on the map. Default: All categories."
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:83
+#: includes/admin/cttm-shortcode-helper.php:103
 msgid "Tags:"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:84
+#: includes/admin/cttm-shortcode-helper.php:104
 msgid "Select the tags you want to show on the map. Default: All tags."
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:104
+#: includes/admin/cttm-shortcode-helper.php:124
 msgid "Post types:"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:105
+#: includes/admin/cttm-shortcode-helper.php:125
 msgid ""
 "Select the post types you want to show on the map. Default: All post types "
 "selected in the plugin option page."

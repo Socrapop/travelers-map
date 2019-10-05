@@ -29,7 +29,6 @@ function cttm_shortcodehelper_page(){
             <p><?php _e( 'The above shortcode is automatically updated when you modify the settings below :', 'travelers-map' ); ?></p>
 
             
-
         <div class="container" style="line-height: 2.2;">
             <label for="width"><strong><?php _e( 'Width:', 'travelers-map' ); ?> </strong></label><input id="width" type="text" placeholder="Default: 100%">
             <br>
@@ -67,7 +66,17 @@ function cttm_shortcodehelper_page(){
             <br>
             <span class="description"><?php _e( 'The maximum zoom level of the map', 'travelers-map' ); ?></span>
         </div>
-        <br>
+        <br><br>
+        
+        <div class="container" >
+            <label><input type="checkbox"  id="thispostsmarker" style="margin-right: 10px;" name="thispost" value="true"><strong><?php _e( 'Show current post\'s marker only', 'travelers-map' ); ?></strong></label><br>
+            <p class="description"><?php _e( 'Check this box to show a map with the current post\'s marker only.', 'travelers-map' ); ?></p>
+            <label></label>
+       
+        </div>
+        <br><br>
+       
+        </div>
 
 
         <div class="container">

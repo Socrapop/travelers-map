@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-08-25 19:44+0900\n"
-"PO-Revision-Date: 2019-08-25 19:46+0900\n"
+"POT-Creation-Date: 2019-10-05 16:48+0900\n"
+"PO-Revision-Date: 2019-10-05 16:54+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -435,11 +435,11 @@ msgstr ""
 "Le shortcode ci-dessus est automatiquement mis à jour quand vous modifiez un "
 "paramètre ci-dessous :"
 
-#: includes/admin/cttm-shortcode-helper.php:34
+#: includes/admin/cttm-shortcode-helper.php:33
 msgid "Width:"
 msgstr "Largeur :"
 
-#: includes/admin/cttm-shortcode-helper.php:36
+#: includes/admin/cttm-shortcode-helper.php:35
 #, php-format
 msgid ""
 " Any <a href=\"%1$s\" target=\"_blank\">valid CSS unit</a> is accepted. "
@@ -448,11 +448,11 @@ msgstr ""
 " Toute <a href=\"%1$s\" target=\"_blank\">unité valide en CSS</a> est "
 "acceptée. Exemple : <code>780px</code> ou <code>50%%</code> "
 
-#: includes/admin/cttm-shortcode-helper.php:41
+#: includes/admin/cttm-shortcode-helper.php:40
 msgid "Height:"
 msgstr "Hauteur :"
 
-#: includes/admin/cttm-shortcode-helper.php:43
+#: includes/admin/cttm-shortcode-helper.php:42
 #, php-format
 msgid ""
 " Any <a href=\"%1$s\" target=\"_blank\">valid CSS unit</a> is accepted, "
@@ -463,61 +463,71 @@ msgstr ""
 "acceptée, cependant <code>px</code> et <code>vh</code> sont recommendés. "
 "Exemple : <code>500px</code> ou <code>25vh</code>"
 
-#: includes/admin/cttm-shortcode-helper.php:47
+#: includes/admin/cttm-shortcode-helper.php:46
 msgid "Max width:"
 msgstr "Largeur maximale :"
 
-#: includes/admin/cttm-shortcode-helper.php:50
-#: includes/admin/cttm-shortcode-helper.php:56
+#: includes/admin/cttm-shortcode-helper.php:49
+#: includes/admin/cttm-shortcode-helper.php:55
 msgid "Exemple:"
 msgstr "Exemple :"
 
-#: includes/admin/cttm-shortcode-helper.php:54
+#: includes/admin/cttm-shortcode-helper.php:53
 msgid "Max height:"
 msgstr "Hauteur maximale :"
 
-#: includes/admin/cttm-shortcode-helper.php:60
+#: includes/admin/cttm-shortcode-helper.php:59
 msgid "Min zoom:"
 msgstr "Zoom minimal :"
 
-#: includes/admin/cttm-shortcode-helper.php:62
+#: includes/admin/cttm-shortcode-helper.php:61
 msgid "The minimum zoom level of the map"
 msgstr "Le niveau de zoom minimum de la carte"
 
-#: includes/admin/cttm-shortcode-helper.php:66
+#: includes/admin/cttm-shortcode-helper.php:65
 msgid "Max zoom:"
 msgstr "Zoom maximal :"
 
-#: includes/admin/cttm-shortcode-helper.php:68
+#: includes/admin/cttm-shortcode-helper.php:67
 msgid "The maximum zoom level of the map"
 msgstr "Le niveau de zoom maximal de la carte"
 
-#: includes/admin/cttm-shortcode-helper.php:74
+#: includes/admin/cttm-shortcode-helper.php:72
+msgid "Show current post's marker only"
+msgstr "Montrez uniquement le marqueur de l'article actuel"
+
+#: includes/admin/cttm-shortcode-helper.php:73
+msgid "Check this box to show a map with the current post's marker only."
+msgstr ""
+"Cochez cette case pour afficher une carte contenant uniquement le marqueur "
+"de l'article actuel."
+
+#: includes/admin/cttm-shortcode-helper.php:83
 msgid "Categories:"
 msgstr "Catégories :"
 
-#: includes/admin/cttm-shortcode-helper.php:75
+#: includes/admin/cttm-shortcode-helper.php:84
 msgid ""
 "Select the categories you want to show on the map. Default: All categories."
 msgstr ""
 "Sélectionnez la catégorie que vous voulez afficher sur la carte. Par "
 "défaut : Toutes les catégories."
 
-#: includes/admin/cttm-shortcode-helper.php:94
+#: includes/admin/cttm-shortcode-helper.php:103
 msgid "Tags:"
 msgstr "Étiquettes :"
 
-#: includes/admin/cttm-shortcode-helper.php:95
+#: includes/admin/cttm-shortcode-helper.php:104
 msgid "Select the tags you want to show on the map. Default: All tags."
 msgstr ""
 "Sélectionnez les étiquettes que vous voulez afficher sur la carte. Par "
 "défaut : Toutes les étiquettes."
 
-#: includes/admin/cttm-shortcode-helper.php:115
+#: includes/admin/cttm-shortcode-helper.php:124
 msgid "Post types:"
 msgstr "Type d'article :"
 
-#: includes/admin/cttm-shortcode-helper.php:116
+#: includes/admin/cttm-shortcode-helper.php:125
 msgid ""
 "Select the post types you want to show on the map. Default: All post types "
 "selected in the plugin option page."

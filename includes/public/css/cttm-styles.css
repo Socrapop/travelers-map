@@ -1,34 +1,34 @@
-#travelersmap-container {
+.travelersmap-container {
   background: #f4f4f4;
 }
-#travelersmap-container * {
+.travelersmap-container * {
   box-sizing: border-box;
 }
-#travelersmap-container .default-popup .leaflet-popup-content-wrapper {
+.travelersmap-container .default-popup .leaflet-popup-content-wrapper {
   border-radius: 0;
   padding: 0;
 }
-#travelersmap-container .default-popup .leaflet-popup-tip {
+.travelersmap-container .default-popup .leaflet-popup-tip {
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
   background: #4a4a4a;
 }
-#travelersmap-container .default-popup .leaflet-popup-content {
+.travelersmap-container .default-popup .leaflet-popup-content {
   width: 300px;
   margin: 0;
 }
-#travelersmap-container .default-popup .leaflet-popup-content:hover .img-mask:after {
+.travelersmap-container .default-popup .leaflet-popup-content:hover .img-mask:after {
   background: rgba(0, 0, 0, 0.3);
 }
-#travelersmap-container .default-popup .leaflet-popup-content:hover .img-mask img {
+.travelersmap-container .default-popup .leaflet-popup-content:hover .img-mask img {
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
 }
-#travelersmap-container .default-popup .img-mask {
+.travelersmap-container .default-popup .img-mask {
   overflow: hidden;
   max-height: 200px;
   height: 200px;
 }
-#travelersmap-container .default-popup .img-mask:after {
+.travelersmap-container .default-popup .img-mask:after {
   content: "";
   position: absolute;
   top: 0;
@@ -38,21 +38,21 @@
   background: rgba(0, 0, 0, 0.4);
   transition: 400ms background cubic-bezier(0.05, 0.9, 0.13, 0.99);
 }
-#travelersmap-container .default-popup .img-mask img {
+.travelersmap-container .default-popup .img-mask img {
   width: 100%;
   height: auto;
   transition: 2000ms -webkit-transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
   transition: 2000ms transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
   transition: 2000ms transform cubic-bezier(0.05, 0.9, 0.13, 0.99), 2000ms -webkit-transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
 }
-#travelersmap-container .default-popup .img-mask .nothumbplaceholder {
+.travelersmap-container .default-popup .img-mask .nothumbplaceholder {
   max-width: 100%;
   width: 300px;
   height: 200px;
   background: #0f0c29;
   background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
 }
-#travelersmap-container .default-popup a.tooltip-link {
+.travelersmap-container .default-popup a.tooltip-link {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -65,7 +65,7 @@
   text-decoration: none;
   overflow: hidden;
 }
-#travelersmap-container .default-popup a.tooltip-link .title {
+.travelersmap-container .default-popup a.tooltip-link .title {
   color: white;
   padding: 40px 0;
   font-size: 20px;
@@ -78,19 +78,19 @@
   -webkit-transform: translate(-50%, 50%);
           transform: translate(-50%, 50%);
 }
-#travelersmap-container .thumb-title-exc-popup .leaflet-popup-content-wrapper {
+.travelersmap-container .thumb-title-exc-popup .leaflet-popup-content-wrapper {
   border-radius: 0;
   padding: 0;
   max-height: 220px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
-#travelersmap-container .thumb-title-exc-popup .leaflet-popup-content {
+.travelersmap-container .thumb-title-exc-popup .leaflet-popup-content {
   width: 300px;
   margin: 0;
   position: relative;
 }
-#travelersmap-container .thumb-title-exc-popup a.tooltip-link {
+.travelersmap-container .thumb-title-exc-popup a.tooltip-link {
   position: relative;
   max-height: 200px;
   width: 100%;
@@ -100,7 +100,7 @@
   text-decoration: none;
   overflow: hidden;
 }
-#travelersmap-container .thumb-title-exc-popup a.tooltip-link:after {
+.travelersmap-container .thumb-title-exc-popup a.tooltip-link:after {
   content: "";
   position: absolute;
   top: 0;
@@ -110,7 +110,7 @@
   background: rgba(0, 0, 0, 0.4);
   transition: 400ms background cubic-bezier(0.05, 0.9, 0.13, 0.99);
 }
-#travelersmap-container .thumb-title-exc-popup a.tooltip-link img {
+.travelersmap-container .thumb-title-exc-popup a.tooltip-link img {
   width: 100%;
   height: auto;
   position: absolute;
@@ -122,14 +122,14 @@
   transition: 2000ms transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
   transition: 2000ms transform cubic-bezier(0.05, 0.9, 0.13, 0.99), 2000ms -webkit-transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
 }
-#travelersmap-container .thumb-title-exc-popup a.tooltip-link .nothumbplaceholder {
+.travelersmap-container .thumb-title-exc-popup a.tooltip-link .nothumbplaceholder {
   position: absolute;
   width: 100%;
   height: 200px;
   background: #0f0c29;
   background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
 }
-#travelersmap-container .thumb-title-exc-popup a.tooltip-link .title {
+.travelersmap-container .thumb-title-exc-popup a.tooltip-link .title {
   color: white;
   padding: 45px 5%;
   font-size: 20px;
@@ -139,62 +139,62 @@
   z-index: 10;
   position: relative;
 }
-#travelersmap-container .thumb-title-exc-popup a.tooltip-link:hover:after {
+.travelersmap-container .thumb-title-exc-popup a.tooltip-link:hover:after {
   background: rgba(0, 0, 0, 0.3);
 }
-#travelersmap-container .thumb-title-exc-popup a.tooltip-link:hover img {
+.travelersmap-container .thumb-title-exc-popup a.tooltip-link:hover img {
   -webkit-transform: translate(-50%, -50%) scale(1.1);
           transform: translate(-50%, -50%) scale(1.1);
 }
-#travelersmap-container .thumb-title-exc-popup .excerpt {
+.travelersmap-container .thumb-title-exc-popup .excerpt {
   color: #333;
   padding: 20px 7%;
   font-size: 13px;
   text-align: justify;
   width: 100%;
 }
-#travelersmap-container .thumb-title-exc-popup .leaflet-popup-close-button {
+.travelersmap-container .thumb-title-exc-popup .leaflet-popup-close-button {
   right: initial;
   left: 0;
   padding: 4px 0 0 4px;
   z-index: 15;
   color: #e7e7e7;
 }
-#travelersmap-container .thumb-title-exc-popup .leaflet-popup-close-button:hover {
+.travelersmap-container .thumb-title-exc-popup .leaflet-popup-close-button:hover {
   color: white;
 }
-#travelersmap-container .title-exc-popup .leaflet-popup-content-wrapper {
+.travelersmap-container .title-exc-popup .leaflet-popup-content-wrapper {
   border-radius: 0;
   padding: 0;
   overflow-y: auto;
   overflow-x: hidden;
 }
-#travelersmap-container .title-exc-popup .leaflet-popup-content {
+.travelersmap-container .title-exc-popup .leaflet-popup-content {
   width: 300px;
   margin: 0;
   position: relative;
 }
-#travelersmap-container .title-exc-popup a.tooltip-link {
+.travelersmap-container .title-exc-popup a.tooltip-link {
   text-decoration: none;
   color: #333;
 }
-#travelersmap-container .title-exc-popup a.tooltip-link:hover {
+.travelersmap-container .title-exc-popup a.tooltip-link:hover {
   color: black;
 }
-#travelersmap-container .title-exc-popup a.tooltip-link .title {
+.travelersmap-container .title-exc-popup a.tooltip-link .title {
   padding: 20px 5% 0;
   font-size: 20px;
   font-weight: 700;
   text-align: center;
   width: 100%;
 }
-#travelersmap-container .title-exc-popup a.tooltip-link .excerpt {
+.travelersmap-container .title-exc-popup a.tooltip-link .excerpt {
   padding: 20px 7%;
   font-size: 13px;
   text-align: justify;
   width: 100%;
 }
-#travelersmap-container .title-exc-popup .leaflet-popup-close-button {
+.travelersmap-container .title-exc-popup .leaflet-popup-close-button {
   right: initial;
   left: 0;
   padding: 4px 0 0 4px;

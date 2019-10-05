@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			jsonpParam: 'json_callback',
 			propertyName: 'display_name',
 			propertyLoc: ['lat','lon'],
-			autoCollapse: true,
+			autoCollapse: false,
 			collapsed: false,
 			autoType: true,
 			minLength: 1,
@@ -234,6 +234,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	  	var maxheight = '';
 	  	var minzoom = '';
 	  	var maxzoom = '';
+	  	var thispostsmarker = '';
 	  	var categoriesstring ='';
 	  	var tagsstring = '';
 	  	var posttypestring = '';
@@ -369,6 +370,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			
 		});
 
+		// This post's marker only Event Listener
+	  	document.getElementById("thispostsmarker").addEventListener('change', function (e) {
+
+	  		//If checked, set output
+		    if(this.checked) {
+		        thispostsmarker = ' this_post=true';
+		    } else {
+		        thispostsmarker = '';
+		    }
+		    cttmShortcodeUpdate();
+		});
+
 		/*
 				Categories Event Listener
 		 */
@@ -462,7 +475,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			// Get all string variables and add them to shortcode.
 		 */
 		function cttmShortcodeUpdate(){
-			shortcode.innerText = '[travelers-map' + width + maxwidth + height + maxheight + minzoom + maxzoom + categoriesstring + tagsstring + posttypestring +']'; 
+			shortcode.innerText = '[travelers-map' + width + maxwidth + height + maxheight + minzoom + maxzoom + thispostsmarker + categoriesstring + tagsstring + posttypestring +']'; 
 		}
 
 	}  	
