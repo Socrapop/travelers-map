@@ -56,15 +56,22 @@ function cttm_shortcodehelper_page(){
         </div>
         <br><br>   
         <div class="container" style="line-height: 2.2;">
-            <label for="minzoom"><strong><?php _e( 'Min zoom:', 'travelers-map' ); ?> </strong></label><input id="minzoom" type="text" placeholder="Default: 0">
+            <label for="minzoom"><strong><?php _e( 'Min zoom:', 'travelers-map' ); ?> </strong></label><input id="minzoom" type="number" step="1" min="0" max="18" placeholder="Default: 0">
             <br>
-            <span class="description"><?php _e( 'The minimum zoom level of the map', 'travelers-map' ); ?></span>
+            <span class="description"><?php _e( 'The minimum zoom level of the map. Default: <code>0</code>', 'travelers-map' ); ?></span>
         </div>
         <br><br>   
         <div class="container" style="line-height: 2.2;">
-            <label for="maxzoom"><strong><?php _e( 'Max zoom:', 'travelers-map' ); ?> </strong></label><input id="maxzoom" type="text" placeholder="Default: 18">
+            <label for="maxzoom"><strong><?php _e( 'Max zoom:', 'travelers-map' ); ?> </strong></label><input id="maxzoom" type="number" step="1" min="0" max="18" placeholder="Default: 18">
             <br>
-            <span class="description"><?php _e( 'The maximum zoom level of the map', 'travelers-map' ); ?></span>
+            <span class="description"><?php _e( 'The maximum zoom level of the map. Default: <code>18</code>', 'travelers-map' ); ?></span>
+        </div>
+        <br><br>
+
+        <div class="container" style="line-height: 2.2;">
+            <label for="init-maxzoom"><strong><?php _e( 'Initialization max zoom:', 'travelers-map' ); ?> </strong></label><input id="init-maxzoom" type="number" step="1" min="0" max="18" placeholder="Default: 18">
+            <br>
+            <span class="description"><?php _e( 'On initialization, the map is zoomed to fit all the markers inside it. <br>This setting is useful to unzoom when only one marker is displayed. <code>18</code> is zoomed at the maximum, <code>1</code> is a world view.', 'travelers-map' ); ?></span>
         </div>
         <br><br>
         

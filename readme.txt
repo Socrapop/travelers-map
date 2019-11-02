@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.5.0
+Version 1.6.0
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -59,6 +59,13 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map, filter the posts you want to show by categories and tags.
 
 == Changelog ==
+
+
+= 1.6.0 =
+* Added shortcode option "Initialization max zoom" to set a default max zoom on map load. The user can still zoom over this limit. This is useful for maps showing only one marker.
+* Removed popup when using "this_post=true" to avoid end-user confusion.
+* Markers' thumbnails are now hard cropped to 300*200px to avoid wide images not displaying correctly in markers' popup. If you had any problem, please regenerate your thumbnail using the awesome plugin "Regenerate Thumbnails".
+* Updated French translation.
 
 = 1.5.0 =
 * You can now add multiple maps within a single page or post.
@@ -148,6 +155,9 @@ Yes, you can add your own custom markers in "Travelers' Map" > "Customize marker
 
 = Is this plugin only available in English? =
 Since version 1.0.0, this plugin has English and French version. You can contribute and [translate the plugin into your language] (https://translate.wordpress.org/projects/wp-plugins/travelers-map/)! Thank you.
+
+= My markers' thumbnails are heavy and long to load, what can I do ? =
+Travelers' map is creating a small thumbnail size for your popups, however, Wordpress is not regenerating thumbnails for the images you uploaded before activating the plugin. To do that, you can install a plugin called "Regenerate Thumbnails" by Alex Mills.
 
 = Can I add two maps on the same page? =
 Yes you can since version 1.5.0, you can add multiple shortcodes on the same page.

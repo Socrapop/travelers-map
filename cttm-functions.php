@@ -9,7 +9,7 @@ add_action( 'after_setup_theme', 'cttm_add_image_thumbnail' );
  * Add image size for markers' tooltips
  */
 function cttm_add_image_thumbnail() {
-    add_image_size( 'travelersmap-thumb', 300, 0 ); 
+    add_image_size( 'travelersmap-thumb', 300, 200, TRUE ); 
 }
 
 add_action('init', 'cttm_markers_register_post_type');

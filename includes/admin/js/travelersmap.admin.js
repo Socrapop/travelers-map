@@ -238,6 +238,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	  	var categoriesstring ='';
 	  	var tagsstring = '';
 	  	var posttypestring = '';
+	  	var init_maxzoom = '';
 
 	  	/*
 	  	Define all Event Listeners on form, so the shortcode is updated each time the user change a form element.
@@ -370,6 +371,28 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			
 		});
 
+		// Init_Maxzoom Event Listener
+		document.getElementById("init-maxzoom").addEventListener('input', function (e) {
+		   
+		   // Clean every space from the input to avoid shortcode problems.
+		   cleanedinput = this.value.split(' ').join('');
+
+		   // If input is empty, set maxzoom to empty string.
+		   if (cleanedinput == '') {
+
+		   		init_maxzoom ='';
+		   
+		   }else{// Else, set maxzoom variable to output in the shortcode.
+
+		   	init_maxzoom= " init_maxzoom=" + cleanedinput;
+
+		   }
+
+		   //Update shortcode function
+		   cttmShortcodeUpdate();
+			
+		});
+
 		// This post's marker only Event Listener
 	  	document.getElementById("thispostsmarker").addEventListener('change', function (e) {
 
@@ -475,7 +498,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			// Get all string variables and add them to shortcode.
 		 */
 		function cttmShortcodeUpdate(){
-			shortcode.innerText = '[travelers-map' + width + maxwidth + height + maxheight + minzoom + maxzoom + thispostsmarker + categoriesstring + tagsstring + posttypestring +']'; 
+			shortcode.innerText = '[travelers-map' + width + maxwidth + height + maxheight + minzoom + maxzoom + init_maxzoom + thispostsmarker + categoriesstring + tagsstring + posttypestring +']'; 
 		}
 
 	}  	

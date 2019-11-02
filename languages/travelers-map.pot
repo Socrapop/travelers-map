@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-05 17:02+0900\n"
+"POT-Creation-Date: 2019-11-02 14:04+0900\n"
 "PO-Revision-Date: 2019-06-19 21:24+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.2.4\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-KeywordsList: __;_e\n"
@@ -421,7 +421,7 @@ msgid "Min zoom:"
 msgstr ""
 
 #: includes/admin/cttm-shortcode-helper.php:61
-msgid "The minimum zoom level of the map"
+msgid "The minimum zoom level of the map. Default: <code>0</code>"
 msgstr ""
 
 #: includes/admin/cttm-shortcode-helper.php:65
@@ -429,39 +429,50 @@ msgid "Max zoom:"
 msgstr ""
 
 #: includes/admin/cttm-shortcode-helper.php:67
-msgid "The maximum zoom level of the map"
+msgid "The maximum zoom level of the map. Default: <code>18</code>"
 msgstr ""
 
 #: includes/admin/cttm-shortcode-helper.php:72
+msgid "Initialization max zoom:"
+msgstr ""
+
+#: includes/admin/cttm-shortcode-helper.php:74
+msgid ""
+"On initialization, the map is zoomed to fit all the markers inside it. "
+"<br>This setting is useful to unzoom when only one marker is displayed. "
+"<code>18</code> is zoomed at the maximum, <code>1</code> is a world view."
+msgstr ""
+
+#: includes/admin/cttm-shortcode-helper.php:79
 msgid "Show current post's marker only"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:73
+#: includes/admin/cttm-shortcode-helper.php:80
 msgid "Check this box to show a map with the current post's marker only."
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:83
+#: includes/admin/cttm-shortcode-helper.php:90
 msgid "Categories:"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:84
+#: includes/admin/cttm-shortcode-helper.php:91
 msgid ""
 "Select the categories you want to show on the map. Default: All categories."
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:103
+#: includes/admin/cttm-shortcode-helper.php:110
 msgid "Tags:"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:104
+#: includes/admin/cttm-shortcode-helper.php:111
 msgid "Select the tags you want to show on the map. Default: All tags."
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:124
+#: includes/admin/cttm-shortcode-helper.php:131
 msgid "Post types:"
 msgstr ""
 
-#: includes/admin/cttm-shortcode-helper.php:125
+#: includes/admin/cttm-shortcode-helper.php:132
 msgid ""
 "Select the post types you want to show on the map. Default: All post types "
 "selected in the plugin option page."

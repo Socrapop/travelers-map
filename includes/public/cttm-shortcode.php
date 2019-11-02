@@ -46,7 +46,8 @@ function cttm_shortcode($attr) {
         'post_types' => $settings_posttypes, // by slug, separated by a comma when multiple posttypes
         'minzoom' => '',
         'maxzoom' =>'',
-        'this_post' => false
+        'this_post' => false,
+        'init_maxzoom' => ''
     ), $attr ));
   
     //transform post types string to array
@@ -56,12 +57,12 @@ function cttm_shortcode($attr) {
 
     // define query parameters based on shortcode attributes. We only get private taxonomy 'cttm-markers-tax', which is set automatically when a marker is assigned to a post.
     // 
-    // IF 'this_post' is true, we define WP_Query parameters to only get ths post/page.
+    // IF 'this_post' is true, we define WP_Query parameters to only get this post/page.
     if ($this_post) {
       global $post;
 
       $cttm_options_args = array(
-          'p' => $post->ID,
+          'post__in' => array ($post->ID),
           'post_type' => 'any',
           'tax_query' => array(
           array(
@@ -98,8 +99,6 @@ function cttm_shortcode($attr) {
 	    
 		foreach($cttm_posts as $post) {
 
-      //Check if post really has marker. This is to prevent a bug in WP_query when querying current post's marker on a post without marker. WP_query always return the post, even if tax_query is false...
-      if (has_term( 'hasmarker', 'cttm-markers-tax', $post)){
 
     	   		//for each posts get informations: 
     	   		//postdatas() is an array of the post thumbnail, url and title
@@ -117,10 +116,7 @@ function cttm_shortcode($attr) {
       			   $cttm_metas[$i]['postdatas'] = $cttm_postdatas;
 
       			   $i+=1;
-        }else{ //End if has_term, else : set $cttm_metas to 0.
-      
-            $cttm_metas = 0;
-        }
+       
       }//End foreach
 
 	 } else { //End If have_posts()
@@ -142,6 +138,9 @@ function cttm_shortcode($attr) {
     $cttm_shortcode_options['id'] = $id;
     $cttm_shortcode_options['minzoom']= $minzoom;
     $cttm_shortcode_options['maxzoom']= $maxzoom;
+    $cttm_shortcode_options['this_post']= (string)$this_post;
+    $cttm_shortcode_options['init_maxzoom']= $init_maxzoom;
+
     //Encode to Json
     
     $cttm_shortcode_options = json_encode($cttm_shortcode_options);

@@ -52,9 +52,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		if (cttm_shortcode_options.maxzoom != "") {
 			cttm_map_options.maxZoom = cttm_shortcode_options.maxzoom;
 		}
-		//set minzoom if defined
+		//Set minzoom if defined
 		if (cttm_shortcode_options.minzoom != "") {
 			cttm_map_options.minZoom = cttm_shortcode_options.minzoom;
+		}
+		//Set init_maxzoom if defined. Convert to string to avoid error.
+		if (cttm_shortcode_options.init_maxzoom != "") {
+			var init_maxzoom = parseInt(cttm_shortcode_options.init_maxzoom) ;
+		}else{
+			var init_maxzoom = null;
 		}
 
 
@@ -222,8 +228,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 		        var postpopupOutput = popupOutput;
 
-		        // Create a leaflet icon object and add it to the map, use default
-		        
+		        // Create a leaflet icon object and add it to the map, if not set, use default
+		        //"d" is returned when no icon is set
 		        if (markerURL!="d") {
 		        	
 		        	//Create custom icon
@@ -259,10 +265,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		        postpopupOutput = postpopupOutput.replace('%s_title', posttitle);
 		       postpopupOutput = postpopupOutput.replace('%s_url', posturl);
 
-		       
-				//Add the marker in our cluster group layer with its popup
-		        markerscluster.addLayer(marker.bindPopup(postpopupOutput,popupOptions));
-
+		       //If "this_post" option is set
+				//Add the marker in our cluster group layer without popup
+				//Else add it with its popup
+		        if (cttm_shortcode_options.this_post=="true") {
+		        	markerscluster.addLayer(marker);
+		        	
+		        }else{
+		        	markerscluster.addLayer(marker.bindPopup(postpopupOutput,popupOptions));
+		        }
 		    } //END For Loop through cttm_metas 
 
 		    //add Leaflet.search to the map when option is checked
@@ -293,7 +304,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		  	cttm_map[mapindex].addLayer(markerscluster);
 
 		  	cttm_map[mapindex].fitBounds(markerscluster.getBounds(),{
-		  		padding: [60,60]
+		  		padding: [60,60],
+		  		maxZoom: init_maxzoom
 		  	});
 		  	//Get all markers on the map
 		  
