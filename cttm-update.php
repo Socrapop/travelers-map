@@ -19,6 +19,7 @@ update_option('travelersmap_version', TRAVELERSMAP_VERSION);
         'popup_style' => 'img_title',
         'popup_css' => 0,
         'search_field' => 0,
+        'fullscreen_button' => 0,
         'onefinger' => 0 );
 
     $cttm_options = get_option('cttm_options', array());

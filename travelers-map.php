@@ -3,7 +3,7 @@
 Plugin Name: Travelers' Map
 Plugin URI: https://wordpress.org/plugins/travelers-map
 Description: Pin your Wordpress posts on a dynamic OpenStreetMap map
-Version: 1.6.0
+Version: 1.7.0
 Author: Camille Verrier
 Text Domain: travelers-map
 Domain Path: /languages
@@ -31,7 +31,7 @@ if (!defined('ABSPATH')) {
 
 //Define version constant. We use this to see if the plugin was updated.
 if (!defined('TRAVELERSMAP_VERSION')){
-    define('TRAVELERSMAP_VERSION', '1.6.0');
+    define('TRAVELERSMAP_VERSION', '1.7.0');
 }
 
 /**
@@ -87,3 +87,26 @@ function cttm_load_textdomain() {
 
 }
 add_action( 'after_setup_theme', 'cttm_load_textdomain' );
+
+// Add admin notice on activation to ask for thumbnail regeneration
+function cttm_admin_notices() {
+   echo "<div class='notice-warning notice cttm-notice is-dismissible'><p>";
+    printf( __( 'Thank you for using Travelers\' Map. <br>This plugin is creating a new thumbnail size for your markers\' images to speed up their loading time in the front-end. <br><br><strong>If you already have images in your media library before activating this plugin, please consider regenerating them with the awesome plugin <a href="%1$s" target="_blank">Regenerate Thumbnails</a> as this is not supported by Wordpress alone.</strong> <br><br> Please note that <strong>images added after you activate this plugin are automatically generated in the right size</strong>.', 'travelers-map' ), 'https://wordpress.org/plugins/regenerate-thumbnails/' ); 
+    echo "</p></div>";
+}
+
+// Show admin notice only if not dismissed already.
+if( empty( get_option( 'travelersmap_notice_dismissed' ) ) ) {
+  add_action('admin_notices', 'cttm_admin_notices');
+}
+
+
+/**
+ * AJAX handler to store the state of dismissible notices.
+ */
+function cttm_ajax_notice_handler() {
+    // Store it in the options table
+    update_option( 'travelersmap_notice_dismissed', 1);
+}
+
+add_action( 'wp_ajax_dismiss_cttm_notice', 'cttm_ajax_notice_handler' );

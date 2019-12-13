@@ -235,6 +235,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	  	var minzoom = '';
 	  	var maxzoom = '';
 	  	var thispostsmarker = '';
+	  	var centeredonthis = '';
+	  	var post_id = '';
 	  	var categoriesstring ='';
 	  	var tagsstring = '';
 	  	var posttypestring = '';
@@ -405,6 +407,42 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		    cttmShortcodeUpdate();
 		});
 
+		// Centered on this post's marker only Event Listener
+	  	document.getElementById("centered_on_this").addEventListener('change', function (e) {
+
+	  		//If checked, set output
+		    if(this.checked) {
+		        centeredonthis = ' centered_on_this=true';
+		    } else {
+		        centeredonthis = '';
+
+		    }
+		    cttmShortcodeUpdate();
+		});
+
+		// post_id Event Listener
+		document.getElementById("post_id").addEventListener('input', function (e) {
+		   
+		   // Clean every space from the input to avoid shortcode problems.
+		   cleanedinput = this.value.split(' ').join('');
+
+		   // If input is empty, set maxzoom to empty string.
+		   if (cleanedinput == '') {
+
+		   		post_id ='';
+		   
+		   }else{// Else, set maxzoom variable to output in the shortcode.
+
+		   	post_id= " post_id=" + cleanedinput;
+
+		   }
+
+		   //Update shortcode function
+		   cttmShortcodeUpdate();
+			
+		});
+
+
 		/*
 				Categories Event Listener
 		 */
@@ -498,7 +536,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			// Get all string variables and add them to shortcode.
 		 */
 		function cttmShortcodeUpdate(){
-			shortcode.innerText = '[travelers-map' + width + maxwidth + height + maxheight + minzoom + maxzoom + init_maxzoom + thispostsmarker + categoriesstring + tagsstring + posttypestring +']'; 
+			shortcode.innerText = '[travelers-map' + width + maxwidth + height + maxheight + minzoom + maxzoom + init_maxzoom + thispostsmarker + centeredonthis + post_id + categoriesstring + tagsstring + posttypestring +']'; 
 		}
 
 	}  	

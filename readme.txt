@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.6.0
+Version 1.7.0
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -59,6 +59,27 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map, filter the posts you want to show by categories and tags.
 
 == Changelog ==
+
+= 1.7.0 =
+**Major update**
+
+New features:
+* New shortcode parameter "centered_on_this" to show a map zoomed on the current post's marker, moreover other posts are also displayed on the map.
+* New shortcode parameter "post_id" to fetch a post's marker by its ID. This can be combined with "centered_on_this" parameter to zoom on this ID's marker but keep the others showing.
+* New option added to show a fullscreen button on your maps in the plugin settings.
+
+
+Minor features and changes: 
+* Added a dismissible admin notice warning the users to regenerate their thumbnail to speed up their markers' thumbnails loading.
+* Overhaul UX/UI makeover for Shortcode helper page. Settings are now separated in different parts and is optimized for next update. 
+* Changed default "Initialization max-zoom" to be 15 instead of 18.
+* Changed some texts in admin area.
+* French translation updated.
+
+New options for developers:
+* 'cttm_map[]' array is now a global variable. You can now initialize your own leaflet plugins to the maps. More information and tutorial added in the plugin's documentation.
+* Custom event 'cttm_map_loaded' is triggered when maps are initialized on the frontend.
+
 
 
 = 1.6.0 =

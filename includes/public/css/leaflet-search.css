@@ -28,6 +28,7 @@
 	height:22px;
 	padding:0 20px 0 2px;
 	margin:4px 0 4px 4px;
+	width: auto;
 }
 .leaflet-control-search.search-load .search-input {
 	background: url('../images/loader.gif') no-repeat center right #fff;

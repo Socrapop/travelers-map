@@ -7,16 +7,17 @@
 add_action( 'admin_enqueue_scripts', 'cttm_styles_admin' );
 
 function cttm_styles_admin( $hook ) {
-    if($hook != 'post.php' && $hook != 'post-new.php') {
+    if($hook != 'post.php' && $hook != 'post-new.php' && $hook != 'travelers-map_page_cttm_travelersmap_shortcode' && $hook != 'toplevel_page_cttm_travelersmap') {
         return;
     }
       
     wp_register_style('leaflet_css', plugins_url('css/leaflet.css', __FILE__));
     wp_register_style('leaflet_search_css', plugins_url('css/leaflet-search.css', __FILE__));
+     wp_register_style('travelers_map_admin_css', plugins_url('css/travelers-map.admin.css', __FILE__));
 
     wp_enqueue_style('leaflet_css');
     wp_enqueue_style('leaflet_search_css');
-        
+    wp_enqueue_style( 'travelers_map_admin_css');        
 }
 
 /**
@@ -26,6 +27,11 @@ function cttm_styles_admin( $hook ) {
 add_action( 'admin_enqueue_scripts', 'cttm_scripts_admin', 10);
 
 function cttm_scripts_admin( $hook ) {
+
+
+        wp_register_script('travelersmap_admin_notice', plugins_url('js/travelersmap-admin-notice.js', __FILE__),array('jquery'), false, true);
+        wp_enqueue_script( 'travelersmap_admin_notice');
+        
 
 
         if($hook != 'post.php' && $hook != 'post-new.php' && $hook != 'travelers-map_page_cttm_travelersmap_shortcode' && $hook != 'toplevel_page_cttm_travelersmap') {

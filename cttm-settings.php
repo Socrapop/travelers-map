@@ -29,12 +29,17 @@ function cttm_options_page(){
         ?>
         </h1>
         
-        <p><small><?php _e( 'Please understand this plugin is under development. More settings will be added in future updates!', 'travelers-map' ); ?> <br><?php printf( __( 'Also, don\'t hesitate to <a href="%1$s" target="_blank">rate this plugin and give me some feedbacks</a> to make Travelers\' Map better!', 'travelers-map' ), 'https://wordpress.org/plugins/travelers-map/#reviews' ); ?> </small></p><hr>
+        <p><small><?php _e( 'Do you want to make Travelers\' Map better? All the updates are based on community feedbacks!', 'travelers-map' ); ?>
+        <br>
+        <?php printf( __( 'Do not hesitate to <a href="%1$s" target="_blank">rate this plugin and give me some feedbacks</a>.', 'travelers-map' ), 'https://wordpress.org/plugins/travelers-map/#reviews' ); ?> </small></p><hr>
         <p><strong><?php _e( 'Need some help setting up this plugin?', 'travelers-map' ); ?> </strong><br>
             <?php printf( __( 'Please check the <a href="%1$s" target="_blank">"Get Started" tutorial</a> on my blog.', 'travelers-map' ), 'https://camilles-travels.com/get-started-with-travelers-map-wordpress-plugin/' ); ?>
              <br> </p>
             <hr>
-        <form action="options.php" method="post">        
+
+
+        <form action="options.php" method="post">   
+               
             <?php 
                 settings_fields('cttm_options');
                 do_settings_sections('cttm_travelersmap');?>
@@ -52,7 +57,7 @@ function cttm_options_page(){
                 </p>
                 
                 <hr style="margin:30px 0">
-
+                
             
         </form>
     </div>
@@ -77,6 +82,7 @@ function cttm_admin_init(){
     add_settings_field( 'subdomains', __( 'Tiles Server sub-domains', 'travelers-map' ), 'cttm_subdomains_html' , 'cttm_travelersmap', 'map-data-config');
     add_settings_field( 'attribution', __( 'Attribution', 'travelers-map' ), 'cttm_attribution_html' , 'cttm_travelersmap', 'map-data-config');
     add_settings_field( 'search_field', __( 'Enable search module in frontend', 'travelers-map' ), 'cttm_searchfield_html' , 'cttm_travelersmap', 'map-data-config');
+    add_settings_field( 'fullscreen_button', __( 'Enable fullscreen button in frontend', 'travelers-map' ), 'cttm_fullscreenbutton_html' , 'cttm_travelersmap', 'map-data-config');
     add_settings_field( 'onefinger_disable', __( 'Disable one-finger touch event on touch devices (BETA)', 'travelers-map' ), 'cttm_onefinger_html' , 'cttm_travelersmap', 'map-data-config');
 
     //add popup settings section 
@@ -112,6 +118,7 @@ function cttm_posttypes_html(){
     $registered_posttypes = get_post_types( ['public' => true],'objects');
     
 
+    
     //Add a checkbox for each registered post type, and check it if already checked in options.
     foreach ($registered_posttypes as $registered_posttype) {
         if ($registered_posttype->name != 'attachment') {
@@ -122,7 +129,8 @@ function cttm_posttypes_html(){
        
     }
 
-    echo '<p class="description">'.__( 'By default, Travelers\' Map is activated on posts only. You can also activate the plugin on pages and custom post types.', 'travelers-map' ).'<br>';
+    echo '<p class="description">'.__( 'By default, Travelers\' Map is activated on posts only. You can also activate the plugin on pages and custom post types.', 'travelers-map' ).'<br></p>';
+
     
 }
 
@@ -177,6 +185,13 @@ function cttm_searchfield_html(){
     $search_field = $options["search_field"];
 
     echo '<label><input type="checkbox" name="cttm_options[search_field]" value="1" '. checked( $search_field, 1,false).'> '.__( 'Check this box to add a search module on your dynamic maps.', 'travelers-map' ).'</label> <br><span class="description" style="margin-top:5px; display:block">'.__( 'The search box will show up on the top left corner of each map. ', 'travelers-map' ).'</span>';
+}
+function cttm_fullscreenbutton_html(){
+     $options = get_option('cttm_options');
+
+    $search_field = $options["fullscreen_button"];
+
+    echo '<label><input type="checkbox" name="cttm_options[fullscreen_button]" value="1" '. checked( $search_field, 1,false).'> '.__( 'Check this box to add a fullscreen button to your dynamic maps.', 'travelers-map' ).'</label> <br><span class="description" style="margin-top:5px; display:block">'.__( 'The fullscreen button will show up on the top right corner of each map. ', 'travelers-map' ).'</span>';
 }
 function cttm_onefinger_html(){
     $options = get_option('cttm_options');
@@ -247,6 +262,11 @@ function cttm_validate_option($input){
         }else{
             $input[ 'search_field' ] =0;
         }
+        if (isset($input[ 'fullscreen_button' ] )) {
+            $input[ 'fullscreen_button' ]  = intval($input[ 'fullscreen_button' ] );
+        }else{
+            $input[ 'fullscreen_button' ] =0;
+        }
         if (isset($input[ 'onefinger' ] )) {
             $input[ 'onefinger' ]  = intval($input[ 'onefinger' ] );
         }else{
@@ -267,6 +287,7 @@ function cttm_validate_option($input){
         'popup_style' => 'img_title',
         'popup_css' => 0,
         'search_field' => 0,
+        'fullscreen_button' => 0,
         'onefinger'=> 0);
         $input[ 'posttypes'] = $cttm_options_default['posttypes'];
         $input[ 'tileurl' ] = sanitize_text_field($cttm_options_default['tileurl']);
@@ -276,6 +297,7 @@ function cttm_validate_option($input){
         $input[ 'onefinger' ] =  intval($cttm_options_default['onefinger']);
         $input[ 'popup_css' ] =  intval($cttm_options_default['popup_css']);
         $input[ 'search_field' ] =  intval($cttm_options_default[ 'search_field' ]);
+        $input[ 'fullscreen_button' ] = intval($cttm_options_default[ 'fullscreen_button' ]);
         return $input;
     }
 
@@ -355,6 +377,7 @@ function cttm_validate_option($input){
         $input[ 'popup_style' ] =  $options['popup_style'];
         $input[ 'popup_css' ] =  $options['popup_css'];
         $input[ 'search_field' ] =  $options['search_field' ];
+        $input[ 'fullscreen_button' ] =  $options['fullscreen_button' ];
         $input[ 'onefinger' ] =  $options['onefinger' ];
         return $input;
     }

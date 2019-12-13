@@ -23,8 +23,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	/**
 	 * Loop : Create a new map for each shortcode in the page
+	 * Before the loop, initialize global array of map objects and index number
 	 */
+		
+	//Index of map objects in array
+		var mapindex = 0;
+	//Create cttm_map array of object
+		window.cttm_map = new Array();
+	//Loop for each shortcode
 	cttm_shortcode_vars_arr.forEach(cttmMapLoop);
+
 
 	function cttmMapLoop(cttm_shortcode_vars){
 		//Get shortcode options
@@ -56,11 +64,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		if (cttm_shortcode_options.minzoom != "") {
 			cttm_map_options.minZoom = cttm_shortcode_options.minzoom;
 		}
-		//Set init_maxzoom if defined. Convert to string to avoid error.
-		if (cttm_shortcode_options.init_maxzoom != "") {
+		//Set init_maxzoom if defined. Convert to integer to avoid error.
+		if (cttm_shortcode_options.init_maxzoom) {
 			var init_maxzoom = parseInt(cttm_shortcode_options.init_maxzoom) ;
 		}else{
-			var init_maxzoom = null;
+			var init_maxzoom = 16;
 		}
 
 
@@ -71,11 +79,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		//Get cttm_map container id
 		var containerid = cttm_shortcode_options.id;
 		var container = document.getElementById('travelersmap-container-'+containerid);
-		//Index of map objects in array
-		var mapindex = 0;
+		
 
-		//Create cttm_map array of object
-		var cttm_map = new Array();
+		//Push current map object to array
 		cttm_map.push(L.map(container, cttm_map_options));
 		
 		
@@ -96,48 +102,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		   this.scrollWheelZoom.enable();
 		});
 
-		/**
-		 * Show warning message on single touch event if option is enabled
-		 * This code is still in progress. Touch events seems to not work properly in leaflet...
-		 */
-		
-		// if (cttm_options['onefinger']) {
-		// 	console.log("one finger true");
-		// 	var warningopened = false;
-		// 	//On touch, check if the user is using two fingers. 
-		// 	//If not, show an overlay message
-		// 	cttm_map[mapindex].on("touchstart", function(e) {
-		// 	  if (e.touches.length !== 2) {
-		// 	  	console.log("Deux doigt start");
-		// 	    warningopened = true;
-		// 	    container.addClass('is-showing');
-			    
-		// 	  }else{
-		// 	  	 console.log("Pas deux doigt start");
-		// 	  }
-		// 	});
-		// 	cttm_map[mapindex].on("touchmove", function(e) {
-		// 	  if (e.touches.length !== 2) {
-		// 	  	console.log("Deux doigt move");
-		// 	    warningopened = true;
-		// 	    container.addClass('is-showing');
-			    
-		// 	  }else{
-		// 	  	 console.log("Pas deux doigt move");
-		// 	  }
-		// 	});
-		// 	cttm_map[mapindex].on("touchend", function(e) {
-		// 	  if (warningopened == true) {
-		// 		console.log("End opened");
-		// 		  container.removeClass('is-showing');
-		// 	      warningopened = false;
-		// 	  }else{
-		// 	  	console.log("End not opened");
-		// 	  }
-		// 	});
-		// }
-		
-		
+	
 		/**
 	   	* Create all markers and popups, and add them to the leaflet map.
 	   	*/
@@ -297,24 +262,53 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				document.querySelector('#searchtext9').addEventListener('focus', function () {
 				    cttm_map[mapindex].scrollWheelZoom.enable();
 					},true);
-		   		};
+		   	};
+
+		   	//add Leaflet.fullscreen to the map when option is checked
+		   	if (cttm_options['fullscreen_button'] == 1) {
+		   		cttm_map[mapindex].addControl(new L.Control.Fullscreen({
+		   			position: 'topright'
+		   		}));
+		   	}
 		   	
 
 		    //add markercluster layer to the map
 		  	cttm_map[mapindex].addLayer(markerscluster);
 
-		  	cttm_map[mapindex].fitBounds(markerscluster.getBounds(),{
+		  	//Set the initial view
+		  	//If centered_on_this is set, set view on this post
+		  	if (cttm_shortcode_options.centered_on_this=="true") {
+		  		//get the marker latitude and longitude, the first of our query.
+		  		var centered_on_marker = JSON.parse(cttm_metas[0].markerdatas);
+		  		var centerlatitude = centered_on_marker.latitude;
+		        var centerlongitude = centered_on_marker.longitude;
+
+		  		cttm_map[mapindex].setView(
+		  			[centerlatitude,centerlongitude],
+		  			init_maxzoom
+		  			);
+		  	}else{ //If centered_on_this is not set, fit the view to see every maker on the map
+		  		cttm_map[mapindex].fitBounds(markerscluster.getBounds(),{
 		  		padding: [60,60],
 		  		maxZoom: init_maxzoom
 		  	});
-		  	//Get all markers on the map
+		  	}
+		  	
+		  	
 		  
 
 		} //END if (!json_cttm_metas)
 		mapindex++;
 	} // END FUNCTION cttmMapLoop()
-	
-	
-});
 
+	// Create event to listen to know when the maps are loaded and cttm_map array is created
+	// Useful if you want to add a leaflet plugin to your maps.
+	var event_cttm = document.createEvent('Event');
+
+	// Define that the event name is 'build'.
+	event_cttm.initEvent('cttm_map_loaded', true, true);
+
+	// target can be any Element or other EventTarget.
+	document.dispatchEvent(event_cttm);
+});
 
