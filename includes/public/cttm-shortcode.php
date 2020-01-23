@@ -56,6 +56,7 @@ function cttm_shortcode($attr) {
         'init_maxzoom' => 16,
         'post_id' => false
     ), $attr ));
+     
   
     //transform post types string to array
     $post_types = explode(',', $post_types);

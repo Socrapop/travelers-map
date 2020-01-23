@@ -169,76 +169,81 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			
 			//Loop through cttm_metas array, create all the markers and popups.
 		    for (var i = 0; i < cttm_metas.length; i++) {
-		    	
-		    	//Get markerdatas object
-		        var markerdatas = JSON.parse(cttm_metas[i].markerdatas);
-				
-		        //Initialize all markers variables
-		        var markerlatitude = markerdatas.latitude;
-		        var markerlongitude = markerdatas.longitude;
-		        var markerURL = markerdatas.markerdata[0];
-		        var markerwidth = markerdatas.markerdata[1];
-		        var markerheight = markerdatas.markerdata[2];
+		    	//If current markerdata is not falsy:
+		    	//Prevent bug with multilingual plugins, where metadatas are synced but not taxonomy:
+		    	//If one remove a marker from a post, the other languages of this post will still appear in the query...
+		    	if(cttm_metas[i].markerdatas){
 
-		        //Get linked postdatas object
-		        var postdatas = cttm_metas[i].postdatas;
-		        
-		        //Initialize all linked posts variables for popups
-		        var postthumb = postdatas.thumb;
-
-		        var posturl = postdatas.url;
-		        var posttitle = postdatas.thetitle;
-
-		        var postexcerpt = postdatas.excerpt;
-
-		        var postpopupOutput = popupOutput;
-
-		        // Create a leaflet icon object and add it to the map, if not set, use default
-		        //"d" is returned when no icon is set
-		        if (markerURL!="d") {
-		        	
-		        	//Create custom icon
-		        	var myIcon = L.icon({
-					    iconUrl: markerURL,
-					    iconSize: [markerwidth, markerheight],
-					    iconAnchor: [markerwidth/2, markerheight],
-					    popupAnchor: [0, -markerheight+3]
-					});
-					//Create marker object wih our icon
-					var marker = L.marker( [markerlatitude, markerlongitude], {
-						icon: myIcon
-					});
+			    	//Get markerdatas object
+			        var markerdatas = JSON.parse(cttm_metas[i].markerdatas);
 					
-		        }else{
-		        	//Create marker object with default icon
-					var marker = L.marker( [markerlatitude, markerlongitude]);
-					
-		        }
+			        //Initialize all markers variables
+			        var markerlatitude = markerdatas.latitude;
+			        var markerlongitude = markerdatas.longitude;
+			        var markerURL = markerdatas.markerdata[0];
+			        var markerwidth = markerdatas.markerdata[1];
+			        var markerheight = markerdatas.markerdata[2];
 
-		        
+			        //Get linked postdatas object
+			        var postdatas = cttm_metas[i].postdatas;
+			        
+			        //Initialize all linked posts variables for popups
+			        var postthumb = postdatas.thumb;
 
-		        //Replace output dynamic contents for this post
-				if (postthumb) {
-					postpopupOutput = postpopupOutput.replace('<div class="nothumbplaceholder"></div>', '<img src="'+postthumb+'" alt="">');
-				}
-				if (postexcerpt){
-					postpopupOutput = postpopupOutput.replace('%s_excerpt', postexcerpt);
-				}else{
-					postpopupOutput = postpopupOutput.replace('%s_excerpt', "");
-				}
+			        var posturl = postdatas.url;
+			        var posttitle = postdatas.thetitle;
 
-		        postpopupOutput = postpopupOutput.replace('%s_title', posttitle);
-		       postpopupOutput = postpopupOutput.replace('%s_url', posturl);
+			        var postexcerpt = postdatas.excerpt;
 
-		       //If "this_post" option is set
-				//Add the marker in our cluster group layer without popup
-				//Else add it with its popup
-		        if (cttm_shortcode_options.this_post=="true") {
-		        	markerscluster.addLayer(marker);
-		        	
-		        }else{
-		        	markerscluster.addLayer(marker.bindPopup(postpopupOutput,popupOptions));
-		        }
+			        var postpopupOutput = popupOutput;
+
+			        // Create a leaflet icon object and add it to the map, if not set, use default
+			        //"d" is returned when no icon is set
+			        if (markerURL!="d") {
+			        	
+			        	//Create custom icon
+			        	var myIcon = L.icon({
+						    iconUrl: markerURL,
+						    iconSize: [markerwidth, markerheight],
+						    iconAnchor: [markerwidth/2, markerheight],
+						    popupAnchor: [0, -markerheight+3]
+						});
+						//Create marker object wih our icon
+						var marker = L.marker( [markerlatitude, markerlongitude], {
+							icon: myIcon
+						});
+						
+			        }else{
+			        	//Create marker object with default icon
+						var marker = L.marker( [markerlatitude, markerlongitude]);
+						
+			        }
+
+			        
+
+			        //Replace output dynamic contents for this post
+					if (postthumb) {
+						postpopupOutput = postpopupOutput.replace('<div class="nothumbplaceholder"></div>', '<img src="'+postthumb+'" alt="">');
+					}
+					if (postexcerpt){
+						postpopupOutput = postpopupOutput.replace('%s_excerpt', postexcerpt);
+					}else{
+						postpopupOutput = postpopupOutput.replace('%s_excerpt', "");
+					}
+
+			        postpopupOutput = postpopupOutput.replace('%s_title', posttitle);
+			       postpopupOutput = postpopupOutput.replace('%s_url', posturl);
+
+			       //If "this_post" option is set
+					//Add the marker in our cluster group layer without popup
+					//Else add it with its popup
+			        if (cttm_shortcode_options.this_post=="true") {
+			        	markerscluster.addLayer(marker);
+			        	
+			        }else{
+			        	markerscluster.addLayer(marker.bindPopup(postpopupOutput,popupOptions));
+			        }
+			    }//END if(markerdatas)
 		    } //END For Loop through cttm_metas 
 
 		    //add Leaflet.search to the map when option is checked

@@ -52,16 +52,20 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 
 
 == Screenshots == 
-1. Display an interactive map showing your posts using a shortcode.
-2. Geolocate each of your post directly in your editor and assign your custom markers to them. A search module is integrated into the map. 
-3. Add custom markers easily.
+1. Display an interactive map showing your geolocated posts using a shortcode.
+2. Geolocate each of your post directly in your editor and assign them your custom markers icon. A search module is integrated into the map. 
+3. Add custom markers easily. 6 default markers are available.
 4. Customize your map in the settings page. Everything is explained clearly.
-5. Shortcode Helper page. Change the default size of your map, filter the posts you want to show by categories and tags.
-
+5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
 == Changelog ==
 
+= 1.8.0 =
+
+* Added compatibility with Polylang (WPML compatibility not yet confirmed, I need your feedbacks). New translations will keep their markers and only markers from current language are displayed.
+
+
 = 1.7.0 =
-**Major update**
+- Major update -
 
 New features:
 * New shortcode parameter "centered_on_this" to show a map zoomed on the current post's marker, moreover other posts are also displayed on the map.
