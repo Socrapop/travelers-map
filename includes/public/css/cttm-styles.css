@@ -20,8 +20,7 @@
   background: rgba(0, 0, 0, 0.3);
 }
 .travelersmap-container .default-popup .leaflet-popup-content:hover .img-mask img {
-  -webkit-transform: scale(1.1);
-          transform: scale(1.1);
+  transform: scale(1.1);
 }
 .travelersmap-container .default-popup .img-mask {
   overflow: hidden;
@@ -41,15 +40,15 @@
 .travelersmap-container .default-popup .img-mask img {
   width: 100%;
   height: auto;
-  transition: 2000ms -webkit-transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
   transition: 2000ms transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
-  transition: 2000ms transform cubic-bezier(0.05, 0.9, 0.13, 0.99), 2000ms -webkit-transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
 }
 .travelersmap-container .default-popup .img-mask .nothumbplaceholder {
   max-width: 100%;
   width: 300px;
   height: 200px;
   background: #0f0c29;
+  background: -webkit-linear-gradient(left, #0f0c29, #302b63, #24243e);
+  background: -o-linear-gradient(left, #0f0c29, #302b63, #24243e);
   background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
 }
 .travelersmap-container .default-popup a.tooltip-link {
@@ -75,8 +74,7 @@
   position: absolute;
   bottom: 50%;
   left: 50%;
-  -webkit-transform: translate(-50%, 50%);
-          transform: translate(-50%, 50%);
+  transform: translate(-50%, 50%);
 }
 .travelersmap-container .thumb-title-exc-popup .leaflet-popup-content-wrapper {
   border-radius: 0;
@@ -116,17 +114,16 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate(-50%, -50%) scale(1);
-          transform: translate(-50%, -50%) scale(1);
-  transition: 2000ms -webkit-transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
+  transform: translate(-50%, -50%) scale(1);
   transition: 2000ms transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
-  transition: 2000ms transform cubic-bezier(0.05, 0.9, 0.13, 0.99), 2000ms -webkit-transform cubic-bezier(0.05, 0.9, 0.13, 0.99);
 }
 .travelersmap-container .thumb-title-exc-popup a.tooltip-link .nothumbplaceholder {
   position: absolute;
   width: 100%;
   height: 200px;
   background: #0f0c29;
+  background: -webkit-linear-gradient(left, #0f0c29, #302b63, #24243e);
+  background: -o-linear-gradient(left, #0f0c29, #302b63, #24243e);
   background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
 }
 .travelersmap-container .thumb-title-exc-popup a.tooltip-link .title {
@@ -143,8 +140,7 @@
   background: rgba(0, 0, 0, 0.3);
 }
 .travelersmap-container .thumb-title-exc-popup a.tooltip-link:hover img {
-  -webkit-transform: translate(-50%, -50%) scale(1.1);
-          transform: translate(-50%, -50%) scale(1.1);
+  transform: translate(-50%, -50%) scale(1.1);
 }
 .travelersmap-container .thumb-title-exc-popup .excerpt {
   color: #333;

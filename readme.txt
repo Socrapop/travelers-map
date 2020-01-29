@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.7.0
+Version 1.8.0
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -44,11 +44,14 @@ The geolocation data of your posts are saved as meta-data and **are not deleted 
 
 Detailed guide is available here: [Get started with Travelers' Map](https://camilles-travels.com/get-started-with-travelers-map-wordpress-plugin/)
 
+
+
 == Bug reports and Contribution ==
 
 Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://github.com/Socrapop/travelers-map). Also, feel free to use Github to contribute to the plugin!
 
-
+= Known Issues =
+* Incompatibility with WPML, shortcode is only working with default language. Waiting for a developer licence since 29th of october 2019 (I can't debug without a licence). I suggest you use Polylang which is faster, free and compatible with Travelers' Map.
 
 
 == Screenshots == 
@@ -61,8 +64,11 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 
 = 1.8.0 =
 
-* Added compatibility with Polylang (WPML compatibility not yet confirmed, I need your feedbacks). New translations will keep their markers and only markers from current language are displayed.
-
+* Added compatibility with Polylang : 
+*   New translations for a post are getting the same marker's informations as original post. 
+*   Shortcode is now showing posts of the current language only.
+*   Added plugin setting (when Polylang is activated) to copy all markers from default language posts to their translations (useful if the translations are already created).
+* Code formatting
 
 = 1.7.0 =
 - Major update -
@@ -83,8 +89,6 @@ Minor features and changes:
 New options for developers:
 * 'cttm_map[]' array is now a global variable. You can now initialize your own leaflet plugins to the maps. More information and tutorial added in the plugin's documentation.
 * Custom event 'cttm_map_loaded' is triggered when maps are initialized on the frontend.
-
-
 
 = 1.6.0 =
 * Added shortcode option "Initialization max zoom" to set a default max zoom on map load. The user can still zoom over this limit. This is useful for maps showing only one marker.
