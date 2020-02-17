@@ -64,10 +64,11 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 
 = 1.8.0 =
 
-* Added compatibility with Polylang : 
+* Added compatibility with Polylang (multilingual plugin) : 
 *   New translations for a post are getting the same marker's informations as original post. This might work for WPML too but I can't test without a licence, sorry.
 *   Shortcode is now showing posts of the current language only.
-*   Added plugin setting (when Polylang is activated) to copy all markers from default language posts to their translations (useful if the translations are already created).
+*   Added an option in Travelers' Map settings (when Polylang is activated) to copy all markers from default language posts to their translations (useful if the translations are already created).
+* French translation updated.
 * Code formatting
 
 = 1.7.0 =
