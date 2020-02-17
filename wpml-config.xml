@@ -1,0 +1,9 @@
+<wpml-config>
+    <custom-fields>
+        <custom-field action="translate">_latlngmarker</custom-field>
+    </custom-fields>
+    
+    <taxonomies>
+        <taxonomy translate="0">cttm-markers-tax</taxonomy>
+    </taxonomies>
+</wpml-config>
