@@ -51,7 +51,7 @@ Detailed guide is available here: [Get started with Travelers' Map](https://cami
 Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://github.com/Socrapop/travelers-map). Also, feel free to use Github to contribute to the plugin!
 
 = Known Issues =
-* Incompatibility with WPML, shortcode is only working with default language. Waiting for a developer licence since 29th of october 2019 (I can't debug without a licence). I suggest you use Polylang which is faster, free and compatible with Travelers' Map.
+* Incompatibility with WPML, shortcode is only working with default language. Waiting for a developer licence since october 2019 (I can't debug without a licence). I suggest you use Polylang which is faster, free and now compatible with Travelers' Map.
 
 
 == Screenshots == 
@@ -65,7 +65,7 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 = 1.8.0 =
 
 * Added compatibility with Polylang : 
-*   New translations for a post are getting the same marker's informations as original post. 
+*   New translations for a post are getting the same marker's informations as original post. This might work for WPML too but I can't test without a licence, sorry.
 *   Shortcode is now showing posts of the current language only.
 *   Added plugin setting (when Polylang is activated) to copy all markers from default language posts to their translations (useful if the translations are already created).
 * Code formatting
