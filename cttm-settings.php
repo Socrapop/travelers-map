@@ -47,17 +47,24 @@ function cttm_options_page()
             <input type="submit" name="Submit" value="<?php _e('Save Changes', 'travelers-map'); ?>" class="button button-primary" style="margin:30px 0">
             <input type="submit" name="Reset" value="<?php _e('Reset settings to default', 'travelers-map'); ?>" class="button button-secondary" style="margin:30px 0" onclick="return confirm('<?php _e('Are you sure you wish to reset settings to default? Current settings will be deleted.', 'travelers-map'); ?>');">
             <hr style="margin:30px 0">
+
+            
             <?php
+            /*////////////// MULTILINGUAL PLUGIN SETTINGS //////////////*/
+
+            //Polylang setting
             if (function_exists('pll_default_language')) {
-                if (function_exists('pll_default_language')) {
-                    $default_language = pll_default_language('name');
-                }
+                $default_language = pll_default_language('name');
                 printf( '<h2>' . __('Polylang - Synchronise markers from default language posts (%s) to other languages', 'travelers-map') . '</h2>',$default_language);
                 printf( '<p>' . __('Press the button below to copy every marker from default language posts (%s) to their translations:', 'travelers-map') . '<br></p>',$default_language);
                 echo '<input type="submit" name="polylangsync" value="' . __('Synchronise markers', 'travelers-map') . '" class="button" onclick="return confirm(\'' . __('You are about to copy every marker from posts in the default language (set in Polylang settings) and set them to their translated posts in every other languages.', 'travelers-map') . '\')" >';
                
                 echo '<hr style="margin:30px 0">';
             }
+
+            //WPML setting
+            
+
             ?>
             <h2><?php _e('Clean database - Delete all geolocalisation data and markers', 'travelers-map'); ?></h2>
             <p><?php _e('This button cleans every geolocalisation meta-data added to your posts and every custom markers added.', 'travelers-map'); ?><br>
