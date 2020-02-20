@@ -63,7 +63,14 @@ function cttm_options_page()
             }
 
             //WPML setting
-            
+            if(has_filter('wpml_default_language')){
+                $default_language = apply_filters('wpml_default_language', NULL );
+                printf( '<h2>' . __('WPML - Synchronise markers from default language posts (%s) to other languages', 'travelers-map') . '</h2>',$default_language);
+                printf( '<p>' . __('Press the button below to copy every marker from default language posts (%s) to their translations:', 'travelers-map') . '<br></p>',$default_language);
+                echo '<input type="submit" name="wpmlsync" value="' . __('Synchronise markers', 'travelers-map') . '" class="button" onclick="return confirm(\'' . __('You are about to copy every marker from posts in the default language (set in Polylang settings) and set them to their translated posts in every other languages.', 'travelers-map') . '\')" >';
+               
+                echo '<hr style="margin:30px 0">';
+            }
 
             ?>
             <h2><?php _e('Clean database - Delete all geolocalisation data and markers', 'travelers-map'); ?></h2>
@@ -394,7 +401,7 @@ function cttm_validate_option($input)
         $input['fullscreen_button'] =  $options['fullscreen_button'];
         $input['onefinger'] =  $options['onefinger'];
         return $input;
-    }
+    }    
     //If Polylang sync is clicked
     else if (isset($_POST['polylangsync'])) {
 
@@ -457,6 +464,76 @@ function cttm_validate_option($input)
         $input['fullscreen_button'] =  $options['fullscreen_button'];
         $input['onefinger'] =  $options['onefinger'];
         return $input;
+    }
+    //If WPML sync is clicked
+    else if (isset($_POST['wpmlsync'])) {
+
+        //Get options
+        $options = get_option('cttm_options');
+        $settings_posttypes = $options['posttypes'];
+        //transform post types string to array
+        $settings_posttypes = explode(',', $settings_posttypes);
+        //Get default polylang language
+        if(has_filter('wpml_default_language')){
+            $default_lang= apply_filters('wpml_default_language', NULL ); // return string of 2 char like : 'fr'
+        }
+        
+
+        //Change global language to default language for next query
+        global $sitepress;
+        $sitepress->switch_lang($default_lang);
+        // Detect every post with marker in default language
+         $cttm_options_args = array(
+            'post_type' => $settings_posttypes,
+            'posts_per_page' => -1,
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'cttm-markers-tax',
+                    'terms' => 'hasmarker'
+                )
+                ),
+            'suppress_filters' => false,
+        );
+        $cttm_query = new WP_Query($cttm_options_args);
+        die(print_r($cttm_query));
+        
+        if (($cttm_query->have_posts())) {
+
+            $cttm_posts = $cttm_query->posts;
+            // For each post, find if a translation is set 
+            foreach ($cttm_posts as $cttm_post) { // LOOP
+                //Check if polylang is activated
+                if (function_exists('pll_get_post_translations')) {
+                    // Get marker data to copy to translations
+                    $marker_to_copy = get_post_meta($cttm_post->ID, '_latlngmarker', true);
+                    //Get all translations of the current post
+                    $post_translations = pll_get_post_translations($cttm_post->ID);
+                    // Loop through every translations
+                    foreach ($post_translations as $post_lang => $post_translation) {
+                        //If the current post is different from default language
+                        if ($post_lang != $default_lang) {
+                            // Copy marker information from default language and add private taxonomy
+                            update_post_meta($post_translation, '_latlngmarker', $marker_to_copy);
+                            wp_set_post_terms($post_translation, 'hasmarker', 'cttm-markers-tax', false);
+                        }
+                    }
+                }
+            }
+        }
+        
+
+        $options = get_option('cttm_options');
+        $input['posttypes'] = $options['posttypes'];
+        $input['tileurl'] = $options['tileurl'];
+        $input['subdomains'] = $options['subdomains'];
+        $input['attribution'] =  $options['attribution'];
+        $input['popup_style'] =  $options['popup_style'];
+        $input['popup_css'] =  $options['popup_css'];
+        $input['search_field'] =  $options['search_field'];
+        $input['fullscreen_button'] =  $options['fullscreen_button'];
+        $input['onefinger'] =  $options['onefinger'];
+        return $input;
+        
     }
 }
 
