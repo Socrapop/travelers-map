@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.8.0
+Version 1.8.1
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -51,8 +51,7 @@ Detailed guide is available here: [Get started with Travelers' Map](https://cami
 Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://github.com/Socrapop/travelers-map). Also, feel free to use Github to contribute to the plugin!
 
 = Known Issues =
-* Incompatibility with WPML, shortcode is only working with default language. Waiting for a developer licence since october 2019 (I can't debug without a licence). I suggest you use Polylang which is faster, free and now compatible with Travelers' Map.
-
+None, please tell me in a support ticket if you find one.
 
 == Screenshots == 
 1. Display an interactive map showing your geolocated posts using a shortcode.
@@ -61,6 +60,14 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 4. Customize your map in the settings page. Everything is explained clearly.
 5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
 == Changelog ==
+
+= 1.8.1 =
+
+* Added compatibility with WPML (multilingual plugin) : 
+*   Use duplication to copy marker information between posts. 
+*   Shortcode is now showing posts of the current language only.
+*   Added an option in Travelers' Map settings (when WPML is activated) to copy all markers from default language posts to their translations (useful if the translations are already created).
+* French translation updated.
 
 = 1.8.0 =
 

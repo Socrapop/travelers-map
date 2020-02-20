@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-02-17 13:27+0100\n"
-"PO-Revision-Date: 2020-02-17 13:27+0100\n"
+"POT-Creation-Date: 2020-02-20 14:58+0100\n"
+"PO-Revision-Date: 2020-02-20 14:58+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-KeywordsList: __;_e\n"
@@ -149,7 +149,7 @@ msgstr ""
 "Êtes-vous certain de vouloir réinitialiser les paramètres par défaut ? Les "
 "paramètres actuels seront effacés."
 
-#: cttm-settings.php:55
+#: cttm-settings.php:58
 #, php-format
 msgid ""
 "Polylang - Synchronise markers from default language posts (%s) to other "
@@ -158,7 +158,7 @@ msgstr ""
 "Polylang - Synchroniser les marqueurs des articles dans la langue par défaut "
 "(%s) vers les autres langues"
 
-#: cttm-settings.php:56
+#: cttm-settings.php:59 cttm-settings.php:69
 #, php-format
 msgid ""
 "Press the button below to copy every marker from default language posts (%s) "
@@ -167,11 +167,11 @@ msgstr ""
 "Appuyez sur le bouton ci-dessous pour copier chaque marqueur des articles "
 "dans la langue par défaut (%s) vers leurs traductions :"
 
-#: cttm-settings.php:57
+#: cttm-settings.php:60 cttm-settings.php:70
 msgid "Synchronise markers"
 msgstr "Synchroniser les marqueurs"
 
-#: cttm-settings.php:57
+#: cttm-settings.php:60
 msgid ""
 "You are about to copy every marker from posts in the default language (set "
 "in Polylang settings) and set them to their translated posts in every other "
@@ -181,13 +181,32 @@ msgstr ""
 "langue par défaut (définie dans les options de Polylang) et de les attribuer "
 "à leurs traductions respectives dans les autres langues."
 
-#: cttm-settings.php:62
+#: cttm-settings.php:68
+#, php-format
+msgid ""
+"WPML - Synchronise markers from default language posts (%s) to other "
+"languages"
+msgstr ""
+"WPML - Synchroniser les marqueurs des articles dans la langue par défaut "
+"(%s) vers les autres langues"
+
+#: cttm-settings.php:70
+msgid ""
+"You are about to copy every marker from posts in the default language (set "
+"in WPML settings) and set them to their translated posts in every other "
+"languages."
+msgstr ""
+"Vous êtes sur le point de copier tous les marqueurs des articles dans la "
+"langue par défaut (définie dans les options de WPML) et de les attribuer à "
+"leurs traductions respectives dans les autres langues."
+
+#: cttm-settings.php:76
 msgid "Clean database - Delete all geolocalisation data and markers"
 msgstr ""
 "Nettoyer la base de données - Supprime toutes les données de géolocalisation "
 "et les marqueurs"
 
-#: cttm-settings.php:63
+#: cttm-settings.php:77
 msgid ""
 "This button cleans every geolocalisation meta-data added to your posts and "
 "every custom markers added."
@@ -195,15 +214,15 @@ msgstr ""
 "Ce bouton supprime toutes les métadonnées de géolocalisation ajoutées à vos "
 "articles et tous les marqueurs personnalisés ajoutés."
 
-#: cttm-settings.php:64
+#: cttm-settings.php:78
 msgid "Please understand this is irreversible."
 msgstr "Attention, cette action est irréversible."
 
-#: cttm-settings.php:65
+#: cttm-settings.php:79
 msgid "Delete all plugin data in database"
 msgstr "Supprimer toutes les données de l'extension"
 
-#: cttm-settings.php:65
+#: cttm-settings.php:79
 msgid ""
 "Are you sure you wish to delete every geolocalisation data and custom "
 "markers in your database? This action is irreversible."
@@ -212,14 +231,14 @@ msgstr ""
 "et tous vos marqueurs personnalisés de votre base de données ? Cette action "
 "est irréversible."
 
-#: cttm-settings.php:66
+#: cttm-settings.php:80
 msgid ""
 "To prevent unintentional loss of data, this is how Travelers' Map works:"
 msgstr ""
 "Pour éviter toute perte de donnée non-intentionnelle, voici comme fonctionne "
 "Travelers' Map :"
 
-#: cttm-settings.php:67
+#: cttm-settings.php:81
 msgid ""
 "Upon deactivation, every data (geolocalisation meta-data and settings) is "
 "kept. "
@@ -227,7 +246,7 @@ msgstr ""
 "Lors de la désactivation, toutes les données (métadonnées de géolocalisation "
 "et  paramètres) sont gardés. "
 
-#: cttm-settings.php:68
+#: cttm-settings.php:82
 msgid ""
 "When uninstalling, above settings are deleted from database while "
 "geolocalisation data are kept. "
@@ -236,57 +255,57 @@ msgstr ""
 "base de données alors que les métadonnées de géolocalisation de vos articles "
 "sont gardées. "
 
-#: cttm-settings.php:86
+#: cttm-settings.php:100
 msgid "Plugin main settings"
 msgstr "Paramètres généraux de l'extension"
 
-#: cttm-settings.php:88
+#: cttm-settings.php:102
 msgid "Activate Travelers' Map on:"
 msgstr "Activez Travelers' Map sur :"
 
-#: cttm-settings.php:92
+#: cttm-settings.php:106
 msgid "Map settings"
 msgstr "Paramètres de la carte"
 
-#: cttm-settings.php:94
+#: cttm-settings.php:108
 msgid "Tiles Server URL"
 msgstr "Adresse vers le serveur de tuiles"
 
-#: cttm-settings.php:95
+#: cttm-settings.php:109
 msgid "Tiles Server sub-domains"
 msgstr "Sous-domaines du serveur de tuiles"
 
-#: cttm-settings.php:96
+#: cttm-settings.php:110
 msgid "Attribution"
 msgstr "Attribution"
 
-#: cttm-settings.php:97
+#: cttm-settings.php:111
 msgid "Enable search module in frontend"
 msgstr "Activer le module de recherche sur le front office"
 
-#: cttm-settings.php:98
+#: cttm-settings.php:112
 msgid "Enable fullscreen button in frontend"
 msgstr "Activer le bouton \"Plein écran\" sur le front office"
 
-#: cttm-settings.php:99
+#: cttm-settings.php:113
 msgid "Disable one-finger touch event on touch devices (BETA)"
 msgstr ""
 "Désactiver les actions de toucher à un seul doigt sur les appareils tactiles "
 "(BETA)"
 
-#: cttm-settings.php:102
+#: cttm-settings.php:116
 msgid "Popup settings"
 msgstr "Paramètres des popups"
 
-#: cttm-settings.php:104
+#: cttm-settings.php:118
 msgid "Popup style"
 msgstr "Forme des popups"
 
-#: cttm-settings.php:105
+#: cttm-settings.php:119
 msgid "Disable popup CSS"
 msgstr "Désactiver le CSS des popups"
 
-#: cttm-settings.php:139
+#: cttm-settings.php:153
 msgid ""
 "By default, Travelers' Map is activated on posts only. You can also activate "
 "the plugin on pages and custom post types."
@@ -295,7 +314,7 @@ msgstr ""
 "pouvez également l'activer sur les pages et les types d'articles "
 "personnalisés."
 
-#: cttm-settings.php:151
+#: cttm-settings.php:165
 #, php-format
 msgid ""
 " You can find a list of free tile providers <a href=\"%1$s\" target=\"_blank"
@@ -304,7 +323,7 @@ msgstr ""
 " Vous pouvez trouver une liste de fournisseurs de tuiles gratuits <a href="
 "\"%1$s\" target=\"_blank\">ici</a>."
 
-#: cttm-settings.php:152
+#: cttm-settings.php:166
 msgid ""
 "If your tile provider require an API key, please insert it directly as "
 "explained on their website. "
@@ -312,17 +331,17 @@ msgstr ""
 "Si votre fournisseur de tuile demande une clé API, veuillez l'insérer "
 "directement dans l'adresse comme indiqué sur leur site internet. "
 
-#: cttm-settings.php:154
+#: cttm-settings.php:168
 msgid "Exemple (thunderforest.com):"
 msgstr "Exemple (thunderforest.com) :"
 
-#: cttm-settings.php:163
+#: cttm-settings.php:177
 msgid "In this plugin, default is <code>abcd</code> because we use CartoDB."
 msgstr ""
 "Dans cette extension,  <code>abcd</code>  est utilisé par défaut car nous "
 "utilisons CartoDB."
 
-#: cttm-settings.php:163
+#: cttm-settings.php:177
 msgid ""
 "However the most common subdomain is <code>abc</code>, you can find the "
 "information on your provider's website."
@@ -331,7 +350,7 @@ msgstr ""
 "<code>abc</code>, vous pouvez trouver cette information sur leur site "
 "internet."
 
-#: cttm-settings.php:165
+#: cttm-settings.php:179
 #, php-format
 msgid ""
 " If you use the <a href=\"%1$s\" target=\"_blank\">free tile providers list</"
@@ -341,11 +360,11 @@ msgstr ""
 "fournisseurs gratuits</a>, les sous-domaines sont affichés lorsqu'ils sont "
 "différents de \"abc\"."
 
-#: cttm-settings.php:182
+#: cttm-settings.php:196
 msgid "Preview:"
 msgstr "Aperçu :"
 
-#: cttm-settings.php:183
+#: cttm-settings.php:197
 msgid ""
 "Attribution is shown to the lower right of the map. It is necessary to give "
 "credit to the Openstreetmap datas and your tile provider. "
@@ -353,69 +372,69 @@ msgstr ""
 "L'attribution est affichée en bas à droite de la carte. Il est nécessaire de "
 "créditer Openstreetmap et votre fournisseur de tuiles. "
 
-#: cttm-settings.php:185
+#: cttm-settings.php:199
 msgid "It is not necessary, but you can support this plugin by adding: "
 msgstr "Vous pouvez soutenir cette extension en ajoutant : "
 
-#: cttm-settings.php:195
+#: cttm-settings.php:209
 msgid "Check this box to add a search module on your dynamic maps."
 msgstr ""
 "Cochez cette case pour ajouter un module de recherche sur vos cartes "
 "dynamiques."
 
-#: cttm-settings.php:195
+#: cttm-settings.php:209
 msgid "The search box will show up on the top left corner of each map. "
 msgstr ""
 "Le champ de recherche s'affichera dans le coin en haut à gauche de chaque "
 "carte. "
 
-#: cttm-settings.php:203
+#: cttm-settings.php:217
 msgid "Check this box to add a fullscreen button to your dynamic maps."
 msgstr ""
 "Cochez cette case pour ajouter un bouton \"Plein écran\" sur vos cartes "
 "dynamiques."
 
-#: cttm-settings.php:203
+#: cttm-settings.php:217
 msgid ""
 "The fullscreen button will show up on the top right corner of each map. "
 msgstr ""
 "Le bouton \"Plein écran\" s'affichera dans le coin en haut à gauche de "
 "chaque carte. "
 
-#: cttm-settings.php:211
+#: cttm-settings.php:225
 msgid "Check this box to disable one-finger events on touch devices. "
 msgstr ""
 "Cochez cette case pour désactiver les actions de toucher à un seul doigt sur "
 "les appareils tactiles."
 
-#: cttm-settings.php:211
+#: cttm-settings.php:225
 msgid "User needs to use two fingers to move or zoom the map. "
 msgstr ""
 "L'utilisateur doit utiliser deux doigts pour déplacer ou zoomer sur la "
 "carte. "
 
-#: cttm-settings.php:219
+#: cttm-settings.php:233
 msgid "Choose the content shown in popups and their style: "
 msgstr "Choisissez le contenu affiché dans les popups ainsi que leur forme : "
 
-#: cttm-settings.php:220
+#: cttm-settings.php:234
 msgid "Title and thumbnail (default)"
 msgstr "Titre et image mise en avant (défaut)"
 
-#: cttm-settings.php:221
+#: cttm-settings.php:235
 msgid "Title, thumbnail and excerpt"
 msgstr "Titre, image mise en avant et résumé"
 
-#: cttm-settings.php:222
+#: cttm-settings.php:236
 msgid "Title and excerpt"
 msgstr "Titre et résumé"
 
-#: cttm-settings.php:231
+#: cttm-settings.php:245
 msgid "Check this box to disable Travelers' Map Popup CSS. "
 msgstr ""
 "Cochez cette case pour désactiver le CSS des popups de Travelers' Map. "
 
-#: cttm-settings.php:231
+#: cttm-settings.php:245
 msgid ""
 "Leaflet default CSS is still loaded. Please note that only the content "
 "chosen above is loaded. "
