@@ -47,17 +47,31 @@ function cttm_options_page()
             <input type="submit" name="Submit" value="<?php _e('Save Changes', 'travelers-map'); ?>" class="button button-primary" style="margin:30px 0">
             <input type="submit" name="Reset" value="<?php _e('Reset settings to default', 'travelers-map'); ?>" class="button button-secondary" style="margin:30px 0" onclick="return confirm('<?php _e('Are you sure you wish to reset settings to default? Current settings will be deleted.', 'travelers-map'); ?>');">
             <hr style="margin:30px 0">
+
+
             <?php
+            /*////////////// MULTILINGUAL PLUGIN SETTINGS //////////////*/
+
+            //Polylang setting
             if (function_exists('pll_default_language')) {
-                if (function_exists('pll_default_language')) {
-                    $default_language = pll_default_language('name');
-                }
-                printf( '<h2>' . __('Polylang - Synchronise markers from default language posts (%s) to other languages', 'travelers-map') . '</h2>',$default_language);
-                printf( '<p>' . __('Press the button below to copy every marker from default language posts (%s) to their translations:', 'travelers-map') . '<br></p>',$default_language);
+                $default_language = pll_default_language('name');
+                printf('<h2>' . __('Polylang - Synchronise markers from default language posts (%s) to other languages', 'travelers-map') . '</h2>', $default_language);
+                printf('<p>' . __('Press the button below to copy every marker from default language posts (%s) to their translations:', 'travelers-map') . '<br></p>', $default_language);
                 echo '<input type="submit" name="polylangsync" value="' . __('Synchronise markers', 'travelers-map') . '" class="button" onclick="return confirm(\'' . __('You are about to copy every marker from posts in the default language (set in Polylang settings) and set them to their translated posts in every other languages.', 'travelers-map') . '\')" >';
-               
+
                 echo '<hr style="margin:30px 0">';
             }
+
+            //WPML setting
+            if (has_filter('wpml_default_language')) {
+                $default_language = apply_filters('wpml_default_language', NULL);
+                printf('<h2>' . __('WPML - Synchronise markers from default language posts (%s) to other languages', 'travelers-map') . '</h2>', $default_language);
+                printf('<p>' . __('Press the button below to copy every marker from default language posts (%s) to their translations:', 'travelers-map') . '<br></p>', $default_language);
+                echo '<input type="submit" name="wpmlsync" value="' . __('Synchronise markers', 'travelers-map') . '" class="button" onclick="return confirm(\'' . __('You are about to copy every marker from posts in the default language (set in WPML settings) and set them to their translated posts in every other languages.', 'travelers-map') . '\')" >';
+
+                echo '<hr style="margin:30px 0">';
+            }
+
             ?>
             <h2><?php _e('Clean database - Delete all geolocalisation data and markers', 'travelers-map'); ?></h2>
             <p><?php _e('This button cleans every geolocalisation meta-data added to your posts and every custom markers added.', 'travelers-map'); ?><br>
@@ -434,6 +448,87 @@ function cttm_validate_option($input)
                             update_post_meta($post_translation, '_latlngmarker', $marker_to_copy);
                             wp_set_post_terms($post_translation, 'hasmarker', 'cttm-markers-tax', false);
                         }
+                    }
+                }
+            }
+        }
+
+        $options = get_option('cttm_options');
+        $input['posttypes'] = $options['posttypes'];
+        $input['tileurl'] = $options['tileurl'];
+        $input['subdomains'] = $options['subdomains'];
+        $input['attribution'] =  $options['attribution'];
+        $input['popup_style'] =  $options['popup_style'];
+        $input['popup_css'] =  $options['popup_css'];
+        $input['search_field'] =  $options['search_field'];
+        $input['fullscreen_button'] =  $options['fullscreen_button'];
+        $input['onefinger'] =  $options['onefinger'];
+        return $input;
+    }
+    //If WPML sync is clicked
+    else if (isset($_POST['wpmlsync'])) {
+
+        //Get options
+        $options = get_option('cttm_options');
+        $settings_posttypes = $options['posttypes'];
+        //transform post types string to array
+        $settings_posttypes = explode(',', $settings_posttypes);
+        //Get default wpml language
+        if (has_filter('wpml_default_language')) {
+            $default_lang = apply_filters('wpml_default_language', NULL); // return string of 2 char like : 'fr'
+        }
+
+        //Change global language to default language for next query
+        global $sitepress;
+        $sitepress->switch_lang($default_lang);
+
+        //Check if WPML is activated
+        if (has_filter('wpml_active_languages')) {
+            //Get all active languages on the website
+            $activ_lang_array = apply_filters('wpml_active_languages', NULL, 'skip_missing=1');
+            //remove default language from that array
+            unset($activ_lang_array[$default_lang]);
+
+            // Detect every post with marker in default language
+            $cttm_options_args = array(
+                'post_type' => $settings_posttypes,
+                'posts_per_page' => -1,
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'cttm-markers-tax',
+                        'terms' => 'hasmarker'
+                    )
+                )
+            );
+            $cttm_query = new WP_Query($cttm_options_args);
+
+
+            if (($cttm_query->have_posts())) {
+
+                $cttm_posts = $cttm_query->posts;
+                // For each post, find if a translation is set 
+                foreach ($cttm_posts as $cttm_post) { // LOOP
+
+                    // Get marker data to copy to translations
+                    $marker_to_copy = get_post_meta($cttm_post->ID, '_latlngmarker', true);
+                    $translations_array = [];
+                    //Loop through each language (other than default) to find translations
+                    foreach ($activ_lang_array as $activ_lang => $value) {
+                        //find a translation of this post/page on the current active language
+                        $temp_translated_post = apply_filters('wpml_object_id', $cttm_post->ID, $cttm_post->post_type, FALSE, $activ_lang);
+                        if (!is_null($temp_translated_post)) {
+                            $translations_array[] = $temp_translated_post;
+                        }
+                    }
+
+                    // Get marker data to copy to translations
+                    $marker_to_copy = get_post_meta($cttm_post->ID, '_latlngmarker', true);
+                    // Loop through every translations
+                    foreach ($translations_array as $translation_ID) {
+
+                        // Copy marker information from default language and add private taxonomy
+                        update_post_meta($translation_ID, '_latlngmarker', $marker_to_copy);
+                        wp_set_post_terms($translation_ID, 'hasmarker', 'cttm-markers-tax', false);
                     }
                 }
             }
