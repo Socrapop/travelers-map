@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.8.1
+Version 1.9.0
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -51,7 +51,7 @@ Detailed guide is available here: [Get started with Travelers' Map](https://cami
 Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://github.com/Socrapop/travelers-map). Also, feel free to use Github to contribute to the plugin!
 
 = Known Issues =
-None, please tell me in a support ticket if you find one.
+- Minor issue with Elementor: Map preview in Elementor Builder is not working. However the map is still working on the final page.
 
 == Screenshots == 
 1. Display an interactive map showing your geolocated posts using a shortcode.
@@ -59,7 +59,20 @@ None, please tell me in a support ticket if you find one.
 3. Add custom markers easily. 6 default markers are available.
 4. Customize your map in the settings page. Everything is explained clearly.
 5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
+
 == Changelog ==
+
+= 1.9.0 = 
+New features:
+* Added shortcode parameter "disable_clustering" to disable marker clustering. Don't use this on a map with a lot of markers.
+* Added shortcode parameter "open_link_in_new_tab" to open the link in a new tab on click on a marker's popup (however it's not recommended, in most cases, you should let the user decide what he/she wants to do).
+* Added spiderfy for markers clustering: If a clusterGroup appears at the maximum zoom level of the map, clicking on it makes it "spiderfy" so you can see all of its markers. No more problem if your markers are located at the same place.
+
+Bugfix: 
+* Travelers' Map now check if the map containers are on the page before initializing the maps. This removes the errors when the shortcode was loaded asynchronously.
+
+New feature for developers:
+* Added possibility to initialize the map with initTravelersMap() function. This can be useful if you load the HTML container div asynchronously.
 
 = 1.8.1 =
 

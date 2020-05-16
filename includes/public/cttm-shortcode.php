@@ -55,7 +55,12 @@ function cttm_shortcode($attr)
     'this_post' => false,
     'centered_on_this' => false,
     'init_maxzoom' => 16,
-    'post_id' => false
+    'post_id' => false,
+    'open_link_in_new_tab' => false,
+    'disable_clustering' => false,
+    'tileurl' => false,
+    'subdomains' => false,
+    'attribution' => false
   ), $attr));
 
 
@@ -181,15 +186,15 @@ function cttm_shortcode($attr)
   //json_encode the array to send it to our javascript
   $cttm_metas = json_encode($cttm_metas);
 
-  //Get options from the setting page to show the map in front-end
+  //Get global options from the setting page to show the map in front-end
   //cttm_options is an array
-  $cttm_options_json = json_encode(get_option('cttm_options'));
+  $cttm_options_json = json_encode($cttm_options);
 
 
   $id = uniqid();
   $containerid = "travelersmap-container-" . $id;
 
-  //Create shortcode options array to send to javascript
+  //Create this shortcode options array to send to javascript
   $cttm_shortcode_options = array();
   $cttm_shortcode_options['id'] = $id;
   $cttm_shortcode_options['minzoom'] = $minzoom;
@@ -197,6 +202,13 @@ function cttm_shortcode($attr)
   $cttm_shortcode_options['this_post'] = (string) $this_post;
   $cttm_shortcode_options['init_maxzoom'] = $init_maxzoom;
   $cttm_shortcode_options['centered_on_this'] = (string) $centered_on_this;
+  $cttm_shortcode_options['open_link_in_new_tab'] = (string) $open_link_in_new_tab;
+  $cttm_shortcode_options['disable_clustering'] = (string) $disable_clustering;
+  $cttm_shortcode_options['tileurl'] = (string) $tileurl;
+  $cttm_shortcode_options['subdomains'] = (string) $subdomains;
+  $cttm_shortcode_options['attribution'] = (string) $attribution;
+
+ 
 
   //Encode to Json
 
