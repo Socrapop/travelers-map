@@ -66,6 +66,7 @@ function cttm_shortcode($attr)
     'attribution' => false
   ), $attr));
 
+  
   //If attribution is set, require HTMLPurifier and sanitize it
   if ($attribution !== false){
     require_once plugin_dir_path(__DIR__) . '/admin/HTMLPurifier/HTMLPurifier.auto.php';
@@ -78,6 +79,7 @@ function cttm_shortcode($attr)
   * Custom post taxonomy filtering, defining tax_query accordingly.
   */
   //If filtering is set in shortcode
+ 
   if(!empty($custom_tax)){
 
     //Cleaning our string first
@@ -109,6 +111,7 @@ function cttm_shortcode($attr)
         'terms' => 'hasmarker'
       ),
     );
+
     //If we have only one custom taxonomy filter, add our custom tax query array directly into the tax_query array.
     if(count($custom_tax_strings_array) == 1) {
       $tax_query[] = $custom_tax_query_array[0];
@@ -135,7 +138,7 @@ function cttm_shortcode($attr)
   */
   $post_types = explode(',', $post_types);
 
-
+ 
   /**
   * Define ID to use in our query
   */
@@ -179,12 +182,13 @@ function cttm_shortcode($attr)
     $cttm_options_args = array(
       'post_type' => $post_types,
       'posts_per_page' => -1,
-      $tax_query,
+      'tax_query' => $tax_query,
       'tag' => $tags,
       'category_name' => $cats
     );
+    
   }
-
+ 
   /**
   * Queries depending on shortcode parameters.
   */
@@ -196,13 +200,14 @@ function cttm_shortcode($attr)
   if ($centered_on_this == true && $this_post == false) {
     //Get the single post to zoom on.
     $cttm_query_singlepost = new WP_Query($cttm_options_args);
+    
     wp_reset_query();
     // We define the query arguments for the other posts, excluding $current_id 
     $cttm_options_args_otherposts = array(
       'post_type' => $post_types,
       'post__not_in' => array($current_id),
       'posts_per_page' => -1,
-      $tax_query,
+      'tax_query' => $tax_query,
       'tag' => $tags,
       'category_name' => $cats
     );
@@ -220,8 +225,9 @@ function cttm_shortcode($attr)
   } else { 
     //If "Centered on this" is not set, query posts with our arguments
     $cttm_query = new WP_Query($cttm_options_args);
+    
   }
-
+  
    /**
   * Loop through our query, save all markers informations and send them to front-end
   */
@@ -231,7 +237,6 @@ function cttm_shortcode($attr)
     $i = 0;
 
     foreach ($cttm_posts as $cttm_post) { // LOOP
-
       //for each posts get informations: 
       //postdatas() is an array of the post thumbnail, url and title
       //latlngmarkerarr() is an array with only one value, a json array of markers' latitude, longitude and image url(<- or string "default").
