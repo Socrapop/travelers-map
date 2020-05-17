@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Display leaflet map
+ * Display leaflet map shortcode
  */
 add_shortcode('travelersmap', 'cttm_shortcode');
 add_shortcode('travelers-map', 'cttm_shortcode');
@@ -39,9 +39,11 @@ function cttm_shortcode($attr)
 
 
 
-
-  // define attributes and their defaults, return only supported attributes
-  // Extract all values to independant variables
+  /**
+   * Define attributes and their defaults, return only supported attributes
+   * Extract all values to independant variables
+   */
+  
   extract(shortcode_atts(array(
     'height' => '600px',
     'width' => '100%',
@@ -49,6 +51,7 @@ function cttm_shortcode($attr)
     "maxheight" => '',
     'cats' => '', //by slug, separated by a comma when multiple categories
     'tags' => '', // by slug, separated by a comma when multiple tags
+    'custom_tax' => '', // (Format 'taxonomy-slug=value1,value2&taxonomy-slug2=value1'). key=value separated by '&' when multiple custom taxonomies. Values separated by comma.
     'post_types' => $settings_posttypes, // by slug, separated by a comma when multiple posttypes
     'minzoom' => '',
     'maxzoom' => '',
@@ -63,12 +66,79 @@ function cttm_shortcode($attr)
     'attribution' => false
   ), $attr));
 
+  //If attribution is set, require HTMLPurifier and sanitize it
+  if ($attribution !== false){
+    require_once plugin_dir_path(__DIR__) . '/admin/HTMLPurifier/HTMLPurifier.auto.php';
+    $config = HTMLPurifier_Config::createDefault();
+    $purifier = new HTMLPurifier($config);
+    $attribution =  $purifier->purify($attribution);
+  }
 
-  //transform post types string to array
+  /**
+  * Custom post taxonomy filtering, defining tax_query accordingly.
+  */
+  //If filtering is set in shortcode
+  if(!empty($custom_tax)){
+
+    //Cleaning our string first
+    $custom_tax = str_replace(' ', '', $custom_tax);
+    $custom_tax = str_replace("&amp;", "&", $custom_tax);
+    //Then we extract all the informations and transform into arrays
+    $custom_tax_strings_array = explode('&',str_replace("&amp;", "&", $custom_tax));
+    //Define our final array for the query
+    $custom_tax_query_array = array();
+    //For each custom taxonomy array: extract, convert and push to our query array
+    foreach($custom_tax_strings_array as $custom_tax_strings){
+      //Get key (our taxonomy slug)
+      $temp_key = substr($custom_tax_strings, 0, strpos($custom_tax_strings, "="));
+      //Get our values (taxonomy terms) as a string
+      $temp_values_string = substr($custom_tax_strings, strpos($custom_tax_strings, "=") + 1);
+      //Convert this string as an array of values
+      $temp_values_array = explode(',', $temp_values_string);
+      //Create our query array
+      $temp_query_array = array('taxonomy'=>$temp_key, 'field' => 'slug', 'terms'=> $temp_values_array);
+      //Push this array into our final query array
+      $custom_tax_query_array[] = $temp_query_array;
+      
+    }
+    //Create our tax_query array 
+    $tax_query = array(
+      'relation' => 'AND',
+      array(
+        'taxonomy' => 'cttm-markers-tax',
+        'terms' => 'hasmarker'
+      ),
+    );
+    //If we have only one custom taxonomy filter, add our custom tax query array directly into the tax_query array.
+    if(count($custom_tax_strings_array) == 1) {
+      $tax_query[] = $custom_tax_query_array[0];
+      
+    }
+    //Else if we have multiple custom taxonomy filters, add them to an outer array with "relation" key, then push into the tax_query array.
+    else if(count($custom_tax_strings_array) > 1){ 
+      $tax_multiple_query_array = array('relation'=>'AND', $custom_tax_query_array);
+      $tax_query[] = $tax_multiple_query_array;
+    }
+    
+  } else { 
+    //If filtering is not set, set tax_query to only get our private taxonomy cttm-markers-tax
+    $tax_query = array(
+      array(
+        'taxonomy' => 'cttm-markers-tax',
+        'terms' => 'hasmarker'
+      )
+      );
+  }
+ 
+  /**
+  * Transform post types string to array
+  */
   $post_types = explode(',', $post_types);
 
 
-  //Define the current ID to use in our query if a custom ID or the current post is set in the shortcode.
+  /**
+  * Define ID to use in our query
+  */
   //If a custom ID is set in the shortcode, set it as $current_id
 
   if (is_numeric($post_id)) {
@@ -86,7 +156,11 @@ function cttm_shortcode($attr)
     $current_id = false;
   }
 
-  // define query parameters based on shortcode attributes. We only get private taxonomy 'cttm-markers-tax', which is set automatically when a marker is assigned to a post.
+  /**
+  * Define query parameters based on shortcode attributes.
+  * We only get private taxonomy 'cttm-markers-tax', which is set automatically when a marker is assigned to a post.
+  */
+ 
   // IF '$current_id' has an ID (see above), we define WP_Query parameters to only get this post/page.
   if ($current_id) {
 
@@ -101,25 +175,24 @@ function cttm_shortcode($attr)
       ),
     );
   } else {
-
+    
     $cttm_options_args = array(
       'post_type' => $post_types,
       'posts_per_page' => -1,
-      'tax_query' => array(
-        array(
-          'taxonomy' => 'cttm-markers-tax',
-          'terms' => 'hasmarker'
-        )
-      ),
+      $tax_query,
       'tag' => $tags,
       'category_name' => $cats
     );
   }
 
+  /**
+  * Queries depending on shortcode parameters.
+  */
+
   // If "centered on this" is set, we get two different queries, to be sure to include current post, even if the other arguments are not including current post:
-  // The first is our actual post to zoom on
-  // Second is our general query excluding current post
-  // Then we merge both into $cttm_query.
+  //   The first is our actual post to zoom on
+  //   Second is our general query excluding current post
+  //   Then we merge both into $cttm_query.
   if ($centered_on_this == true && $this_post == false) {
     //Get the single post to zoom on.
     $cttm_query_singlepost = new WP_Query($cttm_options_args);
@@ -129,12 +202,7 @@ function cttm_shortcode($attr)
       'post_type' => $post_types,
       'post__not_in' => array($current_id),
       'posts_per_page' => -1,
-      'tax_query' => array(
-        array(
-          'taxonomy' => 'cttm-markers-tax',
-          'terms' => 'hasmarker'
-        )
-      ),
+      $tax_query,
       'tag' => $tags,
       'category_name' => $cats
     );
@@ -149,17 +217,20 @@ function cttm_shortcode($attr)
     //Finally, we update post_count to loop inside our new query
     $cttm_query->post_count = $cttm_query_singlepost->post_count + $cttm_query_otherposts->post_count;
     wp_reset_query();
-  } else { //If "Centered on this" is not set, query posts with our arguments
+  } else { 
+    //If "Centered on this" is not set, query posts with our arguments
     $cttm_query = new WP_Query($cttm_options_args);
   }
 
+   /**
+  * Loop through our query, save all markers informations and send them to front-end
+  */
   if (($cttm_query->have_posts())) {
 
     $cttm_posts = $cttm_query->posts;
     $i = 0;
 
     foreach ($cttm_posts as $cttm_post) { // LOOP
-
 
       //for each posts get informations: 
       //postdatas() is an array of the post thumbnail, url and title
@@ -186,6 +257,7 @@ function cttm_shortcode($attr)
   //json_encode the array to send it to our javascript
   $cttm_metas = json_encode($cttm_metas);
 
+
   //Get global options from the setting page to show the map in front-end
   //cttm_options is an array
   $cttm_options_json = json_encode($cttm_options);
@@ -194,6 +266,7 @@ function cttm_shortcode($attr)
   $id = uniqid();
   $containerid = "travelersmap-container-" . $id;
 
+ 
   //Create this shortcode options array to send to javascript
   $cttm_shortcode_options = array();
   $cttm_shortcode_options['id'] = $id;
@@ -211,7 +284,6 @@ function cttm_shortcode($attr)
  
 
   //Encode to Json
-
   $cttm_shortcode_options = json_encode($cttm_shortcode_options);
 
   //Create the array sent to Javascript

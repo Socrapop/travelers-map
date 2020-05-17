@@ -73,10 +73,7 @@ function initTravelersMap() {
       var init_maxzoom = 16;
     }
 
-    // disable_clustering;
-    // tileurl;
-    // subdomains;
-    // attribution;
+    
 
     /**
      * Create leaflet map object "cttm_map"
@@ -88,12 +85,32 @@ function initTravelersMap() {
       "travelersmap-container-" + containerid
     );
 
+    //Set Tiles Server URL + API key + Attribution
+    //If a shortcode tile server is set, override global settings' tile server
+    let tileurl, subdomains, attribution;
+    if(cttm_shortcode_options.tileurl !== ""){
+      tileurl = cttm_shortcode_options.tileurl;
+    }else{
+      tileurl = cttm_options["tileurl"];
+    }
+    if(cttm_shortcode_options.subdomains !== ""){
+      subdomains = cttm_shortcode_options.subdomains;
+    }else{
+      subdomains = cttm_options["subdomains"];
+    }
+    if(cttm_shortcode_options.attribution !== ""){
+      attribution = cttm_shortcode_options.attribution;
+    }else{
+      attribution = cttm_options["attribution"];
+    }
+   
+
     //Push current map object to array
     cttm_map.push(L.map(container, cttm_map_options));
     //Get Tiles server URL + API key + Attribution
-    L.tileLayer(cttm_options["tileurl"], {
-      subdomains: cttm_options["subdomains"],
-      attribution: cttm_options["attribution"],
+    L.tileLayer(tileurl, {
+      subdomains: subdomains,
+      attribution: attribution,
     }).addTo(cttm_map[mapindex]);
 
     /**
@@ -118,7 +135,7 @@ function initTravelersMap() {
     //Create a markerClusterGroup if Clustering is activated (default),
     //else, create a FeatureGroup instead (we need "getBounds()" method for initial zoom, that's why we don't use a LayerGroup.)
     let markersGroup;
-    if (cttm_shortcode_options.disable_clustering === "false") {
+    if (cttm_shortcode_options.disable_clustering === "true") {
       markersGroup = L.featureGroup();
     } else {
       //default
