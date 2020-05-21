@@ -16,7 +16,6 @@ function cttm_add_page()
     add_submenu_page("cttm_travelersmap", __('Settings', 'travelers-map'), __('Settings', 'travelers-map'), 'manage_options', "cttm_travelersmap", 'cttm_options_page');
 }
 
-
 //Draw the options page
 function cttm_options_page()
 {
@@ -24,7 +23,7 @@ function cttm_options_page()
     <div class="wrap">
         <h1>Travelers' Map
             <?php
-            $cttm_data = get_plugin_data(plugin_dir_path(__FILE__) . 'travelers-map.php', false, false);;
+            $cttm_data = get_plugin_data(plugin_dir_path(__FILE__) . 'travelers-map.php', false, false);
             echo "<small>| " . __('version', 'travelers-map') . " " . $cttm_data['Version'] . "</small>";
             ?>
         </h1>
@@ -64,7 +63,7 @@ function cttm_options_page()
 
             //WPML setting
             if (has_filter('wpml_default_language')) {
-                $default_language = apply_filters('wpml_default_language', NULL);
+                $default_language = apply_filters('wpml_default_language', null);
                 printf('<h2>' . __('WPML - Synchronise markers from default language posts (%s) to other languages', 'travelers-map') . '</h2>', $default_language);
                 printf('<p>' . __('Press the button below to copy every marker from default language posts (%s) to their translations:', 'travelers-map') . '<br></p>', $default_language);
                 echo '<input type="submit" name="wpmlsync" value="' . __('Synchronise markers', 'travelers-map') . '" class="button" onclick="return confirm(\'' . __('You are about to copy every marker from posts in the default language (set in WPML settings) and set them to their translated posts in every other languages.', 'travelers-map') . '\')" >';
@@ -93,16 +92,15 @@ function cttm_options_page()
 add_action('admin_init', 'cttm_admin_init');
 function cttm_admin_init()
 {
-    //Register new setting "cttm_options" in database (array). 
+    //Register new setting "cttm_options" in database (array).
     register_setting('cttm_options', 'cttm_options', 'cttm_validate_option');
 
-    //add Travelers Map main settings section 
+    //add Travelers Map main settings section
     add_settings_section('main-config', __('Plugin main settings', 'travelers-map'), 'cttm_main_section_html', 'cttm_travelersmap');
     //add every setting field to our section
     add_settings_field('set-post-types', __('Activate Travelers\' Map on:', 'travelers-map'), 'cttm_posttypes_html', 'cttm_travelersmap', 'main-config');
 
-
-    //add map tiles settings section 
+    //add map tiles settings section
     add_settings_section('map-data-config', __('Map settings', 'travelers-map'), 'cttm_map_section_html', 'cttm_travelersmap');
     //add every setting field to our section
     add_settings_field('tileurl', __('Tiles Server URL', 'travelers-map'), 'cttm_tileurl_html', 'cttm_travelersmap', 'map-data-config');
@@ -112,7 +110,7 @@ function cttm_admin_init()
     add_settings_field('fullscreen_button', __('Enable fullscreen button in frontend', 'travelers-map'), 'cttm_fullscreenbutton_html', 'cttm_travelersmap', 'map-data-config');
     add_settings_field('onefinger_disable', __('Disable one-finger touch event on touch devices (BETA)', 'travelers-map'), 'cttm_onefinger_html', 'cttm_travelersmap', 'map-data-config');
 
-    //add popup settings section 
+    //add popup settings section
     add_settings_section('popup-config', __('Popup settings', 'travelers-map'), 'cttm_popup_section_html', 'cttm_travelersmap');
 
     add_settings_field('popup_style', __('Popup style', 'travelers-map'), 'cttm_popupstyle_html', 'cttm_travelersmap', 'popup-config');
@@ -140,8 +138,6 @@ function cttm_posttypes_html()
     //get all public registered post types
     $registered_posttypes = get_post_types(['public' => true], 'objects');
 
-
-
     //Add a checkbox for each registered post type, and check it if already checked in options.
     foreach ($registered_posttypes as $registered_posttype) {
         if ($registered_posttype->name != 'attachment') {
@@ -153,8 +149,6 @@ function cttm_posttypes_html()
     echo '<p class="description">' . __('By default, Travelers\' Map is activated on posts only. You can also activate the plugin on pages and custom post types.', 'travelers-map') . '<br></p>';
 }
 
-
-
 function cttm_tileurl_html()
 {
     //get option array from database
@@ -163,8 +157,8 @@ function cttm_tileurl_html()
     echo '<input id="tileurl" name="cttm_options[tileurl]" type="text" value="' . $tileurl . '" style="width: 100%;max-width:600px" />';
     echo '<div class="helptext"><br>';
     printf(__(' You can find a list of free tile providers <a href="%1$s" target="_blank">here</a>.', 'travelers-map'), 'http://leaflet-extras.github.io/leaflet-providers/preview/');
-    echo '<p class="description">' . __('If your tile provider require an API key, please insert it directly as explained on their website. ', 'travelers-map') . '<br> 
-        
+    echo '<p class="description">' . __('If your tile provider require an API key, please insert it directly as explained on their website. ', 'travelers-map') . '<br>
+
         ' . __('Exemple (thunderforest.com):', 'travelers-map') . ' <code>https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey={apikey}</code></p></div><br>';
 }
 
@@ -194,8 +188,8 @@ function cttm_attribution_html()
     echo $attribution;
     echo '</textarea>';
     echo '<div class="helptext"><br>' . __('Preview:', 'travelers-map') . ' <code id="attribution-code">' . $attribution . '</code>';
-    echo '<br><br>' . __('Attribution is shown to the lower right of the map. It is necessary to give credit to the Openstreetmap datas and your tile provider. ', 'travelers-map') . '<br> 
-        
+    echo '<br><br>' . __('Attribution is shown to the lower right of the map. It is necessary to give credit to the Openstreetmap datas and your tile provider. ', 'travelers-map') . '<br>
+
         <p class="description">' . __('It is not necessary, but you can support this plugin by adding: ', 'travelers-map') . '<code> | Built with &lt;a href="https://wordpress.org/plugins/travelers-map/" target="_blank"&gt;Travelers\' Map&lt;/a&gt;</code> </p>';
     echo "<br>";
 }
@@ -253,7 +247,6 @@ function cttm_validate_option($input)
     $config = HTMLPurifier_Config::createDefault();
     $purifier = new HTMLPurifier($config);
 
-
     //If Save Changes button is clicked
     if (isset($_POST['Submit'])) {
 
@@ -268,12 +261,12 @@ function cttm_validate_option($input)
                 unset($input[$key]);
             }
         }
-        //Sanitize every option before returning the values        
+        //Sanitize every option before returning the values
         $input['posttypes'] = cttm_sanitize_post_types($input['posttypes']);
         $input['tileurl'] = sanitize_text_field($input['tileurl']);
         $input['subdomains'] = sanitize_text_field($input['subdomains']);
-        $input['attribution'] =  $purifier->purify($input['attribution']);
-        $input['popup_style'] =  sanitize_key($input['popup_style']);
+        $input['attribution'] = $purifier->purify($input['attribution']);
+        $input['popup_style'] = sanitize_key($input['popup_style']);
 
         if (isset($input['popup_css'])) {
             $input['popup_css'] = intval($input['popup_css']);
@@ -282,17 +275,17 @@ function cttm_validate_option($input)
         }
 
         if (isset($input['search_field'])) {
-            $input['search_field']  = intval($input['search_field']);
+            $input['search_field'] = intval($input['search_field']);
         } else {
             $input['search_field'] = 0;
         }
         if (isset($input['fullscreen_button'])) {
-            $input['fullscreen_button']  = intval($input['fullscreen_button']);
+            $input['fullscreen_button'] = intval($input['fullscreen_button']);
         } else {
             $input['fullscreen_button'] = 0;
         }
         if (isset($input['onefinger'])) {
-            $input['onefinger']  = intval($input['onefinger']);
+            $input['onefinger'] = intval($input['onefinger']);
         } else {
             $input['onefinger'] = 0;
         }
@@ -311,16 +304,16 @@ function cttm_validate_option($input)
             'popup_css' => 0,
             'search_field' => 0,
             'fullscreen_button' => 0,
-            'onefinger' => 0
+            'onefinger' => 0,
         );
         $input['posttypes'] = $cttm_options_default['posttypes'];
         $input['tileurl'] = sanitize_text_field($cttm_options_default['tileurl']);
         $input['subdomains'] = sanitize_text_field($cttm_options_default['subdomains']);
-        $input['attribution'] =  $purifier->purify($cttm_options_default['attribution']);
-        $input['popup_style'] =  sanitize_key($cttm_options_default['popup_style']);
-        $input['onefinger'] =  intval($cttm_options_default['onefinger']);
-        $input['popup_css'] =  intval($cttm_options_default['popup_css']);
-        $input['search_field'] =  intval($cttm_options_default['search_field']);
+        $input['attribution'] = $purifier->purify($cttm_options_default['attribution']);
+        $input['popup_style'] = sanitize_key($cttm_options_default['popup_style']);
+        $input['onefinger'] = intval($cttm_options_default['onefinger']);
+        $input['popup_css'] = intval($cttm_options_default['popup_css']);
+        $input['search_field'] = intval($cttm_options_default['search_field']);
         $input['fullscreen_button'] = intval($cttm_options_default['fullscreen_button']);
         return $input;
     }
@@ -339,9 +332,9 @@ function cttm_validate_option($input)
             'tax_query' => array(
                 array(
                     'taxonomy' => 'cttm-markers-tax',
-                    'terms' => 'hasmarker'
-                )
-            )
+                    'terms' => 'hasmarker',
+                ),
+            ),
         );
 
         $cttm_delete_query = new WP_Query($cttm_delete_args);
@@ -364,9 +357,9 @@ function cttm_validate_option($input)
         $cttm_markers_posts_args = array(
             'post_type' => 'cttm-marker',
             'posts_per_page' => -1,
-            'post_status' => array('any', 'trash')
+            'post_status' => array('any', 'trash'),
         );
-        $cttm_markers_posts_query =  new WP_Query($cttm_markers_posts_args);
+        $cttm_markers_posts_query = new WP_Query($cttm_markers_posts_args);
 
         if (($cttm_markers_posts_query->have_posts())) {
 
@@ -394,12 +387,12 @@ function cttm_validate_option($input)
         $input['posttypes'] = $options['posttypes'];
         $input['tileurl'] = $options['tileurl'];
         $input['subdomains'] = $options['subdomains'];
-        $input['attribution'] =  $options['attribution'];
-        $input['popup_style'] =  $options['popup_style'];
-        $input['popup_css'] =  $options['popup_css'];
-        $input['search_field'] =  $options['search_field'];
-        $input['fullscreen_button'] =  $options['fullscreen_button'];
-        $input['onefinger'] =  $options['onefinger'];
+        $input['attribution'] = $options['attribution'];
+        $input['popup_style'] = $options['popup_style'];
+        $input['popup_css'] = $options['popup_css'];
+        $input['search_field'] = $options['search_field'];
+        $input['fullscreen_button'] = $options['fullscreen_button'];
+        $input['onefinger'] = $options['onefinger'];
         return $input;
     }
     //If Polylang sync is clicked
@@ -423,17 +416,18 @@ function cttm_validate_option($input)
             'tax_query' => array(
                 array(
                     'taxonomy' => 'cttm-markers-tax',
-                    'terms' => 'hasmarker'
-                )
-            )
+                    'terms' => 'hasmarker',
+                ),
+            ),
         );
         $cttm_query = new WP_Query($cttm_options_args);
 
         if (($cttm_query->have_posts())) {
 
             $cttm_posts = $cttm_query->posts;
-            // For each post, find if a translation is set 
-            foreach ($cttm_posts as $cttm_post) { // LOOP
+            // For each post, find if a translation is set
+            foreach ($cttm_posts as $cttm_post) {
+                // LOOP
                 //Check if polylang is activated
                 if (function_exists('pll_get_post_translations')) {
                     // Get marker data to copy to translations
@@ -457,12 +451,12 @@ function cttm_validate_option($input)
         $input['posttypes'] = $options['posttypes'];
         $input['tileurl'] = $options['tileurl'];
         $input['subdomains'] = $options['subdomains'];
-        $input['attribution'] =  $options['attribution'];
-        $input['popup_style'] =  $options['popup_style'];
-        $input['popup_css'] =  $options['popup_css'];
-        $input['search_field'] =  $options['search_field'];
-        $input['fullscreen_button'] =  $options['fullscreen_button'];
-        $input['onefinger'] =  $options['onefinger'];
+        $input['attribution'] = $options['attribution'];
+        $input['popup_style'] = $options['popup_style'];
+        $input['popup_css'] = $options['popup_css'];
+        $input['search_field'] = $options['search_field'];
+        $input['fullscreen_button'] = $options['fullscreen_button'];
+        $input['onefinger'] = $options['onefinger'];
         return $input;
     }
     //If WPML sync is clicked
@@ -475,7 +469,7 @@ function cttm_validate_option($input)
         $settings_posttypes = explode(',', $settings_posttypes);
         //Get default wpml language
         if (has_filter('wpml_default_language')) {
-            $default_lang = apply_filters('wpml_default_language', NULL); // return string of 2 char like : 'fr'
+            $default_lang = apply_filters('wpml_default_language', null); // return string of 2 char like : 'fr'
         }
 
         //Change global language to default language for next query
@@ -485,7 +479,7 @@ function cttm_validate_option($input)
         //Check if WPML is activated
         if (has_filter('wpml_active_languages')) {
             //Get all active languages on the website
-            $activ_lang_array = apply_filters('wpml_active_languages', NULL, 'skip_missing=1');
+            $activ_lang_array = apply_filters('wpml_active_languages', null, 'skip_missing=1');
             //remove default language from that array
             unset($activ_lang_array[$default_lang]);
 
@@ -496,18 +490,18 @@ function cttm_validate_option($input)
                 'tax_query' => array(
                     array(
                         'taxonomy' => 'cttm-markers-tax',
-                        'terms' => 'hasmarker'
-                    )
-                )
+                        'terms' => 'hasmarker',
+                    ),
+                ),
             );
             $cttm_query = new WP_Query($cttm_options_args);
-
 
             if (($cttm_query->have_posts())) {
 
                 $cttm_posts = $cttm_query->posts;
-                // For each post, find if a translation is set 
-                foreach ($cttm_posts as $cttm_post) { // LOOP
+                // For each post, find if a translation is set
+                foreach ($cttm_posts as $cttm_post) {
+                    // LOOP
 
                     // Get marker data to copy to translations
                     $marker_to_copy = get_post_meta($cttm_post->ID, '_latlngmarker', true);
@@ -515,7 +509,7 @@ function cttm_validate_option($input)
                     //Loop through each language (other than default) to find translations
                     foreach ($activ_lang_array as $activ_lang => $value) {
                         //find a translation of this post/page on the current active language
-                        $temp_translated_post = apply_filters('wpml_object_id', $cttm_post->ID, $cttm_post->post_type, FALSE, $activ_lang);
+                        $temp_translated_post = apply_filters('wpml_object_id', $cttm_post->ID, $cttm_post->post_type, false, $activ_lang);
                         if (!is_null($temp_translated_post)) {
                             $translations_array[] = $temp_translated_post;
                         }
@@ -538,20 +532,20 @@ function cttm_validate_option($input)
         $input['posttypes'] = $options['posttypes'];
         $input['tileurl'] = $options['tileurl'];
         $input['subdomains'] = $options['subdomains'];
-        $input['attribution'] =  $options['attribution'];
-        $input['popup_style'] =  $options['popup_style'];
-        $input['popup_css'] =  $options['popup_css'];
-        $input['search_field'] =  $options['search_field'];
-        $input['fullscreen_button'] =  $options['fullscreen_button'];
-        $input['onefinger'] =  $options['onefinger'];
+        $input['attribution'] = $options['attribution'];
+        $input['popup_style'] = $options['popup_style'];
+        $input['popup_css'] = $options['popup_css'];
+        $input['search_field'] = $options['search_field'];
+        $input['fullscreen_button'] = $options['fullscreen_button'];
+        $input['onefinger'] = $options['onefinger'];
         return $input;
     }
 }
 
 /*
-    Function to sanitize post types by checking if every post_type is registered.
-    Return string of existing post types only, separated by comma.
-    If empty, return 'post'.
+Function to sanitize post types by checking if every post_type is registered.
+Return string of existing post types only, separated by comma.
+If empty, return 'post'.
  */
 function cttm_sanitize_post_types($posttypes)
 {

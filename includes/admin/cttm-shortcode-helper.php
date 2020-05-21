@@ -15,7 +15,6 @@ function cttm_add_shortcodehelper()
     add_submenu_page("cttm_travelersmap", __('Travelers\' Map - Shortcode Helper', 'travelers-map'), __('Shortcode Helper', 'travelers-map'), "manage_options", "cttm_travelersmap_shortcode", 'cttm_shortcodehelper_page');
 }
 
-
 //Draw the options page
 function cttm_shortcodehelper_page()
 {
@@ -112,7 +111,7 @@ function cttm_shortcodehelper_page()
                         <div>
                             <label><input type="checkbox" id="thispostsmarker" style="margin-right: 10px;" name="thispost" value="true"><strong><?php _e('Show current post\'s marker only', 'travelers-map'); ?></strong></label><br>
                             <p class="description"><?php _e('Check this box to show a map with the current post\'s marker only.', 'travelers-map'); ?></p>
-                            <label></label>
+
 
                         </div>
 
@@ -126,8 +125,7 @@ function cttm_shortcodehelper_page()
                         <br>
                     </div>
                 </div>
-
-
+                <h3 style="font-size: 1.2em;"><?php _e('Filter by Wordpress taxonomies:', 'travelers-map'); ?></h3>
                 <div class="row">
                     <div class="col-xl helper-bloc-inner categories">
                         <strong><?php _e('Categories:', 'travelers-map'); ?></strong><br>
@@ -137,7 +135,7 @@ function cttm_shortcodehelper_page()
                             <?php
                             $cttm_allcategories = get_categories(array(
                                 'orderby' => 'name',
-                                'hide_empty' => false
+                                'hide_empty' => false,
                             ));
 
                             foreach ($cttm_allcategories as $cttm_cat) {
@@ -157,7 +155,7 @@ function cttm_shortcodehelper_page()
                             <?php
                             $cttm_alltags = get_tags(array(
                                 'orderby' => 'name',
-                                'hide_empty' => false
+                                'hide_empty' => false,
                             ));
 
                             foreach ($cttm_alltags as $cttm_tag) {
@@ -179,7 +177,6 @@ function cttm_shortcodehelper_page()
                             //get all public registered post types
                             $registered_posttypes = get_post_types(['public' => true], 'objects');
 
-
                             //Add a checkbox for each registered post type, and check it if already checked in options.
                             foreach ($registered_posttypes as $registered_posttype) {
                                 if ($registered_posttype->name != 'attachment') {
@@ -190,6 +187,89 @@ function cttm_shortcodehelper_page()
 
                             ?>
                         </div>
+                    </div>
+                </div>
+                <h3 style="font-size: 1.2em;"><?php _e('Filter by custom taxonomies:', 'travelers-map'); ?></h3>
+                <div class="row">
+                    <?php
+
+                    $args = array(
+                        'public' => true,
+                        '_builtin' => false,
+
+                    );
+                    $taxonomies = get_taxonomies($args, 'objects', 'and');
+                    $custom_tax_count = 1; // To add div.rows every 3 custom tax.
+                    foreach ($taxonomies as $taxonomy) {
+                        //get this taxonomy's terms.
+                        $taxonomy_terms = get_terms(array(
+                            'taxonomy' => $taxonomy->name,
+                            'orderby' => 'name',
+                            'hide_empty' => false,
+                        ));
+                        //Show the taxonomy block only if it's not empty
+                        if (empty($taxonomy_terms) == false) {
+                    ?>
+                            <div class="col-xl helper-bloc-inner customtaxonomy" data-taxonomy-name="<?php echo $taxonomy->name; ?>">
+                                <strong><?php echo $taxonomy->label; ?></strong><br>
+                                <p class="description"> <?php _e('Select the terms you want to show on the map. Default: All terms.', 'travelers-map'); ?></p>
+
+                                <div class="checkbox-container">
+                                    <?php
+
+
+                                    //Add a checkbox for each registered custom taxonomy term.
+                                    foreach ($taxonomy_terms as $taxonomy_term) {
+                                        echo '<label><input type="checkbox" class="cttm-' . $taxonomy->name . '-checkbox" name="' . $taxonomy_term->name . '" value="' . $taxonomy_term->slug . '">' . $taxonomy_term->name . '</label>';
+                                    }
+
+                                    ?>
+                                </div>
+                            </div>
+                    <?php if ($custom_tax_count % 3 == 0) {
+                                // Add a row every 3 custom taxonomy block.
+                                echo '</div><div class="row">';
+                            }
+                            $custom_tax_count++;
+                        }
+                    }
+                    ?>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg helper-bloc" style="margin-top: 40px;">
+                <h3><?php _e('Advanced settings', 'travelers-map'); ?></h3>
+                <p style="color: #913232;"><?php _e('These settings are meant for experienced users only. Please read carefully the descriptions as these settings can cause performance issues and other problems.', 'travelers-map'); ?></p>
+                <div>
+                    <label><input type="checkbox" id="disableclustering" style="margin-right: 10px;" name="disableclustering" value="true"><strong><?php _e('Disable marker clustering', 'travelers-map'); ?></strong></label><br>
+                    <p class="description"><?php _e('Prevent the markers from regrouping when too close to each other. Warning: Don\'t use on a map with a lot of markers as it can cause performance issues.', 'travelers-map'); ?></p>
+                </div>
+                <br>
+                <div>
+                    <label><input type="checkbox" id="open_link_in_new_tab" style="margin-right: 10px;" name="open_link_in_new_tab" value="true"><strong><?php _e('Open links in a new tab', 'travelers-map'); ?></strong></label><br>
+                    <p class="description"><?php _e('Force popup links to open in a new tab. Warning: This is not recommended as it changes the default browser behaviour. You should let the users decide how they want to open links.', 'travelers-map'); ?></p>
+                </div>
+                <br>
+                <div class="helper-tile-container">
+                    <h3 style="font-size: 1.2em;"><?php _e('Tile provider settings', 'travelers-map'); ?></h3>
+                    <p> <?php _e('If you change your tile provider, you must fill all the fields below in order to avoid your map from not showing or having some tiles missing.', 'travelers-map'); ?><br>
+                        <?php _e('By default, the map will use the tile provider set in Travelers\' Map settings.', 'travelers-map'); ?></p>
+                    <div style="line-height: 2.2;">
+                        <label for="tileurl"><strong><?php _e('Tiles Server URL', 'travelers-map'); ?> </strong></label><br><input id="tileurl" type="text" style="width: 95%;max-width:600px; margin: 5px 0 15px 10px" placeholder="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png">
+                        <br>
+
+                    </div>
+                    <div style="line-height: 2.2;">
+                        <label for="subdomains"><strong><?php _e('Tiles Server sub-domains', 'travelers-map'); ?> </strong></label><br><input id="subdomains" type="text" style="width: 95%;max-width:200px; margin: 5px 0 15px 10px" placeholder="abcd">
+                        <br>
+
+                    </div>
+                    <div style="line-height: 2.2;">
+                        <label for="attribution"><strong><?php _e('Attribution', 'travelers-map'); ?> </strong></label><br><textarea id="attribution" type="text" cols="100" style="max-width:95%; margin: 5px 0 15px 10px" placeholder='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and © <a href="https://carto.com/attributions">CARTO</a>'></textarea>
+                        <br>
                     </div>
                 </div>
             </div>
