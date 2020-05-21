@@ -3919,9 +3919,7 @@ html {
 	-webkit-box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.065);
 	box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.065);
 }
-.helper-bloc-inner.is-active{
-	
-}
+
 .helper-bloc-inner.categories{
 	background: #f3faff;
 }
@@ -3930,6 +3928,9 @@ html {
 }
 .helper-bloc-inner.posttypes{
 	background: #fef4ff;
+}
+.helper-bloc-inner.customtaxonomy{
+  background: #f8f8f8;
 }
 .helper-bloc-inner label{
 	display: inline-block; margin-right: 30px; padding: 3px 0;
@@ -3949,5 +3950,8 @@ html {
 	background: #e8f5e9; 
 	font-weight: bold;
 }
-
-/* Plugin Settings */
+.helper-tile-container{
+  border: 1px solid #dfdfdf;
+  background: #f8f8f8;
+  padding: 18px;
+}
