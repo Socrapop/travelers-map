@@ -19,21 +19,21 @@ function cttm_add_page()
 //Draw the options page
 function cttm_options_page()
 {
-    ?>
+?>
     <div class="wrap">
         <h1>Travelers' Map
             <?php
-$cttm_data = get_plugin_data(plugin_dir_path(__FILE__) . 'travelers-map.php', false, false);
-    echo "<small>| " . __('version', 'travelers-map') . " " . $cttm_data['Version'] . "</small>";
-    ?>
+            $cttm_data = get_plugin_data(plugin_dir_path(__FILE__) . 'travelers-map.php', false, false);
+            echo "<small>| " . __('version', 'travelers-map') . " " . $cttm_data['Version'] . "</small>";
+            ?>
         </h1>
 
-        <p><small><?php _e('Do you want to make Travelers\' Map better? All the updates are based on community feedbacks!', 'travelers-map');?>
+        <p><small><?php _e('Do you want to make Travelers\' Map better? All the updates are based on community feedbacks!', 'travelers-map'); ?>
                 <br>
-                <?php printf(__('Do not hesitate to <a href="%1$s" target="_blank">rate this plugin and give me some feedbacks</a>.', 'travelers-map'), 'https://wordpress.org/plugins/travelers-map/#reviews');?> </small></p>
+                <?php printf(__('Do not hesitate to <a href="%1$s" target="_blank">rate this plugin and give me some feedbacks</a>.', 'travelers-map'), 'https://wordpress.org/plugins/travelers-map/#reviews'); ?> </small></p>
         <hr>
-        <p><strong><?php _e('Need some help setting up this plugin?', 'travelers-map');?> </strong><br>
-            <?php printf(__('Please check the <a href="%1$s" target="_blank">"Get Started" tutorial</a> on my blog.', 'travelers-map'), 'https://camilles-travels.com/get-started-with-travelers-map-wordpress-plugin/');?>
+        <p><strong><?php _e('Need some help setting up this plugin?', 'travelers-map'); ?> </strong><br>
+            <?php printf(__('Please check the <a href="%1$s" target="_blank">"Get Started" tutorial</a> on my blog.', 'travelers-map'), 'https://camilles-travels.com/get-started-with-travelers-map-wordpress-plugin/'); ?>
             <br> </p>
         <hr>
 
@@ -41,44 +41,44 @@ $cttm_data = get_plugin_data(plugin_dir_path(__FILE__) . 'travelers-map.php', fa
         <form action="options.php" method="post">
 
             <?php
-settings_fields('cttm_options');
-    do_settings_sections('cttm_travelersmap');?>
-            <input type="submit" name="Submit" value="<?php _e('Save Changes', 'travelers-map');?>" class="button button-primary" style="margin:30px 0">
-            <input type="submit" name="Reset" value="<?php _e('Reset settings to default', 'travelers-map');?>" class="button button-secondary" style="margin:30px 0" onclick="return confirm('<?php _e('Are you sure you wish to reset settings to default? Current settings will be deleted.', 'travelers-map');?>');">
+            settings_fields('cttm_options');
+            do_settings_sections('cttm_travelersmap'); ?>
+            <input type="submit" name="Submit" value="<?php _e('Save Changes', 'travelers-map'); ?>" class="button button-primary" style="margin:30px 0">
+            <input type="submit" name="Reset" value="<?php _e('Reset settings to default', 'travelers-map'); ?>" class="button button-secondary" style="margin:30px 0" onclick="return confirm('<?php _e('Are you sure you wish to reset settings to default? Current settings will be deleted.', 'travelers-map'); ?>');">
             <hr style="margin:30px 0">
 
 
             <?php
-/*////////////// MULTILINGUAL PLUGIN SETTINGS //////////////*/
+            /*////////////// MULTILINGUAL PLUGIN SETTINGS //////////////*/
 
-    //Polylang setting
-    if (function_exists('pll_default_language')) {
-        $default_language = pll_default_language('name');
-        printf('<h2>' . __('Polylang - Synchronise markers from default language posts (%s) to other languages', 'travelers-map') . '</h2>', $default_language);
-        printf('<p>' . __('Press the button below to copy every marker from default language posts (%s) to their translations:', 'travelers-map') . '<br></p>', $default_language);
-        echo '<input type="submit" name="polylangsync" value="' . __('Synchronise markers', 'travelers-map') . '" class="button" onclick="return confirm(\'' . __('You are about to copy every marker from posts in the default language (set in Polylang settings) and set them to their translated posts in every other languages.', 'travelers-map') . '\')" >';
+            //Polylang setting
+            if (function_exists('pll_default_language')) {
+                $default_language = pll_default_language('name');
+                printf('<h2>' . __('Polylang - Synchronise markers from default language posts (%s) to other languages', 'travelers-map') . '</h2>', $default_language);
+                printf('<p>' . __('Press the button below to copy every marker from default language posts (%s) to their translations:', 'travelers-map') . '<br></p>', $default_language);
+                echo '<input type="submit" name="polylangsync" value="' . __('Synchronise markers', 'travelers-map') . '" class="button" onclick="return confirm(\'' . __('You are about to copy every marker from posts in the default language (set in Polylang settings) and set them to their translated posts in every other languages.', 'travelers-map') . '\')" >';
 
-        echo '<hr style="margin:30px 0">';
-    }
+                echo '<hr style="margin:30px 0">';
+            }
 
-    //WPML setting
-    if (has_filter('wpml_default_language')) {
-        $default_language = apply_filters('wpml_default_language', null);
-        printf('<h2>' . __('WPML - Synchronise markers from default language posts (%s) to other languages', 'travelers-map') . '</h2>', $default_language);
-        printf('<p>' . __('Press the button below to copy every marker from default language posts (%s) to their translations:', 'travelers-map') . '<br></p>', $default_language);
-        echo '<input type="submit" name="wpmlsync" value="' . __('Synchronise markers', 'travelers-map') . '" class="button" onclick="return confirm(\'' . __('You are about to copy every marker from posts in the default language (set in WPML settings) and set them to their translated posts in every other languages.', 'travelers-map') . '\')" >';
+            //WPML setting
+            if (has_filter('wpml_default_language')) {
+                $default_language = apply_filters('wpml_default_language', null);
+                printf('<h2>' . __('WPML - Synchronise markers from default language posts (%s) to other languages', 'travelers-map') . '</h2>', $default_language);
+                printf('<p>' . __('Press the button below to copy every marker from default language posts (%s) to their translations:', 'travelers-map') . '<br></p>', $default_language);
+                echo '<input type="submit" name="wpmlsync" value="' . __('Synchronise markers', 'travelers-map') . '" class="button" onclick="return confirm(\'' . __('You are about to copy every marker from posts in the default language (set in WPML settings) and set them to their translated posts in every other languages.', 'travelers-map') . '\')" >';
 
-        echo '<hr style="margin:30px 0">';
-    }
+                echo '<hr style="margin:30px 0">';
+            }
 
-    ?>
-            <h2><?php _e('Clean database - Delete all geolocalisation data and markers', 'travelers-map');?></h2>
-            <p><?php _e('This button cleans every geolocalisation meta-data added to your posts and every custom markers added.', 'travelers-map');?><br>
-                <strong><?php _e('Please understand this is irreversible.', 'travelers-map');?></strong><br></p>
-            <input type="submit" name="Delete" value="<?php _e('Delete all plugin data in database', 'travelers-map');?>" style="background:#e64949;border-color:#c91c1c;box-shadow: 0 1px 0 #831212;color: #fff;text-decoration: none;text-shadow: 0 -1px 1px #990b00,1px 0 1px #c50e0e,0 1px 1px #990500,-1px 0 1px #900;" class="button" onclick="return confirm('<?php _e('Are you sure you wish to delete every geolocalisation data and custom markers in your database? This action is irreversible.', 'travelers-map');?>');">
-            <p class="description"><br><?php _e('To prevent unintentional loss of data, this is how Travelers\' Map works:', 'travelers-map');?> <br>
-                - <?php _e('Upon deactivation, every data (geolocalisation meta-data and settings) is kept. ', 'travelers-map');?> <br>
-                - <?php _e('When uninstalling, above settings are deleted from database while geolocalisation data are kept. ', 'travelers-map');?><br>
+            ?>
+            <h2><?php _e('Clean database - Delete all geolocalisation data and markers', 'travelers-map'); ?></h2>
+            <p><?php _e('This button cleans every geolocalisation meta-data added to your posts and every custom markers added.', 'travelers-map'); ?><br>
+                <strong><?php _e('Please understand this is irreversible.', 'travelers-map'); ?></strong><br></p>
+            <input type="submit" name="Delete" value="<?php _e('Delete all plugin data in database', 'travelers-map'); ?>" style="background:#e64949;border-color:#c91c1c;box-shadow: 0 1px 0 #831212;color: #fff;text-decoration: none;text-shadow: 0 -1px 1px #990b00,1px 0 1px #c50e0e,0 1px 1px #990500,-1px 0 1px #900;" class="button" onclick="return confirm('<?php _e('Are you sure you wish to delete every geolocalisation data and custom markers in your database? This action is irreversible.', 'travelers-map'); ?>');">
+            <p class="description"><br><?php _e('To prevent unintentional loss of data, this is how Travelers\' Map works:', 'travelers-map'); ?> <br>
+                - <?php _e('Upon deactivation, every data (geolocalisation meta-data and settings) is kept. ', 'travelers-map'); ?> <br>
+                - <?php _e('When uninstalling, above settings are deleted from database while geolocalisation data are kept. ', 'travelers-map'); ?><br>
             </p>
 
             <hr style="margin:30px 0">
