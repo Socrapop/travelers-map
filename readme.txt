@@ -63,16 +63,29 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 == Changelog ==
 
 = 1.9.0 = 
+- Major update -
+
 New features:
+* Added custom taxonomy filtering in shortcodes! 
 * Added shortcode parameter "disable_clustering" to disable marker clustering. Don't use this on a map with a lot of markers.
 * Added shortcode parameter "open_link_in_new_tab" to open the link in a new tab on click on a marker's popup (however it's not recommended, in most cases, you should let the user decide what he/she wants to do).
+* Added shortcode parameters "tileurl", "subdomains" and "attribution" to override global plugin settings. This option is advised for advanced users only.
 * Added spiderfy for markers clustering: If a clusterGroup appears at the maximum zoom level of the map, clicking on it makes it "spiderfy" so you can see all of its markers. No more problem if your markers are located at the same place.
 
-Bugfix: 
+Changed: 
+* Shortcode Helper page updated with new parameters : 
+* Added a new "Advanced settings" section at the bottom of the page.
+* Added "Filter by custom taxonomies section".
+* French translation updated.
+
+Fixed: 
 * Travelers' Map now check if the map containers are on the page before initializing the maps. This removes the errors when the shortcode was loaded asynchronously.
 
-New feature for developers:
+For developers:
 * Added possibility to initialize the map with initTravelersMap() function. This can be useful if you load the HTML container div asynchronously.
+* Updated dependencies: Leaflet V1.6.0 and Leaflet MarkerCluster V1.4.1
+* Refactorded some functions and formatted files with Prettier (.js) and Phpfmt (.php)
+
 
 = 1.8.1 =
 

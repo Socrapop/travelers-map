@@ -240,7 +240,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	  	var categoriesstring ='';
 	  	var tagsstring = '';
 	  	var posttypestring = '';
-	  	var init_maxzoom = '';
+		var init_maxzoom = '';
+		var custom_tax = '';
+		var open_link_in_new_tab = '';
+		var disable_clustering = '';
+		var tileurl = '';
+		var subdomains = '';
+		var attribution = '';
 
 	  	/*
 	  	Define all Event Listeners on form, so the shortcode is updated each time the user change a form element.
@@ -453,7 +459,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		// Loop through checkboxes and set Event Listener on change.
 		for(var i = 0; i < catCheckboxes.length; i++) {
 		    catCheckboxes[i].addEventListener("change", function(e) {
-		       	categoriesstring = cttmCheckboxToString(catCheckboxes, "cat");
+		       	categoriesstring = cttmCheckboxToString(catCheckboxes, "cats");
 		       	cttmShortcodeUpdate();
 		    });
 		}
@@ -468,7 +474,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		// Loop through checkboxes and set Event Listener on change.
 		for(var i = 0; i < tagCheckboxes.length; i++) {
 		    tagCheckboxes[i].addEventListener("change", function(e) {
-		       	tagsstring = cttmCheckboxToString(tagCheckboxes, "tag");
+		       	tagsstring = cttmCheckboxToString(tagCheckboxes, "tags");
 		       	cttmShortcodeUpdate();
 		    });
 		}
@@ -483,33 +489,135 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		// Loop through checkboxes and set Event Listener on change.
 		for(var i = 0; i < posttypeCheckboxes.length; i++) {
 		    posttypeCheckboxes[i].addEventListener("change", function(e) {
-		       	posttypestring = cttmCheckboxToString(posttypeCheckboxes, "posttype");
+		       	posttypestring = cttmCheckboxToString(posttypeCheckboxes, "post_types");
 		       	cttmShortcodeUpdate();
 		    });
 		}
+		/*
+				Custom Taxonomies Event Listeners
+		 */
+		
+		// Get all Custom Taxonomies HTML containers
+		var customTaxonomiesContainers = document.getElementsByClassName('customtaxonomy');
+		var customTaxonomyStrings = {}; // This object will store every custom taxonomy strings
+		for (var index = 0; index < customTaxonomiesContainers.length; index++) {
+			// Get all Custom Taxonomies names from data-taxonomy-name attribute
+			let customTaxonomyName = customTaxonomiesContainers[index].getAttribute("data-taxonomy-name");
+
+			//Get all checkboxes from this taxonomy
+			let customTaxonomyCheckboxes = document.getElementsByClassName('cttm-'+customTaxonomyName+'-checkbox');
+			
+			// Loop through checkboxes and set Event Listener on change.
+			for(var i = 0; i < customTaxonomyCheckboxes.length; i++) {
+				
+			customTaxonomyCheckboxes[i].addEventListener("change", function(e) {
+					customTaxonomyStrings[customTaxonomyName] = cttmCheckboxToString(customTaxonomyCheckboxes, customTaxonomyName, true);
+					custom_tax = cttmCustomTaxonomiesStringUpdate();
+					cttmShortcodeUpdate();
+				});
+			}
+		}
+		
+		
+		// Disable Clustering marker only Event Listener
+		document.getElementById("disableclustering").addEventListener('change', function (e) {
+
+			//If checked, set output
+		  if(this.checked) {
+			disable_clustering = ' disable_clustering=true';
+		  } else {
+			disable_clustering = '';
+
+		  }
+		  cttmShortcodeUpdate();
+	  });
+	  // Open Link in a new Tab Event Listener
+		document.getElementById("open_link_in_new_tab").addEventListener('change', function (e) {
+
+			//If checked, set output
+		  if(this.checked) {
+			open_link_in_new_tab = ' open_link_in_new_tab=true';
+		  } else {
+			open_link_in_new_tab = '';
+
+		  }
+		  cttmShortcodeUpdate();
+	  });
+
+	  // Tile Server URL Event Listener
+	  document.getElementById("tileurl").addEventListener('input', function (e) {
+	  	
 		
 
+		 // If input is default or empty, set width to empty string.
+		 if (this.value=="") {
+				 
+			tileurl='';
+
+		 }else{ // Else, set width variable to output in the shortcode.
+
+			tileurl= ' tileurl="' + this.value +'"';
+		 }
+		 //Update shortcode function
+		 cttmShortcodeUpdate();
+		  
+	  });
+	  // Subdomains Event Listener
+	  document.getElementById("subdomains").addEventListener('input', function (e) {
+	  	
+		
+
+		 // If input is default or empty, set width to empty string.
+		 if (this.value=="") {
+				 
+			subdomains='';
+
+		 }else{ // Else, set width variable to output in the shortcode.
+
+			subdomains= ' subdomains="' + this.value +'"';
+		 }
+		 //Update shortcode function
+		 cttmShortcodeUpdate();
+		  
+	  });
+	   // Attribution Event Listener
+	   document.getElementById("attribution").addEventListener('input', function (e) {
+	  	
+		
+		 // If input is default or empty, set width to empty string.
+		 if (this.value=="") {
+				 
+			attribution='';
+
+		 }else{ // Else, set width variable to output in the shortcode.
+
+			attribution= " attribution='" + this.value +"'";
+		 }
+		 //Update shortcode function
+		 cttmShortcodeUpdate();
+		  
+	  });
+	  
 		/*
 			// Get all current checkboxes and add the checked ones to a string
 			// return the string output for shortcode.
 		 */
-		function cttmCheckboxToString(checkboxes,type){
+		function cttmCheckboxToString(checkboxes,type,isCustomTax=false){
 			
 			var firstChecked = true;
 			var checkedString = "";
-
 			//Loop through sent checkboxes
 			for(var i = 0; i < checkboxes.length; i++) {
 				//If current checkbox is checked
 				if(checkboxes[i].checked){
-					//If this is the first time we get a value
+					//If this is the first checked box we get in our loop
 					if (firstChecked==true) {
 						//Add to string and set firstchecked to false for next value
 						checkedString = checkboxes[i].value;
 						firstChecked = false;
 
 					}else{
-						//If not the first string, add this string seaparated by a comma for shortcode
+						//If not the first, add this string seaparated by a comma for shortcode
 						checkedString = checkedString + ',' + checkboxes[i].value;
 
 					}
@@ -517,26 +625,45 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				}
 				
 			}
-			//If we have a value, set variable to shortcode format depending on type.
+			//If we have at least one checked box, set variable to shortcode format.
 			if (!firstChecked) {
-					if (type=="cat") {
-						checkedString = " cats=" + checkedString;
-					}else if(type=="tag"){
-						checkedString = " tags=" + checkedString;
-					}else if(type=="posttype"){
-						checkedString = " post_types=" +checkedString;
-					}
+				//If it's a custom tax, don't add a space before.
+				if(isCustomTax==true){
+					checkedString = type + "=" +checkedString;
+				}else{
+					checkedString = " "+ type + "=" +checkedString;
+				}
 			};
-			
 			return checkedString;
 
 		}
-
+		/*
+		// Get all checked custom taxonomies strings from customTaxonomyStrings object (populated in Custom Taxonomies Event Listeners)
+		// and combine them nicely into a variable we return at the end.
+		 */
+		function cttmCustomTaxonomiesStringUpdate(){
+			let customTaxString = ""; //reset our string
+			//Loop through each key of our object
+			Object.keys(customTaxonomyStrings).forEach(function (item) {
+				//If the current item is an empty string (if user uncheck all the terms of a custom tax), don't do anything
+				if(customTaxonomyStrings[item] != ""){
+					//If first item added, add custom_tax and opening quote
+					if(customTaxString === ""){
+						customTaxString = ' custom_tax="' + customTaxonomyStrings[item];
+					}else{ // Else (if already an item), separate the items with an ampersand (&)
+						customTaxString += '&'+customTaxonomyStrings[item];
+					}
+				}
+				
+			});
+			
+			return  customTaxString + '"';//Add closing quote before returning
+		}
 		/*
 			// Get all string variables and add them to shortcode.
 		 */
 		function cttmShortcodeUpdate(){
-			shortcode.innerText = '[travelers-map' + width + maxwidth + height + maxheight + minzoom + maxzoom + init_maxzoom + thispostsmarker + centeredonthis + post_id + categoriesstring + tagsstring + posttypestring +']'; 
+			shortcode.innerText = '[travelers-map' + width + maxwidth + height + maxheight + minzoom + maxzoom + init_maxzoom + thispostsmarker + centeredonthis + post_id + categoriesstring + tagsstring + posttypestring + custom_tax + disable_clustering + open_link_in_new_tab + tileurl + subdomains + attribution +']'; 
 		}
 
 	}  	
