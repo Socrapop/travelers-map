@@ -27,10 +27,30 @@ function cttm_options_page()
             echo "<small>| " . __('version', 'travelers-map') . " " . $cttm_data['Version'] . "</small>";
             ?>
         </h1>
+        <div class="row">
+            <p class="col-xl-9">
+                <small><?php _e('Do you want to make Travelers\' Map better? All the updates are based on community feedbacks!', 'travelers-map'); ?>
+                    <br>
+                    <?php printf(__('Do not hesitate to <a href="%1$s" target="_blank">rate this plugin and give me some feedbacks</a>.', 'travelers-map'), 'https://wordpress.org/plugins/travelers-map/#reviews'); ?>
+                </small>
+            </p>
+            <div class="col-xl-3">
+                <p style="margin: 0 0 1em;"><strong style="padding-right:5px; "><?php _e('Support this free plugin:', 'travelers-map'); ?></strong>
 
-        <p><small><?php _e('Do you want to make Travelers\' Map better? All the updates are based on community feedbacks!', 'travelers-map'); ?>
-                <br>
-                <?php printf(__('Do not hesitate to <a href="%1$s" target="_blank">rate this plugin and give me some feedbacks</a>.', 'travelers-map'), 'https://wordpress.org/plugins/travelers-map/#reviews'); ?> </small></p>
+                    <a href="https://www.paypal.me/CamilleVerrier" class="cttm-donate-button" title="Donate on PayPal"><?php _e('Donate', 'travelers-map'); ?>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13.5" height="11.8">
+                            <style>
+                                .st0 {
+                                    fill: #fff
+                                }
+                            </style>
+                            <path class="st0" d="M0 4.2V11c0 .5.4.8.8.8h2.5V3.4H.8c-.4 0-.8.3-.8.8zM11.9 4.2H9.4c-.2 0-.3-.1-.3-.2s-.1-.2 0-.4L9.9 2c.2-.3.2-.8.1-1.1-.2-.4-.5-.6-.9-.7L8.5 0c-.1 0-.3 0-.4.1L4.8 3.9c-.4.4-.6.9-.6 1.4v4.4c0 1.2.9 2.1 2.1 2.1h4.2c.9 0 1.8-.6 2-1.5l.9-4.1v-.4c.1-.9-.6-1.6-1.5-1.6z" />
+                        </svg>
+
+                    </a>
+                </p>
+            </div>
+        </div>
         <hr>
         <p><strong><?php _e('Need some help setting up this plugin?', 'travelers-map'); ?> </strong><br>
             <?php printf(__('Please check the <a href="%1$s" target="_blank">"Get Started" tutorial</a> on my blog.', 'travelers-map'), 'https://camilles-travels.com/get-started-with-travelers-map-wordpress-plugin/'); ?>
@@ -224,7 +244,7 @@ function cttm_popupstyle_html()
     $options = get_option('cttm_options');
     $popup_style = $options["popup_style"];
 
-    echo '<span  style="margin:5px 0 20px; display:block">' . __('Choose the content shown in popups and their style: ', 'travelers-map') . '</span>';
+    echo '<span  style="margin:5px 0 20px; display:block">' . __('Choose the content shown in popovers and their style: ', 'travelers-map') . '</span>';
     echo '<label style="display:inline-block;margin:0 0 10px 10px;background:#fff; padding:10px; box-shadow: #d1d1d1 0px 0px 4px;"><div style="text-align:center; font-weight:bold;  "><input type="radio" name="cttm_options[popup_style]" value="img_title" ' . checked($popup_style, "img_title", false) . '>' . __('Title and thumbnail (default)', 'travelers-map') . '</div><img src="' . plugins_url('includes\admin\images\img_title.png', __FILE__) . '"></label>';
     echo '<label style="display:inline-block;margin:0 0 10px 10px;background:#fff; padding:10px; box-shadow: #d1d1d1 0px 0px 4px;"><div style="text-align:center; font-weight:bold;  "><input type="radio" name="cttm_options[popup_style]" value="img_title_descr" ' . checked($popup_style, "img_title_descr", false) . '>' . __('Title, thumbnail and excerpt', 'travelers-map') . ' </div><img src="' . plugins_url('includes\admin\images\img_title_excerpt.png', __FILE__) . '"></label>';
     echo '<label style="display:inline-block;margin:0 0 10px 10px;background:#fff; padding:10px 10px 0; box-shadow: #d1d1d1 0px 0px 4px;"><div style="text-align:center; font-weight:bold; margin-bottom:10px; "><input type="radio" name="cttm_options[popup_style]" value="title_descr" ' . checked($popup_style, "title_descr", false) . '>' . __('Title and excerpt', 'travelers-map') . '</div><img src="' . plugins_url('includes\admin\images\title_excerpt.png', __FILE__) . '"></label>';
@@ -236,7 +256,7 @@ function cttm_popupcss_html()
 
     $popup_css = $options["popup_css"];
 
-    echo '<label><input type="checkbox" name="cttm_options[popup_css]" value="1" ' . checked($popup_css, 1, false) . '> ' . __('Check this box to disable Travelers\' Map Popup CSS. ', 'travelers-map') . '</label> <br><span class="description" style="margin-top:5px; display:block">' . __('Leaflet default CSS is still loaded. Please note that only the content chosen above is loaded. ', 'travelers-map') . '</span>';
+    echo '<label><input type="checkbox" name="cttm_options[popup_css]" value="1" ' . checked($popup_css, 1, false) . '> ' . __('Check this box to disable Travelers\' Map popovers CSS. ', 'travelers-map') . '</label> <br><span class="description" style="margin-top:5px; display:block">' . __('Leaflet default CSS is still loaded. Please note that only the content chosen above is loaded. ', 'travelers-map') . '</span>';
 }
 
 function cttm_validate_option($input)

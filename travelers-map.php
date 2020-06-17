@@ -3,7 +3,7 @@
 Plugin Name: Travelers' Map
 Plugin URI: https://wordpress.org/plugins/travelers-map
 Description: Pin your Wordpress posts on a dynamic OpenStreetMap map
-Version: 1.9.0
+Version: 1.9.1
 Author: Camille Verrier
 Text Domain: travelers-map
 Domain Path: /languages
@@ -31,7 +31,7 @@ if (!defined('ABSPATH')) {
 
 //Define version constant. We use this to see if the plugin was updated.
 if (!defined('TRAVELERSMAP_VERSION')) {
-    define('TRAVELERSMAP_VERSION', '1.9.0');
+    define('TRAVELERSMAP_VERSION', '1.9.1');
 }
 
 /**
@@ -92,7 +92,7 @@ add_action('after_setup_theme', 'cttm_load_textdomain');
 function cttm_admin_notices()
 {
     echo "<div class='notice-warning notice cttm-notice is-dismissible'><p>";
-    printf(__('Thank you for using Travelers\' Map. <br>This plugin is creating a new thumbnail size for your markers\' images to speed up their loading time in the front-end. <br><br><strong>If you already have images in your media library before activating this plugin, please consider regenerating them with the awesome plugin <a href="%1$s" target="_blank">Regenerate Thumbnails</a> as this is not supported by Wordpress alone.</strong> <br><br> Please note that <strong>images added after you activate this plugin are automatically generated in the right size</strong>.', 'travelers-map'), 'https://wordpress.org/plugins/regenerate-thumbnails/');
+    printf(__('Thank you for using Travelers\' Map. <br>This plugin is creating a new thumbnail size for your markers\' popovers to speed up their loading time in the frontend. <br><br><strong>If you already have images in your media library before activating this plugin, please consider regenerating them with the awesome plugin <a href="%1$s" target="_blank">Regenerate Thumbnails</a> as this is not supported by Wordpress alone.</strong> <br><br> Please note that <strong>images added after you activate this plugin are automatically generated in the right size</strong>.', 'travelers-map'), 'https://wordpress.org/plugins/regenerate-thumbnails/');
     echo "</p></div>";
 }
 

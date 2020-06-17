@@ -291,7 +291,7 @@ function cttm_shortcode($attr)
     wp_localize_script('travelersmap_init', 'cttm_options_params', $cttm_options_params);
     wp_localize_script('travelersmap_init', 'cttm_shortcode_' . $id, ${"cttm_shortcode_$id"});
 
-    $cttm_output = '<div id="' . $containerid . '" class="travelersmap-container" style="min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; "><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">Travelers\' Map is loading... <br> If you see this after your page is loaded completely, leafletJS files are missing.</div></div>';
+    $cttm_output = '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; "><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">Travelers\' Map is loading... <br> If you see this after your page is loaded completely, leafletJS files are missing.</div></div>';
 
     return $cttm_output;
 }

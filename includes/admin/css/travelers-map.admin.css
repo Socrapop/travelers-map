@@ -3955,3 +3955,33 @@ html {
   background: #f8f8f8;
   padding: 18px;
 }
+.cttm-donate-button{
+ 
+  color: white;
+  font-weight: bold;
+  background: #3c6382;
+  text-decoration: none;
+  transition: 300ms all cubic-bezier(.86,0,.07,1);
+  border-radius: 20px;
+  padding: 9px 20px;
+  margin-top: 5px;
+  display: inline-block;
+}
+.cttm-donate-button:hover,.cttm-donate-button:focus {
+  background: #60a3bc;
+  color: white;
+  
+}
+
+.cttm-donate-button svg{
+ 
+ transform: scale(1);
+  transition: 300ms all cubic-bezier(.86,0,.07,1)
+  
+}
+.cttm-donate-button:hover svg{
+  transform: scale(1.2) translateX(3px) rotate(-5deg);
+  background: #60a3bc;
+  color: white;
+  
+}

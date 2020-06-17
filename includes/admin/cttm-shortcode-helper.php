@@ -21,10 +21,30 @@ function cttm_shortcodehelper_page()
 ?>
     <div class="wrap wrap-shortcode-helper">
         <h1>Travelers' Map <small>| <?php _e('Shortcode Helper', 'travelers-map'); ?> </small></h1>
-        <p><small><?php _e('Do you want to make Travelers\' Map better? All the updates are based on community feedbacks!', 'travelers-map'); ?>
-                <br>
-                <?php printf(__('Do not hesitate to <a href="%1$s" target="_blank">rate this plugin and give me some feedbacks</a>.', 'travelers-map'), 'https://wordpress.org/plugins/travelers-map/#reviews'); ?>
-            </small></p>
+        <div class="row">
+            <p class="col-xl-9">
+                <small><?php _e('Do you want to make Travelers\' Map better? All the updates are based on community feedbacks!', 'travelers-map'); ?>
+                    <br>
+                    <?php printf(__('Do not hesitate to <a href="%1$s" target="_blank">rate this plugin and give me some feedbacks</a>.', 'travelers-map'), 'https://wordpress.org/plugins/travelers-map/#reviews'); ?>
+                </small>
+            </p>
+            <div class="col-xl-3">
+                <p style="margin: 0 0 1em;"><strong style="padding-right:5px; "><?php _e('Support this free plugin:', 'travelers-map'); ?></strong>
+
+                    <a href="https://www.paypal.me/CamilleVerrier" class="cttm-donate-button" title="Donate on PayPal"><?php _e('Donate', 'travelers-map'); ?>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13.5" height="11.8">
+                            <style>
+                                .st0 {
+                                    fill: #fff
+                                }
+                            </style>
+                            <path class="st0" d="M0 4.2V11c0 .5.4.8.8.8h2.5V3.4H.8c-.4 0-.8.3-.8.8zM11.9 4.2H9.4c-.2 0-.3-.1-.3-.2s-.1-.2 0-.4L9.9 2c.2-.3.2-.8.1-1.1-.2-.4-.5-.6-.9-.7L8.5 0c-.1 0-.3 0-.4.1L4.8 3.9c-.4.4-.6.9-.6 1.4v4.4c0 1.2.9 2.1 2.1 2.1h4.2c.9 0 1.8-.6 2-1.5l.9-4.1v-.4c.1-.9-.6-1.6-1.5-1.6z" />
+                        </svg>
+
+                    </a>
+                </p>
+            </div>
+        </div>
         <hr>
         <div class="row">
             <div class="col-lg helper-bloc">
@@ -170,7 +190,7 @@ function cttm_shortcodehelper_page()
 
                     <div class="col-xl helper-bloc-inner posttypes">
                         <strong><?php _e('Post types:', 'travelers-map'); ?></strong><br>
-                        <p class="description"> <?php _e('Select the post types you want to show on the map. Default: All post types selected in the plugin option page.', 'travelers-map'); ?></p>
+                        <p class="description"> <?php _e('Select the post types you want to show on the map. Default: All post types selected in the plugin settings page.', 'travelers-map'); ?></p>
 
                         <div class="checkbox-container">
                             <?php
@@ -250,7 +270,7 @@ function cttm_shortcodehelper_page()
                 <br>
                 <div>
                     <label><input type="checkbox" id="open_link_in_new_tab" style="margin-right: 10px;" name="open_link_in_new_tab" value="true"><strong><?php _e('Open links in a new tab', 'travelers-map'); ?></strong></label><br>
-                    <p class="description"><?php _e('Force popup links to open in a new tab. Warning: This is not recommended as it changes the default browser behaviour. You should let the users decide how they want to open links.', 'travelers-map'); ?></p>
+                    <p class="description"><?php _e('Force popover links to open in a new tab. Warning: This is not recommended as it changes the default browser behaviour. You should let the users decide how they want to open links.', 'travelers-map'); ?></p>
                 </div>
                 <br>
                 <div class="helper-tile-container">
