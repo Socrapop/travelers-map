@@ -8,7 +8,7 @@ Requires PHP: 5.2.4
 Stable tag: 1.9.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.9.1
+Version 1.9.2
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -61,6 +61,9 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
 
 == Changelog ==
+= 1.9.2 - 20/06/2020 = 
+* Fixed double quotes in popovers' excerpt from throwing an error and preventing the map to load.
+
 = 1.9.1 - 17/06/2020 = 
 * Added stacking context to the map: map and control elements are not overlapping other plugins elements anymore (like overlays, modal windows...).
 * Better English wording (ex: popups are now popovers). Do not hesitate to contact me if some sentences are weird, english is not my native tongue.
@@ -71,23 +74,23 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 
 = 1.9.0 - Major update - 21/05/2020 = 
 
-- New features:
+New features:
 * Added custom taxonomy filtering in shortcodes! 
 * Added shortcode parameter "disable_clustering" to disable marker clustering. Don't use this on a map with a lot of markers.
 * Added shortcode parameter "open_link_in_new_tab" to open the link in a new tab on click on a marker's popup (however it's not recommended, in most cases, you should let the user decide what he/she wants to do).
 * Added shortcode parameters "tileurl", "subdomains" and "attribution" to override global plugin settings. This option is advised for advanced users only.
 * Added spiderfy for markers clustering: If a clusterGroup appears at the maximum zoom level of the map, clicking on it makes it "spiderfy" so you can see all of its markers. No more problem if your markers are located at the same place.
 
-- Changed: 
+Changed: 
 * Shortcode Helper page updated with new parameters : 
 * Added a new "Advanced settings" section at the bottom of the page.
 * Added "Filter by custom taxonomies section".
 * French translation updated.
 
-- Fixed: 
+Fixed: 
 * Travelers' Map now check if the map containers are on the page before initializing the maps. This removes the errors when the shortcode was loaded asynchronously.
 
-- For developers:
+For developers:
 * Added possibility to initialize the map with initTravelersMap() function. This can be useful if you load the HTML container div asynchronously.
 * Updated dependencies: Leaflet V1.6.0 and Leaflet MarkerCluster V1.4.1
 * Refactorded some functions and formatted files with Prettier (.js) and Phpfmt (.php)
@@ -95,37 +98,37 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 
 = 1.8.1 - 20/02/2020 =
 
-- Added compatibility with WPML (multilingual plugin) : 
+Added compatibility with WPML (multilingual plugin) : 
 *   Use duplication to copy marker information between posts. 
 *   Shortcode is now showing posts of the current language only.
 *   Added an option in Travelers' Map settings (when WPML is activated) to copy all markers from default language posts to their translations (useful if the translations are already created).
-- French translation updated.
+French translation updated.
 
 = 1.8.0 - 17/02/2020 ==
 
-- Added compatibility with Polylang (multilingual plugin) : 
+Added compatibility with Polylang (multilingual plugin) : 
 *   New translations for a post are getting the same marker's informations as original post. This might work for WPML too but I can't test without a licence, sorry.
 *   Shortcode is now showing posts of the current language only.
 *   Added an option in Travelers' Map settings (when Polylang is activated) to copy all markers from default language posts to their translations (useful if the translations are already created).
-- French translation updated.
-- Code formatting
+French translation updated.
+Code formatting
 
 = 1.7.0 - Major update - 14/12/2019 ==
 
-- New features:
+New features:
 * New shortcode parameter "centered_on_this" to show a map zoomed on the current post's marker, moreover other posts are also displayed on the map.
 * New shortcode parameter "post_id" to fetch a post's marker by its ID. This can be combined with "centered_on_this" parameter to zoom on this ID's marker but keep the others showing.
 * New option added to show a fullscreen button on your maps in the plugin settings.
 
 
-- Minor features and changes: 
+Minor features and changes: 
 * Added a dismissible admin notice warning the users to regenerate their thumbnail to speed up their markers' thumbnails loading.
 * Overhaul UX/UI makeover for Shortcode helper page. Settings are now separated in different parts and is optimized for next update. 
 * Changed default "Initialization max-zoom" to be 15 instead of 18.
 * Changed some texts in admin area.
 * French translation updated.
 
-- New options for developers:
+New options for developers:
 * 'cttm_map[]' array is now a global variable. You can now initialize your own leaflet plugins to the maps. More information and tutorial added in the plugin's documentation.
 * Custom event 'cttm_map_loaded' is triggered when maps are initialized on the frontend.
 

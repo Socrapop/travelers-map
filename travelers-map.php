@@ -31,7 +31,7 @@ if (!defined('ABSPATH')) {
 
 //Define version constant. We use this to see if the plugin was updated.
 if (!defined('TRAVELERSMAP_VERSION')) {
-    define('TRAVELERSMAP_VERSION', '1.9.1');
+    define('TRAVELERSMAP_VERSION', '1.9.2');
 }
 
 /**

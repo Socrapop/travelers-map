@@ -250,11 +250,12 @@ function cttm_shortcode($attr)
         $cttm_metas = 0;
     }
     //json_encode the array to send it to our javascript
-    $cttm_metas = json_encode($cttm_metas);
+    //htmlspecialchars to avoid errors with &quot; 
+    $cttm_metas = htmlspecialchars(json_encode($cttm_metas));
 
     //Get global options from the setting page to show the map in front-end
     //cttm_options is an array
-    $cttm_options_json = json_encode($cttm_options);
+    $cttm_options_json = htmlspecialchars(json_encode($cttm_options));
 
     $id = uniqid();
     $containerid = "travelersmap-container-" . $id;
