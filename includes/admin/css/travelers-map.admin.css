@@ -1,4 +1,3 @@
-
 /* Custom style sheet for travelers' map admin area:
 - Bootstrap grid
 - Shortcode Helper
@@ -53,7 +52,11 @@ html {
   }
 }
 
-.container-fluid, .container-sm, .container-md, .container-lg, .container-xl {
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl {
   width: 100%;
   padding-right: 15px;
   padding-left: 15px;
@@ -62,25 +65,35 @@ html {
 }
 
 @media (min-width: 576px) {
-  .container, .container-sm {
+  .container,
+  .container-sm {
     max-width: 540px;
   }
 }
 
 @media (min-width: 768px) {
-  .container, .container-sm, .container-md {
+  .container,
+  .container-sm,
+  .container-md {
     max-width: 720px;
   }
 }
 
 @media (min-width: 992px) {
-  .container, .container-sm, .container-md, .container-lg {
+  .container,
+  .container-sm,
+  .container-md,
+  .container-lg {
     max-width: 960px;
   }
 }
 
 @media (min-width: 1200px) {
-  .container, .container-sm, .container-md, .container-lg, .container-xl {
+  .container,
+  .container-sm,
+  .container-md,
+  .container-lg,
+  .container-xl {
     max-width: 1140px;
   }
 }
@@ -105,11 +118,75 @@ html {
   padding-left: 0;
 }
 
-.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col,
-.col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm,
-.col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md,
-.col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg,
-.col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl,
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12,
+.col,
+.col-auto,
+.col-sm-1,
+.col-sm-2,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-9,
+.col-sm-10,
+.col-sm-11,
+.col-sm-12,
+.col-sm,
+.col-sm-auto,
+.col-md-1,
+.col-md-2,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-8,
+.col-md-9,
+.col-md-10,
+.col-md-11,
+.col-md-12,
+.col-md,
+.col-md-auto,
+.col-lg-1,
+.col-lg-2,
+.col-lg-3,
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-7,
+.col-lg-8,
+.col-lg-9,
+.col-lg-10,
+.col-lg-11,
+.col-lg-12,
+.col-lg,
+.col-lg-auto,
+.col-xl-1,
+.col-xl-2,
+.col-xl-3,
+.col-xl-4,
+.col-xl-5,
+.col-xl-6,
+.col-xl-7,
+.col-xl-8,
+.col-xl-9,
+.col-xl-10,
+.col-xl-11,
+.col-xl-12,
+.col-xl,
 .col-xl-auto {
   position: relative;
   width: 100%;
@@ -3904,84 +3981,91 @@ html {
 }
 
 /* Shortcode Helper */
-.helper-bloc{
-	background: white;
-	-webkit-box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.065);
-	box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.065);
-	margin: 10px;
-	padding: 0 20px 20px;
+.helper-bloc {
+  background: white;
+  -webkit-box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.065);
+  box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.065);
+  margin: 10px;
+  padding: 0 20px 20px;
+}
+.helper-bloc-row {
+  background: white;
+  -webkit-box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.065);
+  box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.065);
+  padding: 0 20px 20px;
+  margin: 10px -5px 0;
+}
+.helper-bloc-inner {
+  margin: 10px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  -webkit-box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.065);
+  box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.065);
+}
 
+.helper-bloc-inner.categories {
+  background: #f3faff;
 }
-.helper-bloc-inner{
-	margin: 10px;
-	padding: 20px;
-	border: 1px solid #ddd;
-	-webkit-box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.065);
-	box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.065);
+.helper-bloc-inner.tags {
+  background: #fbf8f1;
 }
-
-.helper-bloc-inner.categories{
-	background: #f3faff;
+.helper-bloc-inner.posttypes {
+  background: #fef4ff;
 }
-.helper-bloc-inner.tags{
-	background: #fbf8f1;
-}
-.helper-bloc-inner.posttypes{
-	background: #fef4ff;
-}
-.helper-bloc-inner.customtaxonomy{
+.helper-bloc-inner.customtaxonomy {
   background: #f8f8f8;
 }
-.helper-bloc-inner label{
-	display: inline-block; margin-right: 30px; padding: 3px 0;
-	border-bottom: 1px solid transparent;
+.helper-bloc-inner label {
+  display: inline-block;
+  margin-right: 30px;
+  padding: 3px 0;
+  border-bottom: 1px solid transparent;
 }
-.helper-bloc-inner label:hover{
-	border-bottom: 1px solid grey;
+.helper-bloc-inner label:hover {
+  border-bottom: 1px solid grey;
 }
-.helper-bloc-inner .cttm-posttype-checkbox{
-	margin-right: 8px;
+.helper-bloc-inner .cttm-posttype-checkbox {
+  margin-right: 8px;
 }
-.helper-bloc-inner .checkbox-container{
-	padding: 10px 0;
+.helper-bloc-inner .checkbox-container {
+  padding: 10px 0;
 }
-#cttm-shortcode-helper{
-	padding:10px 20px; 
-	background: #e8f5e9; 
-	font-weight: bold;
+#cttm-shortcode-helper {
+  padding: 10px 20px;
+  background: #e8f5e9;
+  font-weight: bold;
 }
-.helper-tile-container{
+.helper-tile-container {
   border: 1px solid #dfdfdf;
   background: #f8f8f8;
-  padding: 18px;
+  padding: 0 18px;
 }
-.cttm-donate-button{
- 
+.cttm-donate-button {
   color: white;
   font-weight: bold;
   background: #3c6382;
   text-decoration: none;
-  transition: 300ms all cubic-bezier(.86,0,.07,1);
+  transition: 300ms all cubic-bezier(0.86, 0, 0.07, 1);
   border-radius: 20px;
   padding: 9px 20px;
   margin-top: 5px;
   display: inline-block;
 }
-.cttm-donate-button:hover,.cttm-donate-button:focus {
+.cttm-donate-button:hover,
+.cttm-donate-button:focus {
   background: #60a3bc;
   color: white;
-  
 }
 
-.cttm-donate-button svg{
- 
- transform: scale(1);
-  transition: 300ms all cubic-bezier(.86,0,.07,1)
-  
+.cttm-donate-button svg {
+  transform: scale(1);
+  transition: 300ms all cubic-bezier(0.86, 0, 0.07, 1);
 }
-.cttm-donate-button:hover svg{
+.cttm-donate-button:hover svg {
   transform: scale(1.2) translateX(3px) rotate(-5deg);
   background: #60a3bc;
   color: white;
-  
+}
+.helper-bloc input[type="number"] {
+  margin-bottom: 8px;
 }

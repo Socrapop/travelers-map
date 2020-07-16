@@ -37,14 +37,13 @@ function initTravelersMap() {
   cttm_shortcode_vars_arr.forEach(cttmMapLoop);
 
   function cttmMapLoop(cttm_shortcode_vars) {
-    
     //Get shortcode options
     let json_cttm_shortcode = cttm_shortcode_vars.cttm_shortcode_options;
-   
+
     //Clean json string to be usable
     json_cttm_options = json_cttm_options.replace(/&quot;/g, '\\"');
     json_cttm_shortcode = json_cttm_shortcode.replace(/&quot;/g, '\\"');
-    
+
     //Get arrays of all the options and shortcode options
     let cttm_options = JSON.parse(json_cttm_options);
     var cttm_shortcode_options = JSON.parse(json_cttm_shortcode);
@@ -74,7 +73,13 @@ function initTravelersMap() {
       var init_maxzoom = 16;
     }
 
-    
+    if (cttm_shortcode_options.max_cluster_radius) {
+      var max_cluster_radius = parseInt(
+        cttm_shortcode_options.max_cluster_radius
+      );
+    } else {
+      var max_cluster_radius = 45;
+    }
 
     /**
      * Create leaflet map object "cttm_map"
@@ -89,22 +94,21 @@ function initTravelersMap() {
     //Set Tiles Server URL + API key + Attribution
     //If a shortcode tile server is set, override global settings' tile server
     let tileurl, subdomains, attribution;
-    if(cttm_shortcode_options.tileurl !== ""){
+    if (cttm_shortcode_options.tileurl !== "") {
       tileurl = cttm_shortcode_options.tileurl;
-    }else{
+    } else {
       tileurl = cttm_options["tileurl"];
     }
-    if(cttm_shortcode_options.subdomains !== ""){
+    if (cttm_shortcode_options.subdomains !== "") {
       subdomains = cttm_shortcode_options.subdomains;
-    }else{
+    } else {
       subdomains = cttm_options["subdomains"];
     }
-    if(cttm_shortcode_options.attribution !== ""){
+    if (cttm_shortcode_options.attribution !== "") {
       attribution = cttm_shortcode_options.attribution;
-    }else{
+    } else {
       attribution = cttm_options["attribution"];
     }
-   
 
     //Push current map object to array
     cttm_map.push(L.map(container, cttm_map_options));
@@ -140,9 +144,10 @@ function initTravelersMap() {
       markersGroup = L.featureGroup();
     } else {
       //default
+      console.log(max_cluster_radius);
       markersGroup = L.markerClusterGroup({
         showCoverageOnHover: false,
-        maxClusterRadius: 45,
+        maxClusterRadius: max_cluster_radius,
         spiderLegPolylineOptions: {
           weight: 3,
           color: "rgb(110, 204, 57)",
@@ -199,15 +204,15 @@ function initTravelersMap() {
 
     //Get markers metas and linked posts datas from shortcode
     let json_cttm_metas = cttm_shortcode_vars.cttm_metas;
-    
+
     //If posts with markers exist
     if (json_cttm_metas != 0) {
       //Clean json string to be usable
       json_cttm_metas = json_cttm_metas.replace(/&quot;/g, '\\"');
-     
+
       //Get an array of objects containing markerdatas and postdatas
       cttm_metas = JSON.parse(json_cttm_metas);
-      
+
       //Loop through cttm_metas array, create all the markers and popups.
       for (let i = 0; i < cttm_metas.length; i++) {
         //If current markerdata is not falsy:
@@ -216,7 +221,7 @@ function initTravelersMap() {
         if (cttm_metas[i].markerdatas) {
           //Get markerdatas object
           var markerdatas = JSON.parse(cttm_metas[i].markerdatas);
-          
+
           //Initialize all markers variables
           let markerlatitude = markerdatas.latitude;
           let markerlongitude = markerdatas.longitude;

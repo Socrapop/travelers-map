@@ -5,10 +5,10 @@ Tags: geolocalize, openstreetmap, leaftlet, map, pin, travelers, markers, travel
 Requires at least: 4.6
 Tested up to: 5.4.2
 Requires PHP: 5.2.4
-Stable tag: 1.9.1
+Stable tag: 1.10.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.9.2
+Version 1.10.0
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -61,6 +61,11 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
 
 == Changelog ==
+= 1.10.0 - 13/07/2020 = 
+* Added shortcode parameter "current_query_markers" to show current page query markers only. Ideal to put on the search results page. This will override every other filtering parameters. Please note this is not working with ajax loaded search results.
+* Added shortcode parameter "max_cluster_radius" to define the maximum radius that a cluster will cover from the central marker (in pixels). Default is 45. Decreasing will make more, smaller clusters.
+* Shortcode Helper page updated with the new parameters.
+
 = 1.9.2 - 20/06/2020 = 
 * Fixed double quotes in popovers' excerpt from throwing an error and preventing the map to load.
 

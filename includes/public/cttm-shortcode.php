@@ -12,6 +12,7 @@ add_shortcode('travelers-map', 'cttm_shortcode');
 
 function cttm_shortcode($attr)
 {
+
     //enqueue styles and scripts when shortcode is used
     wp_enqueue_style('leaflet_css');
     wp_enqueue_style('travelersmap_css');
@@ -53,11 +54,13 @@ function cttm_shortcode($attr)
         'minzoom' => '',
         'maxzoom' => '',
         'this_post' => false,
+        'current_query_markers' => false,
         'centered_on_this' => false,
         'init_maxzoom' => 16,
         'post_id' => false,
         'open_link_in_new_tab' => false,
         'disable_clustering' => false,
+        'max_cluster_radius' => 45,
         'tileurl' => false,
         'subdomains' => false,
         'attribution' => false,
@@ -152,31 +155,46 @@ function cttm_shortcode($attr)
 
     /**
      * Define query parameters based on shortcode attributes.
-     * We only get private taxonomy 'cttm-markers-tax', which is set automatically when a marker is assigned to a post.
+     * current_query_markers has priority over the other attributes and override them.
      */
-
-    // IF '$current_id' has an ID (see above), we define WP_Query parameters to only get this post/page.
-    if ($current_id) {
-
-        $cttm_options_args = array(
-            'post__in' => array($current_id),
-            'post_type' => 'any',
+    if ($current_query_markers == true) {
+        global $wp_query;
+        $cttm_global_query_args = $wp_query->query_vars;
+        $cttm_options_args = array_replace($cttm_global_query_args, array(
+            'posts_per_page' => '10',
+            'paged' => false,
             'tax_query' => array(
                 array(
                     'taxonomy' => 'cttm-markers-tax',
                     'terms' => 'hasmarker',
                 ),
             ),
-        );
-    } else {
 
-        $cttm_options_args = array(
-            'post_type' => $post_types,
-            'posts_per_page' => -1,
-            'tax_query' => $tax_query,
-            'tag' => $tags,
-            'category_name' => $cats,
-        );
+        ));
+    } else {
+        // IF '$current_id' has an ID (see above), we define WP_Query parameters to only get this post/page.
+        if ($current_id) {
+
+            $cttm_options_args = array(
+                'post__in' => array($current_id),
+                'post_type' => 'any',
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'cttm-markers-tax',
+                        'terms' => 'hasmarker',
+                    ),
+                ),
+            );
+        } else {
+
+            $cttm_options_args = array(
+                'post_type' => $post_types,
+                'posts_per_page' => -1,
+                'tax_query' => $tax_query,
+                'tag' => $tags,
+                'category_name' => $cats,
+            );
+        }
     }
 
     /**
@@ -187,7 +205,7 @@ function cttm_shortcode($attr)
     //   The first is our actual post to zoom on
     //   Second is our general query excluding current post
     //   Then we merge both into $cttm_query.
-    if ($centered_on_this == true && $this_post == false) {
+    if ($centered_on_this == true && $this_post == false && $current_query_markers != true) {
         //Get the single post to zoom on.
         $cttm_query_singlepost = new WP_Query($cttm_options_args);
 
@@ -270,6 +288,7 @@ function cttm_shortcode($attr)
     $cttm_shortcode_options['centered_on_this'] = (string) $centered_on_this;
     $cttm_shortcode_options['open_link_in_new_tab'] = (string) $open_link_in_new_tab;
     $cttm_shortcode_options['disable_clustering'] = (string) $disable_clustering;
+    $cttm_shortcode_options['max_cluster_radius'] = $max_cluster_radius;
     $cttm_shortcode_options['tileurl'] = (string) $tileurl;
     $cttm_shortcode_options['subdomains'] = (string) $subdomains;
     $cttm_shortcode_options['attribution'] = (string) $attribution;
