@@ -219,61 +219,83 @@ function cttm_shortcodehelper_page()
 
                     );
                     $taxonomies = get_taxonomies($args, 'objects', 'and');
-                    $custom_tax_count = 1; // To add div.rows every 3 custom tax.
-                    foreach ($taxonomies as $taxonomy) {
-                        //get this taxonomy's terms.
-                        $taxonomy_terms = get_terms(array(
-                            'taxonomy' => $taxonomy->name,
-                            'orderby' => 'name',
-                            'hide_empty' => false,
-                        ));
-                        //Show the taxonomy block only if it's not empty
-                        if (empty($taxonomy_terms) == false) {
+
+                    if (!empty($taxonomies)) {
+                        $custom_tax_count = 1; // To add div.rows every 3 custom tax.
+                        foreach ($taxonomies as $taxonomy) {
+                            //get this taxonomy's terms.
+                            $taxonomy_terms = get_terms(array(
+                                'taxonomy' => $taxonomy->name,
+                                'orderby' => 'name',
+                                'hide_empty' => false,
+                            ));
+                            //Show the taxonomy block only if it's not empty
+                            if (empty($taxonomy_terms) == false) {
                     ?>
-                            <div class="col-xl helper-bloc-inner customtaxonomy" data-taxonomy-name="<?php echo $taxonomy->name; ?>">
-                                <strong><?php echo $taxonomy->label; ?></strong><br>
-                                <p class="description"> <?php _e('Select the terms you want to show on the map. Default: All terms.', 'travelers-map'); ?></p>
+                                <div class="col-xl helper-bloc-inner customtaxonomy" data-taxonomy-name="<?php echo $taxonomy->name; ?>">
+                                    <strong><?php echo $taxonomy->label; ?></strong><br>
+                                    <p class="description"> <?php _e('Select the terms you want to show on the map. Default: All terms.', 'travelers-map'); ?></p>
 
-                                <div class="checkbox-container">
-                                    <?php
+                                    <div class="checkbox-container">
+                                        <?php
 
 
-                                    //Add a checkbox for each registered custom taxonomy term.
-                                    foreach ($taxonomy_terms as $taxonomy_term) {
-                                        echo '<label><input type="checkbox" class="cttm-' . $taxonomy->name . '-checkbox" name="' . $taxonomy_term->name . '" value="' . $taxonomy_term->slug . '">' . $taxonomy_term->name . '</label>';
-                                    }
+                                        //Add a checkbox for each registered custom taxonomy term.
+                                        foreach ($taxonomy_terms as $taxonomy_term) {
+                                            echo '<label><input type="checkbox" class="cttm-' . $taxonomy->name . '-checkbox" name="' . $taxonomy_term->name . '" value="' . $taxonomy_term->slug . '">' . $taxonomy_term->name . '</label>';
+                                        }
 
-                                    ?>
+                                        ?>
+                                    </div>
                                 </div>
-                            </div>
-                    <?php if ($custom_tax_count % 3 == 0) {
-                                // Add a row every 3 custom taxonomy block.
-                                echo '</div><div class="row">';
+                        <?php if ($custom_tax_count % 3 == 0) {
+                                    // Add a row every 3 custom taxonomy block.
+                                    echo '</div><div class="row">';
+                                }
+                                $custom_tax_count++;
                             }
-                            $custom_tax_count++;
-                        }
-                    }
+                        } // END FOREACH
+                    } else { ?>
+                        <div class="col-lg">
+                            <p class="description"> <?php _e('No custom taxonomy found, if you have one, make sure at least one term is set', 'travelers-map'); ?></p>
+                        </div>
+                    <?php }
                     ?>
 
                 </div>
             </div>
 
         </div>
-        <div class="row">
-            <div class="col-lg helper-bloc" style="margin-top: 40px;">
-                <h3><?php _e('Advanced settings', 'travelers-map'); ?></h3>
-                <p style="color: #913232;"><?php _e('These settings are meant for experienced users only. Please read carefully the descriptions as these settings can cause performance issues and other problems.', 'travelers-map'); ?></p>
-                <div>
-                    <label><input type="checkbox" id="disableclustering" style="margin-right: 10px;" name="disableclustering" value="true"><strong><?php _e('Disable marker clustering', 'travelers-map'); ?></strong></label><br>
-                    <p class="description"><?php _e('Prevent the markers from regrouping when too close to each other. Warning: Don\'t use on a map with a lot of markers as it can cause performance issues.', 'travelers-map'); ?></p>
+        <div class="row helper-bloc-row">
+            <h3 style="margin-bottom:0; display:block; width:100%"><?php _e('Advanced settings', 'travelers-map'); ?></h3>
+            <p style="color: #913232;"><?php _e('These settings are meant for experienced users only. Please read carefully the descriptions as these settings can cause performance issues and other problems.', 'travelers-map'); ?></p>
+            <div class="row">
+                <div class="col-xl" style="margin-bottom:10px">
+                    <div>
+                        <label for="max_cluster_radius"><strong><?php _e('Max cluster radius:', 'travelers-map'); ?> </strong></label><input id="max_cluster_radius" type="number" step="1" min="1" placeholder="Default: 45" style="margin-bottom:10px">
+                        <br>
+                        <span class="description"><?php _e('Define the maximum radius that a cluster will cover from the central marker (in pixels). Default is 45. Decreasing will make more, smaller clusters.', 'travelers-map'); ?></span>
+                    </div>
+                    <br>
+                    <div>
+                        <label><input type="checkbox" id="disableclustering" style="margin-right: 10px;" name="disableclustering" value="true"><strong><?php _e('Disable marker clustering', 'travelers-map'); ?></strong></label><br>
+                        <p class="description"><?php _e('Prevent the markers from regrouping when too close to each other. Warning: Don\'t use on a map with a lot of markers as it can cause performance issues.', 'travelers-map'); ?></p>
+                    </div>
+                    <br>
+
+
+                    <div>
+                        <label><input type="checkbox" id="open_link_in_new_tab" style="margin-right: 10px;" name="open_link_in_new_tab" value="true"><strong><?php _e('Open links in a new tab', 'travelers-map'); ?></strong></label><br>
+                        <p class="description"><?php _e('Force popover links to open in a new tab. Warning: This is not recommended as it changes the default browser behaviour. You should let the users decide how they want to open links.', 'travelers-map'); ?></p>
+                    </div>
+                    <br>
+                    <div>
+                        <label><input type="checkbox" id="current_query_markers" style="margin-right: 10px;" name="current_query_markers" value="true"><strong><?php _e('Show current page query markers only', 'travelers-map'); ?></strong></label><br>
+                        <p class="description"><?php _e('Ideal to put on a search results page. This will override every other filtering parameters. Please note this is not working with ajax loaded search results. On a single post or page, please use "this_post=true" instead.', 'travelers-map'); ?></p>
+                    </div>
                 </div>
-                <br>
-                <div>
-                    <label><input type="checkbox" id="open_link_in_new_tab" style="margin-right: 10px;" name="open_link_in_new_tab" value="true"><strong><?php _e('Open links in a new tab', 'travelers-map'); ?></strong></label><br>
-                    <p class="description"><?php _e('Force popover links to open in a new tab. Warning: This is not recommended as it changes the default browser behaviour. You should let the users decide how they want to open links.', 'travelers-map'); ?></p>
-                </div>
-                <br>
-                <div class="helper-tile-container">
+
+                <div class="col-xl helper-tile-container">
                     <h3 style="font-size: 1.2em;"><?php _e('Tile provider settings', 'travelers-map'); ?></h3>
                     <p> <?php _e('If you change your tile provider, you must fill all the fields below in order to avoid your map from not showing or having some tiles missing.', 'travelers-map'); ?><br>
                         <?php _e('By default, the map will use the tile provider set in Travelers\' Map settings.', 'travelers-map'); ?></p>
@@ -294,5 +316,6 @@ function cttm_shortcodehelper_page()
                 </div>
             </div>
         </div>
-    <?php
+    </div>
+<?php
 }
