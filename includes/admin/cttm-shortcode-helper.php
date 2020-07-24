@@ -271,13 +271,6 @@ function cttm_shortcodehelper_page()
             <p style="color: #913232;"><?php _e('These settings are meant for experienced users only. Please read carefully the descriptions as these settings can cause performance issues and other problems.', 'travelers-map'); ?></p>
             <div class="row">
                 <div class="col-xl" style="margin-bottom:10px">
-
-                    <div>
-                        <label><input type="checkbox" id="disableclustering" style="margin-right: 10px;" name="disableclustering" value="true"><strong><?php _e('Disable marker clustering', 'travelers-map'); ?></strong></label><br>
-                        <p class="description"><?php _e('Prevent the markers from regrouping when too close to each other. Warning: Don\'t use on a map with a lot of markers as it can cause performance issues.', 'travelers-map'); ?></p>
-                    </div>
-                    <br>
-
                     <div>
                         <label for="max_cluster_radius"><strong><?php _e('Max cluster radius:', 'travelers-map'); ?> </strong></label><input id="max_cluster_radius" type="number" step="1" min="1" placeholder="Default: 45" style="margin-bottom:10px">
                         <br>
@@ -285,8 +278,20 @@ function cttm_shortcodehelper_page()
                     </div>
                     <br>
                     <div>
+                        <label><input type="checkbox" id="disableclustering" style="margin-right: 10px;" name="disableclustering" value="true"><strong><?php _e('Disable marker clustering', 'travelers-map'); ?></strong></label><br>
+                        <p class="description"><?php _e('Prevent the markers from regrouping when too close to each other. Warning: Don\'t use on a map with a lot of markers as it can cause performance issues.', 'travelers-map'); ?></p>
+                    </div>
+                    <br>
+
+
+                    <div>
                         <label><input type="checkbox" id="open_link_in_new_tab" style="margin-right: 10px;" name="open_link_in_new_tab" value="true"><strong><?php _e('Open links in a new tab', 'travelers-map'); ?></strong></label><br>
                         <p class="description"><?php _e('Force popover links to open in a new tab. Warning: This is not recommended as it changes the default browser behaviour. You should let the users decide how they want to open links.', 'travelers-map'); ?></p>
+                    </div>
+                    <br>
+                    <div>
+                        <label><input type="checkbox" id="current_query_markers" style="margin-right: 10px;" name="current_query_markers" value="true"><strong><?php _e('Show current page query markers only', 'travelers-map'); ?></strong></label><br>
+                        <p class="description"><?php _e('Ideal to put on a search results page. This will override every other filtering parameters. Please note this is not working with ajax loaded search results. On a single post or page, please use "this_post=true" instead.', 'travelers-map'); ?></p>
                     </div>
                 </div>
 

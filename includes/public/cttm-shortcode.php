@@ -161,8 +161,7 @@ function cttm_shortcode($attr)
         global $wp_query;
         $cttm_global_query_args = $wp_query->query_vars;
         $cttm_options_args = array_replace($cttm_global_query_args, array(
-            'posts_per_page' => '10',
-            'paged' => false,
+            'nopaging' => true,
             'tax_query' => array(
                 array(
                     'taxonomy' => 'cttm-markers-tax',

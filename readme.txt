@@ -61,7 +61,7 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
 
 == Changelog ==
-= 1.10.0 - 13/07/2020 = 
+= 1.10.0 - 24/07/2020 = 
 * Added shortcode parameter "current_query_markers" to show current page query markers only. Ideal to put on the search results page. This will override every other filtering parameters. Please note this is not working with ajax loaded search results.
 * Added shortcode parameter "max_cluster_radius" to define the maximum radius that a cluster will cover from the central marker (in pixels). Default is 45. Decreasing will make more, smaller clusters.
 * Shortcode Helper page updated with the new parameters.
