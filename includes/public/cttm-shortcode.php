@@ -245,7 +245,7 @@ function cttm_shortcode($attr)
             // LOOP
             //for each posts get informations:
             //postdatas() is an array of the post thumbnail, url and title
-            //latlngmarkerarr() is an array with only one value, a json array of markers' latitude, longitude and image url(<- or string "default").
+            //latlngmarkerarr() is an array of locations. Each location is a json array of markers' latitude, longitude and image url(<- or string "default").
 
             $cttm_postdatas = array();
             $cttm_postdatas['thumb'] = get_the_post_thumbnail_url($cttm_post->ID, "travelersmap-thumb");
@@ -256,10 +256,12 @@ function cttm_shortcode($attr)
             $latlngmarkerarr = get_post_meta($cttm_post->ID, '_latlngmarker');
 
             //Create the $cttm_metas array to store all the markers and posts informations. This will be send to out javascript file
-            $cttm_metas[$i]['markerdatas'] = $latlngmarkerarr[0];
-            $cttm_metas[$i]['postdatas'] = $cttm_postdatas;
+            foreach ($latlngmarkerarr as $marker) {
+                $cttm_metas[$i]['markerdatas'] = $marker;
+                $cttm_metas[$i]['postdatas'] = $cttm_postdatas;
 
-            $i += 1;
+                $i += 1;
+            } // End foreach $latlngmarkerarr
         } //End foreach
 
     } else {
