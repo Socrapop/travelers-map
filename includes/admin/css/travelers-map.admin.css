@@ -113,7 +113,7 @@ html {
 }
 
 .no-gutters > .col,
-.no-gutters > [class*="col-"] {
+.no-gutters > [class*='col-'] {
   padding-right: 0;
   padding-left: 0;
 }
@@ -4066,6 +4066,31 @@ html {
   background: #60a3bc;
   color: white;
 }
-.helper-bloc input[type="number"] {
+.helper-bloc input[type='number'] {
   margin-bottom: 8px;
+}
+.popovers-container {
+  display: flex;
+  border: 1px solid grey;
+  padding: 10px;
+  max-width: 800px;
+}
+.popovers-options-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 40px;
+}
+.popover-preview-text {
+  display: block;
+
+  margin-bottom: 15px;
+}
+.popover-label {
+  margin-bottom: 15px;
+}
+.popover-preview-container {
+  text-align: center;
+  flex: 1 1 auto;
+  background: #dfdfdf;
+  padding: 10px;
 }
