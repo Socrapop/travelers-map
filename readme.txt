@@ -64,8 +64,11 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 = 1.11.0 - /2020 = 
 
 Improved popovers customization:
-* //You can now choose which data you want to show in the popovers. Design will adapt accordingly.
-* //Added the possibility to show the post's date in the popovers.
+* You can now choose which data you want to show in the popovers. Design will adapt accordingly.
+* Added the possibility to show the post's date in the popovers.
+* Updated popovers CSS. If you have a caching plugin, you can clear the cache after the update if you have any problem.
+* Old settings are automatically converted into the new settings when updating to 1.11.0.
+
 
 * //Added custom title, excerpt and thumbnail for markers' popovers. You can now change the default data shown in the popovers.
 * //Updated Travelers' Map backend UI on post editing page, now optimized for V2.0 update.

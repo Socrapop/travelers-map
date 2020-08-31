@@ -68,7 +68,7 @@
       max-height: 200px;
       height: 200px;
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         top: 0;
         left: 0;
@@ -104,22 +104,32 @@
       right: 0;
       text-decoration: none;
       overflow: hidden;
-
-      .title {
-        color: white;
-        padding: 40px 0;
-        font-size: 20px;
-        font-weight: 700;
-        text-align: center;
+      .popup-thumb-text-wrapper {
+        padding: 40px 0 20px;
         width: 90%;
         position: absolute;
         bottom: 50%;
         left: 50%;
         transform: translate(-50%, 50%);
       }
+      .title {
+        color: white;
+        font-size: 20px;
+        font-weight: 700;
+        text-align: center;
+      }
+      .date {
+        color: white;
+        font-size: 15px;
+        font-weight: 400;
+        text-align: center;
+      }
+      .title + .date {
+        padding-top: 5px;
+      }
     }
   }
-  .thumb-title-exc-popup {
+  .detailed-popup {
     .leaflet-popup-content-wrapper {
       border-radius: 0;
       padding: 0;
@@ -137,6 +147,7 @@
     a.tooltip-link {
       position: relative;
       max-height: 200px;
+      min-height: 120px;
       width: 100%;
       display: block;
       vertical-align: middle;
@@ -145,7 +156,7 @@
       overflow: hidden;
 
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         top: 0;
         left: 0;
@@ -174,13 +185,28 @@
       }
       .title {
         color: white;
-        padding: 45px 5%;
+        padding: 30px 5%;
         font-size: 20px;
         font-weight: 700;
         text-align: center;
         width: 100%;
         z-index: 10;
         position: relative;
+      }
+
+      .date {
+        color: white;
+        padding: 40px 5% 40px;
+        font-size: 15px;
+        font-weight: 400;
+        text-align: center;
+        z-index: 10;
+        position: relative;
+        width: 100%;
+      }
+      .title + .date {
+        padding: 0 5% 25px;
+        margin-top: -25px;
       }
 
       &:hover {
@@ -210,14 +236,14 @@
       }
     }
   }
-  .title-exc-popup {
+  .textual-popup {
     .leaflet-popup-content-wrapper {
       border-radius: 0;
       padding: 0;
+      max-height: 260px;
       overflow-y: auto;
       overflow-x: hidden;
     }
-
     .leaflet-popup-content {
       width: 300px;
       margin: 0;
@@ -230,14 +256,33 @@
         color: black;
       }
       .title {
-        padding: 20px 5% 0;
+        padding: 25px 5% 25px;
         font-size: 20px;
         font-weight: 700;
         text-align: center;
         width: 100%;
       }
+      .date {
+        padding: 25px 5%;
+        font-size: 14px;
+        font-weight: 400;
+        text-align: center;
+        width: 100%;
+      }
       .excerpt {
-        padding: 20px 7%;
+        padding: 25px 7%;
+        font-size: 13px;
+        text-align: justify;
+        width: 100%;
+      }
+      .title + .date {
+        margin-top: -20px;
+        padding-top: 0px;
+      }
+      .date + .excerpt,
+      .title + .excerpt {
+        margin-top: -5px;
+        padding-top: 0px;
         font-size: 13px;
         text-align: justify;
         width: 100%;

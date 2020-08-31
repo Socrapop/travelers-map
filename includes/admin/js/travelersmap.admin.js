@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     /*
 	  	Define all Event Listeners on form, so the shortcode is updated each time the user change a form element.
-	  	 */
+	  */
 
     // Width Event Listener
     document.getElementById('width').addEventListener('input', function (e) {
@@ -679,6 +679,56 @@ document.addEventListener('DOMContentLoaded', function (event) {
         subdomains +
         attribution +
         ']';
+    }
+  }
+
+  //If it's the plugin's settings page.
+  if (
+    document.getElementsByClassName('popover-preview-container').length != 0
+  ) {
+    //get all checkboxes and popover preview image
+    checkboxTitle = document.getElementById('cb_title');
+    checkboxThumbnail = document.getElementById('cb_thumbnail');
+    checkboxDate = document.getElementById('cb_date');
+    checkboxExcerpt = document.getElementById('cb_excerpt');
+    popoverPreviewImage = document.getElementById('popover-preview-image');
+
+    //Add on click event listeners to all checkbox so we can update the list of checked options
+    checkboxTitle.addEventListener('click', updatePopoverPreviewImg);
+    checkboxThumbnail.addEventListener('click', updatePopoverPreviewImg);
+    checkboxDate.addEventListener('click', updatePopoverPreviewImg);
+    checkboxExcerpt.addEventListener('click', updatePopoverPreviewImg);
+
+    updatePopoverPreviewImg();
+
+    /**
+     * Get all checkboxes and see if they are checked.
+     * Update accordingly the 'imageName' value.
+     * If nothing is selected, show nothing.gif, else add .png at the end.
+     * Finally, update image src with the image path.
+     */
+    function updatePopoverPreviewImg() {
+      let imagePath = popoverPreviewImage.dataset.path;
+      let imageName = '';
+      let imageSrc = '';
+
+      if (checkboxTitle.checked) {
+        imageName += 'title';
+      }
+      if (checkboxThumbnail.checked) {
+        imageName += 'thumb';
+      }
+      if (checkboxDate.checked) {
+        imageName += 'date';
+      }
+      if (checkboxExcerpt.checked) {
+        imageName += 'excerpt';
+      }
+
+      imageName === '' ? (imageName = 'nothing.gif') : (imageName += '.png');
+
+      imageSrc = imagePath + '/' + imageName;
+      popoverPreviewImage.src = imageSrc;
     }
   }
 });

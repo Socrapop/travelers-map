@@ -252,6 +252,7 @@ function cttm_shortcode($attr)
             $cttm_postdatas['url'] = get_permalink($cttm_post->ID);
             $cttm_postdatas['thetitle'] = get_the_title($cttm_post->ID);
             $cttm_postdatas['excerpt'] = get_the_excerpt($cttm_post->ID);
+            $cttm_postdatas['date'] = get_the_date('j F Y', $cttm_post->ID);
 
             $latlngmarkerarr = get_post_meta($cttm_post->ID, '_latlngmarker');
 

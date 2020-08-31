@@ -133,7 +133,7 @@ function cttm_admin_init()
     //add popup settings section
     add_settings_section('popup-config', __('Popovers settings', 'travelers-map'), 'cttm_popup_section_html', 'cttm_travelersmap');
 
-    add_settings_field('popup_style', __('Popovers content', 'travelers-map'), 'cttm_popupstyle_html', 'cttm_travelersmap', 'popup-config');
+    add_settings_field('popup_style', __('Popovers\' content', 'travelers-map'), 'cttm_popupstyle_html', 'cttm_travelersmap', 'popup-config');
     add_settings_field('popup_css', __('Disable popovers CSS', 'travelers-map'), 'cttm_popupcss_html', 'cttm_travelersmap', 'popup-config');
 }
 
@@ -247,14 +247,14 @@ function cttm_popupstyle_html()
     echo '<div class="popovers-options-container">';
     echo '<span class="popover-preview-text">' . __('Select the content that will be shown in popovers:', 'travelers-map') . '</span>';
 
-    echo '<label class="popover-label"><input type="checkbox" name="cttm_options[popup_style_thumbnail]" value="thumbnail" ' . checked(in_array('thumbnail', $popup_style), true, false) . '> ' . __('Thumbnail ', 'travelers-map') . '</label>';
-    echo '<label class="popover-label"><input type="checkbox" name="cttm_options[popup_style_title]" value="title" ' . checked(in_array('title', $popup_style), true, false) . '> ' . __('Title ', 'travelers-map') . '</label>';
-    echo '<label class="popover-label"><input type="checkbox" name="cttm_options[popup_style_excerpt]" value="excerpt" ' . checked(in_array('excerpt', $popup_style), true, false) . '> ' . __('Excerpt ', 'travelers-map') . '</label>';
-    echo '<label class="popover-label"><input type="checkbox" name="cttm_options[popup_style_date]" value="date" ' . checked(in_array('date', $popup_style), true, false) . '> ' . __('Date ', 'travelers-map') . '</label>';
+    echo '<label class="popover-label"><input type="checkbox" id="cb_thumbnail" name="cttm_options[popup_style_thumbnail]" value="thumbnail" ' . checked(in_array('thumbnail', $popup_style), true, false) . '> ' . __('Thumbnail ', 'travelers-map') . '</label>';
+    echo '<label class="popover-label"><input type="checkbox" id="cb_title" name="cttm_options[popup_style_title]" value="title" ' . checked(in_array('title', $popup_style), true, false) . '> ' . __('Title ', 'travelers-map') . '</label>';
+    echo '<label class="popover-label"><input type="checkbox" id="cb_excerpt" name="cttm_options[popup_style_excerpt]" value="excerpt" ' . checked(in_array('excerpt', $popup_style), true, false) . '> ' . __('Excerpt ', 'travelers-map') . '</label>';
+    echo '<label class="popover-label"><input type="checkbox" id="cb_date" name="cttm_options[popup_style_date]" value="date" ' . checked(in_array('date', $popup_style), true, false) . '> ' . __('Date ', 'travelers-map') . '</label>';
     echo '</div>';
     echo '<div class="popover-preview-container">';
     echo '<span class="popover-preview-text">' . __('Preview:', 'travelers-map') . '</span>';
-    echo '<img src="' . plugins_url('includes\admin\images\title_excerpt.png', __FILE__) . '">';
+    echo '<img id="popover-preview-image" src="data:image/gif;base64,R0lGODlhAQABAPAAAN/f3wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-path="' . plugins_url('includes\admin\images', __FILE__) . '">';
     echo '</div>';
     echo '</div>';
 }
