@@ -123,16 +123,16 @@ function cttm_meta_callback($post)
 ?>
 
     <p>
+        <strong><?php _e('Locate your marker on the map:', 'travelers-map'); ?></strong>
+    </p>
+    <div id="travelersmap-container" style="min-height: 400px;width: 100%;"></div>
+
+
+    <p><strong><?php _e('Current marker informations:', 'travelers-map'); ?></strong></p>
+    <p>
         <strong><?php _e('Choose a marker:', 'travelers-map'); ?></strong>
     </p>
-    <style>
-        #cttm-markers label {
-            display: inline-block;
-            display: inline-flex;
-            align-items: center;
-            margin: 0 30px 20px 0;
-        }
-    </style>
+
     <div id="cttm-markers">
         <?php
         //Query user's markers
@@ -175,11 +175,6 @@ function cttm_meta_callback($post)
             <img src="<?php echo (plugins_url('images/marker-icon.png', __FILE__)) ?>">
         </label>
     </div>
-    <p>
-        <strong><?php _e('Locate your marker on the map:', 'travelers-map'); ?></strong>
-    </p>
-    <div id="travelersmap-container" style="min-height: 400px;width: 100%;"></div>
-    <p><strong><?php _e('Current marker informations:', 'travelers-map'); ?></strong></p>
     <div style="margin-bottom: 20px;">
 
         <label for="latitude" class=""><?php _e('Latitude', 'travelers-map'); ?> </label>

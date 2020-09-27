@@ -4101,3 +4101,12 @@ html {
   background: #dfdfdf;
   padding: 10px;
 }
+
+/* Post Edit bloc */
+
+#cttm-markers label {
+  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 30px 20px 0;
+}
