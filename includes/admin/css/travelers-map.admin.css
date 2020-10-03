@@ -113,7 +113,7 @@ html {
 }
 
 .no-gutters > .col,
-.no-gutters > [class*='col-'] {
+.no-gutters > [class*="col-"] {
   padding-right: 0;
   padding-left: 0;
 }
@@ -4066,7 +4066,7 @@ html {
   background: #60a3bc;
   color: white;
 }
-.helper-bloc input[type='number'] {
+.helper-bloc input[type="number"] {
   margin-bottom: 8px;
 }
 .popovers-container {
@@ -4100,4 +4100,49 @@ html {
   flex: 1 1 auto;
   background: #dfdfdf;
   padding: 10px;
+}
+
+#cttm-markers label {
+  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 30px 20px 0;
+}
+.row-markers-edit {
+  border: 1px solid #cecece;
+  box-sizing: border-box;
+}
+.col-map-container {
+  min-width: 450px;
+  padding: 0 15px 15px;
+  flex-grow: 1;
+  flex-basis: 50%;
+  flex-shrink: 0;
+}
+
+.col-markers-container {
+  background: #f4f4f4;
+  padding: 0 15px 15px;
+  flex-grow: 1;
+  flex-basis: 50%;
+  flex-shrink: 0;
+}
+
+.col-markers-container .cttm-input {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 15px;
+}
+.col-markers-container .cttm-textarea {
+  width: 100%;
+  max-width: 500px;
+}
+.col-markers-container .cttm-label {
+  font-weight: 500;
+  margin-right: 15px;
+}
+.col-markers-container .cttm-label-newline {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 5px;
 }

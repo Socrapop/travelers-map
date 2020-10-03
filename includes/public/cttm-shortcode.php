@@ -245,14 +245,14 @@ function cttm_shortcode($attr)
             // LOOP
             //for each posts get informations:
             //postdatas() is an array of the post thumbnail, url and title
-            //latlngmarkerarr() is an array with only one value, a json array of markers' latitude, longitude and image url(<- or string "default").
+            //latlngmarkerarr() is an array with only one value, a json array of markers' latitude, longitude and image url(<- or string "default"), boolean (multiplemarker true/false), custom title string, custom excerpt string, custom thumbnail string
 
             $cttm_postdatas = array();
             $cttm_postdatas['thumb'] = get_the_post_thumbnail_url($cttm_post->ID, "travelersmap-thumb");
             $cttm_postdatas['url'] = get_permalink($cttm_post->ID);
             $cttm_postdatas['thetitle'] = get_the_title($cttm_post->ID);
             $cttm_postdatas['excerpt'] = get_the_excerpt($cttm_post->ID);
-            $cttm_postdatas['date'] = get_the_date('j F Y', $cttm_post->ID);
+            $cttm_postdatas['date'] = get_the_date('U', $cttm_post->ID)*1000; //Get the php unix timecode (in seconds) and multiply by 1000 because JS is using milliseconds.
 
             $latlngmarkerarr = get_post_meta($cttm_post->ID, '_latlngmarker');
 
