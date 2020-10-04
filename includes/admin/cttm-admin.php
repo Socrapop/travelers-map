@@ -106,7 +106,7 @@ function cttm_meta_callback($post)
     if (metadata_exists('post', $post->ID, '_latlngmarker')) {
         $cttm_stored_meta = get_post_meta($post->ID, '_latlngmarker', true);
         extract(json_decode($cttm_stored_meta, true));
-     
+
         $markerurlcleaned = esc_url($markerdata[0]);
     };
 
@@ -178,28 +178,83 @@ function cttm_meta_callback($post)
                 </label>
             </div>
             <div style="margin-bottom: 20px;">
-            <h3><strong><?php _e('Advanced marker settings:', 'travelers-map'); ?></strong></h3>
+                <h3><strong><?php _e('Advanced marker settings:', 'travelers-map'); ?></strong></h3>
+                <div class="cttm-custom-flexcontainer">
+                    <label for="customtitle" class="cttm-label"> <?php _e('Custom marker title:', 'travelers-map');  ?></label>
+                    <input id="cttm-customtitle" class="cttm-input" name="customtitle" type="text" value="<?php if (isset($customtitle)) echo $customtitle ?>"> <br>
+                </div>
+                <div class="cttm-custom-flexcontainer">
+                    <label for="customexcerpt" class="cttm-label"> <?php _e('Custom marker excerpt:', 'travelers-map');  ?></label>
+                    <textarea class="cttm-textarea" id="cttm-customexcerpt" name="customexcerpt" type="text"><?php if (isset($customexcerpt)) echo $customexcerpt ?></textarea><br>
+                </div>
+                <div class="cttm-custom-flexcontainer">
+                    <label for="customthumbnail" class="cttm-label"> <?php _e('Custom marker thumbnail:', 'travelers-map');  ?></label>
+                    <?php
+                    //This code was taken from the WP media codex page : https://codex.wordpress.org/Javascript_Reference/wp.media
+                    global $post;
 
-                <label for="customtitle" class="cttm-label-newline"> <?php _e('Custom marker title:', 'travelers-map');  ?></label>
-                <input id="cttm-customtitle" class="cttm-input" name="customtitle" type="text" value="<?php if (isset($customtitle)) echo $customtitle ?>"> <br>
-                <label for="customexcerpt" class="cttm-label-newline"> <?php _e('Custom marker excerpt:', 'travelers-map');  ?></label> 
-                <textarea class="cttm-textarea" id="cttm-customexcerpt" name="customexcerpt" type="text"><?php if (isset($customexcerpt)) echo $customexcerpt ?></textarea><br>
-                <label for="customthumbnail" class="cttm-label" style="margin:10px 0; display:inline-block" > <?php _e('Custom marker thumbnail:', 'travelers-map');  ?></label> <br>
-                
-                <label for="latitude" class=""><?php _e('Latitude', 'travelers-map'); ?> </label>
-                <input id="cttm-latfield" type="number" name="latitude" step="0.00001" max="90" min="-90" value="<?php if (isset($latitude)) echo $latitude ?>" />
+                    // See if there's a media id already saved as post meta
+                    $your_img_id = intval($customthumbnail);
 
-                <label for="longitude" class="" style="margin-left: 20px;"><?php _e('Longitude', 'travelers-map'); ?></label>
-                <input id="cttm-lngfield" type="number" name="longitude" step="0.00001" value="<?php if (isset($longitude)) echo $longitude ?>" />
-                
-               
-                <button id="btn-delete-current-marker" type="button" class="components-button is-link is-destructive" style="margin-left: 20px;"><?php _e('Delete current marker', 'travelers-map'); ?></button>
+                    // Get the image src
+                    $your_img_src = wp_get_attachment_image_src($your_img_id, 'travelersmap-thumb');
+
+                    // For convenience, see if the array is valid
+                    $you_have_img = is_array($your_img_src);
+                    ?>
+                    <!-- Your image container, which can be manipulated with js -->
+                    <?php if ($you_have_img) : ?>
+                        <div id="cttm-custom-thumb-container" class="cttm-custom-thumb-container">
+                            <img src="<?php echo $your_img_src[0] ?>" alt="" style="max-width:300px; width:100%;" class="cttm-custom-thumb-el" />
+                            <div class="delete-custom-thumb-container">
+                                <button type="button" class="delete-custom-img components-button is-link is-destructive">
+                                    <?php _e('Remove this marker thumbnail', 'travelers-map'); ?>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="cttm-custom-thumb-link-container" class="cttm-custom-thumb-container hidden">
+                            <button class="upload-custom-img" type="button">
+                                <?php _e('Set custom marker thumbnail', 'travelers-map'); ?>
+                            </button>
+                        </div>
+                    <?php else : ?>
+                        <div id="cttm-custom-thumb-container" class="cttm-custom-thumb-container hidden">
+                            <div class="delete-custom-thumb-container">
+                                <button type="button" class="delete-custom-img components-button is-link is-destructive">
+                                    <?php _e('Remove this marker thumbnail', 'travelers-map'); ?>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="cttm-custom-thumb-link-container" class="cttm-custom-thumb-container">
+                            <button class="upload-custom-img" type="button">
+                                <?php _e('Set custom marker thumbnail', 'travelers-map'); ?>
+                            </button>
+                        </div>
+                    <?php endif; ?>
+
+
+                    <!-- Your add & remove image links -->
+
+
+                    <!-- A hidden input to set and post the chosen image id -->
+                    <input id="cttm_customthumbnail" class="custom-img-id" name="customthumbnail" type="hidden" value="<?php echo esc_attr($your_img_id); ?>" />
+                </div>
+
+
+
+                <div class="cttm-custom-flexcontainer">
+                    <label for="latitude" class="cttm-label"><?php _e('Latitude', 'travelers-map'); ?></label>
+                    <input id="cttm-latfield" type="number" name="latitude" step="0.00001" max="90" min="-90" value="<?php if (isset($latitude)) echo $latitude ?>" />
+                </div>
+                <div class="cttm-custom-flexcontainer">
+                    <label for="longitude" class="cttm-label"><?php _e('Longitude', 'travelers-map'); ?></label>
+                    <input id="cttm-lngfield" type="number" name="longitude" step="0.00001" value="<?php if (isset($longitude)) echo $longitude ?>" />
+                </div>
+
+                <button id="btn-delete-current-marker" type="button" class="components-button is-link is-destructive" style="padding: 10px;"><?php _e('Delete current marker', 'travelers-map'); ?></button>
             </div>
         </div>
     </div>
-
-
-
 
 
 <?php
@@ -216,7 +271,6 @@ foreach ($posttypes as $posttype) {
 }
 
 
-
 /**
  * Saves the custom meta input sent by the form
  * This function is doing the following :
@@ -228,10 +282,6 @@ foreach ($posttypes as $posttype) {
  */
 function cttm_meta_save($post_id)
 {
-
-
-
-
     //Don't run on  Wordpress autosave
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
         return;
@@ -257,11 +307,10 @@ function cttm_meta_save($post_id)
         return;
     };
 
-    
 
-    //If custom excerpt is not empty, purify it.
+    //If custom excerpt is not empty, sanitize it.
     $customexcerpt = $_POST['customexcerpt'];
-    if($customexcerpt != ""){
+    if ($customexcerpt != "") {
         //In order to sanitize attribution without removing html code, we load HTMLPurifier http://htmlpurifier.org/
         require_once plugin_dir_path(__FILE__) . '/HTMLPurifier/HTMLPurifier.auto.php';
         $config = HTMLPurifier_Config::createDefault();
@@ -271,27 +320,28 @@ function cttm_meta_save($post_id)
     //If custom title is not empty, purify it.
     $customtitle = sanitize_text_field($_POST['customtitle']);
 
-
+    //If custom thumbnail id is set, sanitize it.
+    $customthumbnail = $_POST['customthumbnail'];
+    if (!is_numeric($customthumbnail)) {
+        $customthumbnail = "";
+    }
     //If marker is default, sanitize and store in $markerdata
     if ($_POST['marker'] == 'default') {
         $markerdata = sanitize_text_field($_POST['marker']);
-    }
-    elseif (!is_numeric($_POST['marker']) || get_post_type($_POST['marker']) != 'cttm-marker') {
-          //else if '$_POST[ 'marker' ]' (post_id) is non-numeric and if it's post type is not 'cttm-marker', abort
+    } elseif (!is_numeric($_POST['marker']) || get_post_type($_POST['marker']) != 'cttm-marker') {
+        //else if '$_POST[ 'marker' ]' (post_id) is non-numeric and if it's post type is not 'cttm-marker', abort
         return;
     } else {
-    //If a custom marker is selected,
-    //Get marker thumbnail URL, Width and Height
-    //$markerdata[0] : Image URL
-    //$markerdata[1] : Image Width
-    //$markerdata[2] : Image Height
-   
+        //If a custom marker is selected,
+        //Get marker thumbnail URL, Width and Height
+        //$markerdata[0] : Image URL
+        //$markerdata[1] : Image Width
+        //$markerdata[2] : Image Height
         $markerimg = wp_get_attachment_image_src(get_post_thumbnail_id($_POST['marker']), "full");
         $markerdata[] = esc_url_raw($markerimg[0]);
         $markerdata[] = absint($markerimg[1]);
         $markerdata[] = absint($markerimg[2]);
     }
-
 
     //Sanitize latitude, longitude and markerdata.
     //floattostr() is defined at the end of this file.
@@ -302,8 +352,8 @@ function cttm_meta_save($post_id)
     $multiplemarkers = false;
 
     // Combine every data in one json array
-    $latlngmarker = json_encode(compact('latitude', 'longitude', 'markerdata','multiplemarkers','customtitle','customexcerpt'));
-    
+    $latlngmarker = json_encode(compact('latitude', 'longitude', 'markerdata', 'multiplemarkers', 'customtitle', 'customexcerpt', 'customthumbnail'));
+
     // Check value
     if ($latlngmarker != NULL) {
         // Update post meta 

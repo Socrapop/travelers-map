@@ -252,9 +252,20 @@ function cttm_shortcode($attr)
             $cttm_postdatas['url'] = get_permalink($cttm_post->ID);
             $cttm_postdatas['thetitle'] = get_the_title($cttm_post->ID);
             $cttm_postdatas['excerpt'] = get_the_excerpt($cttm_post->ID);
-            $cttm_postdatas['date'] = get_the_date('U', $cttm_post->ID)*1000; //Get the php unix timecode (in seconds) and multiply by 1000 because JS is using milliseconds.
+            $cttm_postdatas['date'] = get_the_date('U', $cttm_post->ID) * 1000; //Get the php unix timecode (in seconds) and multiply by 1000 because JS is using milliseconds.
 
             $latlngmarkerarr = get_post_meta($cttm_post->ID, '_latlngmarker');
+
+            // If a custom thumbnail ID is defined, get the thumbnail url and replace it in the array
+            $latlngmarkerarr_decoded = json_decode($latlngmarkerarr[0], true);
+            if (isset($latlngmarkerarr_decoded['customthumbnail'])) {
+                $cttm_thumbnail_id = intval($latlngmarkerarr_decoded['customthumbnail']); // = int: 114
+                $your_img_src = wp_get_attachment_image_src($cttm_thumbnail_id, 'travelersmap-thumb'); //Return false? This is not working, I don't know why.
+                
+                die(var_dump($your_img_src));
+
+                $latlngmarkerarr = json_encode($latlngmarkerarr_decoded);
+            }
 
             //Create the $cttm_metas array to store all the markers and posts informations. This will be send to out javascript file
             $cttm_metas[$i]['markerdatas'] = $latlngmarkerarr[0];
