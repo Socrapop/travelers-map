@@ -245,16 +245,32 @@ function cttm_shortcode($attr)
             // LOOP
             //for each posts get informations:
             //postdatas() is an array of the post thumbnail, url and title
-            //latlngmarkerarr() is an array with only one value, a json array of markers' latitude, longitude and image url(<- or string "default").
+            //latlngmarkerarr() is an array with only one value, a json array of markers' latitude, longitude and image url(<- or string "default"), boolean (multiplemarker true/false), custom title string, custom excerpt string, custom thumbnail string
 
             $cttm_postdatas = array();
             $cttm_postdatas['thumb'] = get_the_post_thumbnail_url($cttm_post->ID, "travelersmap-thumb");
             $cttm_postdatas['url'] = get_permalink($cttm_post->ID);
             $cttm_postdatas['thetitle'] = get_the_title($cttm_post->ID);
             $cttm_postdatas['excerpt'] = get_the_excerpt($cttm_post->ID);
+            $cttm_postdatas['date'] = get_the_date('U', $cttm_post->ID) * 1000; //Get the php unix timecode (in seconds) and multiply by 1000 because JS is using milliseconds.
 
             $latlngmarkerarr = get_post_meta($cttm_post->ID, '_latlngmarker');
 
+            // If a custom thumbnail ID is defined, get the thumbnail url and replace it in the array
+            $latlngmarkerarr_decoded = json_decode($latlngmarkerarr[0], true);
+            
+            if (isset($latlngmarkerarr_decoded['customthumbnail'])) {
+                $cttm_thumbnail_id = intval($latlngmarkerarr_decoded['customthumbnail']); // = int: 114
+                $your_img_src = wp_get_attachment_image_src($cttm_thumbnail_id, 'travelersmap-thumb'); //Return false? This is not working, I don't know why.
+                if($your_img_src != false){
+                    $latlngmarkerarr_decoded['customthumbnail'] = $your_img_src[0];
+                }else{
+                    $latlngmarkerarr_decoded['customthumbnail'] = "";
+                }
+
+                $latlngmarkerarr[0] = json_encode($latlngmarkerarr_decoded);
+            }
+            
             //Create the $cttm_metas array to store all the markers and posts informations. This will be send to out javascript file
             $cttm_metas[$i]['markerdatas'] = $latlngmarkerarr[0];
             $cttm_metas[$i]['postdatas'] = $cttm_postdatas;

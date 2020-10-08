@@ -131,10 +131,10 @@ function cttm_admin_init()
     add_settings_field('onefinger_disable', __('Disable one-finger touch event on touch devices (BETA)', 'travelers-map'), 'cttm_onefinger_html', 'cttm_travelersmap', 'map-data-config');
 
     //add popup settings section
-    add_settings_section('popup-config', __('Popup settings', 'travelers-map'), 'cttm_popup_section_html', 'cttm_travelersmap');
+    add_settings_section('popup-config', __('Popovers settings', 'travelers-map'), 'cttm_popup_section_html', 'cttm_travelersmap');
 
-    add_settings_field('popup_style', __('Popup style', 'travelers-map'), 'cttm_popupstyle_html', 'cttm_travelersmap', 'popup-config');
-    add_settings_field('popup_css', __('Disable popup CSS', 'travelers-map'), 'cttm_popupcss_html', 'cttm_travelersmap', 'popup-config');
+    add_settings_field('popup_style', __('Popovers\' content', 'travelers-map'), 'cttm_popupstyle_html', 'cttm_travelersmap', 'popup-config');
+    add_settings_field('popup_css', __('Disable popovers CSS', 'travelers-map'), 'cttm_popupcss_html', 'cttm_travelersmap', 'popup-config');
 }
 
 //Unused section header functions (mandatory)
@@ -242,12 +242,21 @@ function cttm_onefinger_html()
 function cttm_popupstyle_html()
 {
     $options = get_option('cttm_options');
-    $popup_style = $options["popup_style"];
+    $popup_style = explode(',', $options["popup_style"]);
+    echo '<div class="popovers-container">';
+    echo '<div class="popovers-options-container">';
+    echo '<span class="popover-preview-text">' . __('Select the content that will be shown in popovers:', 'travelers-map') . '</span>';
 
-    echo '<span  style="margin:5px 0 20px; display:block">' . __('Choose the content shown in popovers and their style: ', 'travelers-map') . '</span>';
-    echo '<label style="display:inline-block;margin:0 0 10px 10px;background:#fff; padding:10px; box-shadow: #d1d1d1 0px 0px 4px;"><div style="text-align:center; font-weight:bold;  "><input type="radio" name="cttm_options[popup_style]" value="img_title" ' . checked($popup_style, "img_title", false) . '>' . __('Title and thumbnail (default)', 'travelers-map') . '</div><img src="' . plugins_url('includes\admin\images\img_title.png', __FILE__) . '"></label>';
-    echo '<label style="display:inline-block;margin:0 0 10px 10px;background:#fff; padding:10px; box-shadow: #d1d1d1 0px 0px 4px;"><div style="text-align:center; font-weight:bold;  "><input type="radio" name="cttm_options[popup_style]" value="img_title_descr" ' . checked($popup_style, "img_title_descr", false) . '>' . __('Title, thumbnail and excerpt', 'travelers-map') . ' </div><img src="' . plugins_url('includes\admin\images\img_title_excerpt.png', __FILE__) . '"></label>';
-    echo '<label style="display:inline-block;margin:0 0 10px 10px;background:#fff; padding:10px 10px 0; box-shadow: #d1d1d1 0px 0px 4px;"><div style="text-align:center; font-weight:bold; margin-bottom:10px; "><input type="radio" name="cttm_options[popup_style]" value="title_descr" ' . checked($popup_style, "title_descr", false) . '>' . __('Title and excerpt', 'travelers-map') . '</div><img src="' . plugins_url('includes\admin\images\title_excerpt.png', __FILE__) . '"></label>';
+    echo '<label class="popover-label"><input type="checkbox" id="cb_thumbnail" name="cttm_options[popup_style_thumbnail]" value="thumbnail" ' . checked(in_array('thumbnail', $popup_style), true, false) . '> ' . __('Thumbnail ', 'travelers-map') . '</label>';
+    echo '<label class="popover-label"><input type="checkbox" id="cb_title" name="cttm_options[popup_style_title]" value="title" ' . checked(in_array('title', $popup_style), true, false) . '> ' . __('Title ', 'travelers-map') . '</label>';
+    echo '<label class="popover-label"><input type="checkbox" id="cb_excerpt" name="cttm_options[popup_style_excerpt]" value="excerpt" ' . checked(in_array('excerpt', $popup_style), true, false) . '> ' . __('Excerpt ', 'travelers-map') . '</label>';
+    echo '<label class="popover-label"><input type="checkbox" id="cb_date" name="cttm_options[popup_style_date]" value="date" ' . checked(in_array('date', $popup_style), true, false) . '> ' . __('Date ', 'travelers-map') . '</label>';
+    echo '</div>';
+    echo '<div class="popover-preview-container">';
+    echo '<span class="popover-preview-text">' . __('Preview:', 'travelers-map') . '</span>';
+    echo '<img id="popover-preview-image" src="data:image/gif;base64,R0lGODlhAQABAPAAAN/f3wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-path="' . plugins_url('includes\admin\images', __FILE__) . '">';
+    echo '</div>';
+    echo '</div>';
 }
 
 function cttm_popupcss_html()
@@ -270,8 +279,9 @@ function cttm_validate_option($input)
     //If Save Changes button is clicked
     if (isset($_POST['Submit'])) {
 
-        $input['posttypes'] = '';
+        //// First, we get all our multiple checkboxes fields and transform them into a string.
 
+        $input['posttypes'] = '';
         //Loop through each $_POST variable, check if it begins with 'posttypes_'.
         //If so, add it to the $input['posttypes'] array
         foreach ($_POST['cttm_options'] as $key => $value) {
@@ -281,12 +291,27 @@ function cttm_validate_option($input)
                 unset($input[$key]);
             }
         }
-        //Sanitize every option before returning the values
+
+        $input['popup_style'] = '';
+        //Loop through each $_POST variable, check if it begins with 'popup_style_'.
+        //If so, add it to the $input['popup_style'] array
+        foreach ($_POST['cttm_options'] as $key => $value) {
+            if (strpos($key, 'popup_style_') === 0) {
+                $input['popup_style'] .= ',' . $value;
+                //remove unecessary keys in cttm_options
+                unset($input[$key]);
+            }
+        }
+        //// Then, sanitize every option before returning the values
         $input['posttypes'] = cttm_sanitize_post_types($input['posttypes']);
+        $input['popup_style'] = cttm_sanitize_popup_style($input['popup_style']);
         $input['tileurl'] = sanitize_text_field($input['tileurl']);
         $input['subdomains'] = sanitize_text_field($input['subdomains']);
         $input['attribution'] = $purifier->purify($input['attribution']);
-        $input['popup_style'] = sanitize_key($input['popup_style']);
+
+
+
+
 
         if (isset($input['popup_css'])) {
             $input['popup_css'] = intval($input['popup_css']);
@@ -320,7 +345,7 @@ function cttm_validate_option($input)
             'tileurl' => 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
             'subdomains' => 'abcd',
             'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            'popup_style' => 'img_title',
+            'popup_style' => 'thumbnail,title',
             'popup_css' => 0,
             'search_field' => 0,
             'fullscreen_button' => 0,
@@ -330,7 +355,7 @@ function cttm_validate_option($input)
         $input['tileurl'] = sanitize_text_field($cttm_options_default['tileurl']);
         $input['subdomains'] = sanitize_text_field($cttm_options_default['subdomains']);
         $input['attribution'] = $purifier->purify($cttm_options_default['attribution']);
-        $input['popup_style'] = sanitize_key($cttm_options_default['popup_style']);
+        $input['popup_style'] = $cttm_options_default['popup_style'];
         $input['onefinger'] = intval($cttm_options_default['onefinger']);
         $input['popup_css'] = intval($cttm_options_default['popup_css']);
         $input['search_field'] = intval($cttm_options_default['search_field']);
@@ -593,4 +618,37 @@ function cttm_sanitize_post_types($posttypes)
         $sanitized_posttypes = 'post';
     }
     return $sanitized_posttypes;
+}
+
+/*
+Function to sanitize popup_style by checking if every popup_style is genuine.
+Return string of existing popup style only, separated by comma.
+If empty, return the default 'thumbnail,title'.
+ */
+function cttm_sanitize_popup_style($popup_styles)
+{
+
+    //get all public registered post types
+    $genuine_popup_styles = array('thumbnail', 'title', 'excerpt', 'date');
+
+    //transform post_types string into array
+    $popup_styles = explode(',', $popup_styles);
+
+    $sanitized_popup_styles = array();
+
+    // loop through every popup_style to sanitize, compare them to genuine.
+    // If it exist, push the popup_style to the returning array.
+    foreach ($popup_styles as $popup_style) {
+        if (in_array($popup_style, $genuine_popup_styles)) {
+            array_push($sanitized_popup_styles, $popup_style);
+        }
+    }
+    // array to string
+    $sanitized_popup_styles = implode(',', $sanitized_popup_styles);
+
+    //If the array is empty, return default value 'post' to avoid errors.
+    if (empty($sanitized_popup_styles)) {
+        $sanitized_popup_styles = 'thumbnail,title';
+    }
+    return $sanitized_popup_styles;
 }

@@ -106,7 +106,7 @@ function cttm_meta_callback($post)
     if (metadata_exists('post', $post->ID, '_latlngmarker')) {
         $cttm_stored_meta = get_post_meta($post->ID, '_latlngmarker', true);
         extract(json_decode($cttm_stored_meta, true));
-
+     
         $markerurlcleaned = esc_url($markerdata[0]);
     };
 
@@ -122,73 +122,142 @@ function cttm_meta_callback($post)
 
 ?>
 
-    <p>
-        <strong><?php _e('Choose a marker:', 'travelers-map'); ?></strong>
-    </p>
-    <style>
-        #cttm-markers label {
-            display: inline-block;
-            display: inline-flex;
-            align-items: center;
-            margin: 0 30px 20px 0;
-        }
-    </style>
-    <div id="cttm-markers">
-        <?php
-        //Query user's markers
-        $the_query = new WP_Query($cttm_marker_query_args);
+    <div class="row row-markers-edit">
+        <div class="col-map-container">
+            <h3>
+                <strong><?php _e('Locate your marker on the map:', 'travelers-map'); ?></strong>
+            </h3>
+            <div id="travelersmap-container" style="min-height: 400px;width: 100%;"></div>
+        </div>
+        <div class="col-markers-container">
+            <h3><strong><?php _e('Current marker informations:', 'travelers-map'); ?></strong></h3>
+            <p>
+                <strong><?php _e('Choose a marker:', 'travelers-map'); ?></strong>
 
-        $markerchecked = false;
+            </p>
+            <div id="cttm-markers">
+                <?php
+                //Query user's markers
+                $the_query = new WP_Query($cttm_marker_query_args);
 
-        if ($the_query->have_posts()) {
+                $markerchecked = false;
 
-            while ($the_query->have_posts()) {
+                if ($the_query->have_posts()) {
 
-                $the_query->the_post();
-                // For each marker, check if it was selected already and check it by default on page load. 
+                    while ($the_query->have_posts()) {
+
+                        $the_query->the_post();
+                        // For each marker, check if it was selected already and check it by default on page load. 
 
 
-                if (isset($markerurlcleaned) && $markerurlcleaned == get_the_post_thumbnail_url()) {
+                        if (isset($markerurlcleaned) && $markerurlcleaned == get_the_post_thumbnail_url()) {
 
-                    $markerchecked = true;
-                    echo '<label><input type="radio" name="marker" value="' . get_the_ID() . '" checked="checked">';
-                } else {
+                            $markerchecked = true;
+                            echo '<label><input type="radio" name="marker" value="' . get_the_ID() . '" checked="checked">';
+                        } else {
 
-                    echo '<label><input type="radio" name="marker" value="' . get_the_ID() . '">';
+                            echo '<label><input type="radio" name="marker" value="' . get_the_ID() . '">';
+                        }
+                        echo '<img src="' . get_the_post_thumbnail_url() . '"></label>';
+                    }
+
+                    /* Restore original Post Data */
+                    wp_reset_postdata();
                 }
-                echo '<img src="' . get_the_post_thumbnail_url() . '"></label>';
-            }
+                ?>
+                <label>
 
-            /* Restore original Post Data */
-            wp_reset_postdata();
-        }
-        ?>
-        <label>
+                    <?php
+                    // If no marker was selected already, check default marker by default
+                    if ($markerchecked == false) {
+                        echo '<input type="radio" name="marker" value="default" checked="checked">';
+                    } else {
+                        echo '<input type="radio" name="marker" value="default">';
+                    } ?>
+                    <img src="<?php echo (plugins_url('images/marker-icon.png', __FILE__)) ?>">
+                </label>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <h3><strong><?php _e('Advanced marker settings:', 'travelers-map'); ?></strong></h3>
+                <div class="cttm-custom-flexcontainer">
+                    <label for="customtitle" class="cttm-label"> <?php _e('Custom marker title:', 'travelers-map');  ?></label>
+                    <input id="cttm-customtitle" class="cttm-input" name="customtitle" type="text" value="<?php if (isset($customtitle)) echo $customtitle ?>"> <br>
+                </div>
+                <div class="cttm-custom-flexcontainer">
+                    <label for="customexcerpt" class="cttm-label"> <?php _e('Custom marker excerpt:', 'travelers-map');  ?></label>
+                    <textarea class="cttm-textarea" id="cttm-customexcerpt" name="customexcerpt" type="text"><?php if (isset($customexcerpt)) echo $customexcerpt ?></textarea><br>
+                </div>
+                <div class="cttm-custom-flexcontainer">
+                    <label for="customthumbnail" class="cttm-label"> <?php _e('Custom marker thumbnail:', 'travelers-map');  ?></label>
+                    <?php
+                    //This code was taken from the WP media codex page : https://codex.wordpress.org/Javascript_Reference/wp.media
+                    global $post;
+                    if (isset($customthumbnail)){
+                    // See if there's a media id already saved as post meta
+                    $your_img_id = intval($customthumbnail);
+                    }else{
+                        $your_img_id = "";
+                    }
+                    // Get the image src
+                    $your_img_src = wp_get_attachment_image_src($your_img_id, 'travelersmap-thumb');
+                    // For convenience, see if the array is valid
+                    $you_have_img = is_array($your_img_src);
+                    ?>
+                    <!-- Your image container, which can be manipulated with js -->
+                    <?php if ($you_have_img) : ?>
+                        <div id="cttm-custom-thumb-container" class="cttm-custom-thumb-container">
+                            <img src="<?php echo $your_img_src[0] ?>" alt="" style="max-width:300px; width:100%;" class="cttm-custom-thumb-el" />
+                            <div class="delete-custom-thumb-container">
+                                <button type="button" class="delete-custom-img components-button is-link is-destructive">
+                                    <?php _e('Remove this marker thumbnail', 'travelers-map'); ?>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="cttm-custom-thumb-link-container" class="cttm-custom-thumb-container hidden">
+                            <button class="upload-custom-img" type="button">
+                                <?php _e('Set custom marker thumbnail', 'travelers-map'); ?>
+                            </button>
+                        </div>
+                    <?php else : ?>
+                        <div id="cttm-custom-thumb-container" class="cttm-custom-thumb-container hidden">
+                            <div class="delete-custom-thumb-container">
+                                <button type="button" class="delete-custom-img components-button is-link is-destructive">
+                                    <?php _e('Remove this marker thumbnail', 'travelers-map'); ?>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="cttm-custom-thumb-link-container" class="cttm-custom-thumb-container">
+                            <button class="upload-custom-img" type="button">
+                                <?php _e('Set custom marker thumbnail', 'travelers-map'); ?>
+                            </button>
+                        </div>
+                    <?php endif; ?>
 
-            <?php
-            // If no marker was selected already, check default marker by default
-            if ($markerchecked == false) {
-                echo '<input type="radio" name="marker" value="default" checked="checked">';
-            } else {
-                echo '<input type="radio" name="marker" value="default">';
-            } ?>
-            <img src="<?php echo (plugins_url('images/marker-icon.png', __FILE__)) ?>">
-        </label>
+
+                    <!-- Your add & remove image links -->
+
+
+                    <!-- A hidden input to set and post the chosen image id -->
+                    <input id="cttm_customthumbnail" class="custom-img-id" name="customthumbnail" type="hidden" value="<?php echo esc_attr($your_img_id); ?>" />
+                </div>
+
+
+
+                <div class="cttm-custom-flexcontainer">
+                    <label for="latitude" class="cttm-label"><?php _e('Latitude', 'travelers-map'); ?></label>
+                    <input id="cttm-latfield" type="number" name="latitude" step="0.00001" max="90" min="-90" value="<?php if (isset($latitude)) echo $latitude ?>" />
+                </div>
+                <div class="cttm-custom-flexcontainer">
+                    <label for="longitude" class="cttm-label"><?php _e('Longitude', 'travelers-map'); ?></label>
+                    <input id="cttm-lngfield" type="number" name="longitude" step="0.00001" value="<?php if (isset($longitude)) echo $longitude ?>" />
+                </div>
+
+                <button id="btn-delete-current-marker" type="button" class="components-button is-link is-destructive" style="padding: 10px;"><?php _e('Delete current marker', 'travelers-map'); ?></button>
+            </div>
+        </div>
     </div>
-    <p>
-        <strong><?php _e('Locate your marker on the map:', 'travelers-map'); ?></strong>
-    </p>
-    <div id="travelersmap-container" style="min-height: 400px;width: 100%;"></div>
-    <p><strong><?php _e('Current marker informations:', 'travelers-map'); ?></strong></p>
-    <div style="margin-bottom: 20px;">
 
-        <label for="latitude" class=""><?php _e('Latitude', 'travelers-map'); ?> </label>
-        <input id="cttm-latfield" type="number" name="latitude" step="0.00001" max="90" min="-90" value="<?php if (isset($latitude)) echo $latitude ?>" />
 
-        <label for="longitude" class="" style="margin-left: 20px;"><?php _e('Longitude', 'travelers-map'); ?></label>
-        <input id="cttm-lngfield" type="number" name="longitude" step="0.00001" value="<?php if (isset($longitude)) echo $longitude ?>" />
-        <button id="btn-delete-current-marker" type="button" class="components-button is-link is-destructive" style="margin-left: 20px;"><?php _e('Delete current marker', 'travelers-map'); ?></button>
-    </div>
 <?php
 }
 
@@ -203,7 +272,6 @@ foreach ($posttypes as $posttype) {
 }
 
 
-
 /**
  * Saves the custom meta input sent by the form
  * This function is doing the following :
@@ -215,10 +283,6 @@ foreach ($posttypes as $posttype) {
  */
 function cttm_meta_save($post_id)
 {
-
-
-
-
     //Don't run on  Wordpress autosave
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
         return;
@@ -244,37 +308,53 @@ function cttm_meta_save($post_id)
         return;
     };
 
+
+    //If custom excerpt is not empty, sanitize it.
+    $customexcerpt = $_POST['customexcerpt'];
+    if ($customexcerpt != "") {
+        //In order to sanitize attribution without removing html code, we load HTMLPurifier http://htmlpurifier.org/
+        require_once plugin_dir_path(__FILE__) . '/HTMLPurifier/HTMLPurifier.auto.php';
+        $config = HTMLPurifier_Config::createDefault();
+        $purifier = new HTMLPurifier($config);
+        $customexcerpt = $purifier->purify($_POST['customexcerpt']);
+    }
+    //If custom title is not empty, purify it.
+    $customtitle = sanitize_text_field($_POST['customtitle']);
+
+    //If custom thumbnail id is set, sanitize it.
+    $customthumbnail = $_POST['customthumbnail'];
+    if (!is_numeric($customthumbnail)) {
+        $customthumbnail = "";
+    }
     //If marker is default, sanitize and store in $markerdata
     if ($_POST['marker'] == 'default') {
-
         $markerdata = sanitize_text_field($_POST['marker']);
-    }
-    //else if '$_POST[ 'marker' ]' (post_id) is non-numeric and if it's post type is not 'cttm-marker', abort
-    elseif (!is_numeric($_POST['marker']) ||    get_post_type($_POST['marker']) != 'cttm-marker') {
-
+    } elseif (!is_numeric($_POST['marker']) || get_post_type($_POST['marker']) != 'cttm-marker') {
+        //else if '$_POST[ 'marker' ]' (post_id) is non-numeric and if it's post type is not 'cttm-marker', abort
         return;
-    }
-    //If a custom marker is selected,
-    //Get marker thumbnail URL, Width and Height
-    //$markerdata[0] : Image URL
-    //$markerdata[1] : Image Width
-    //$markerdata[2] : Image Height
-    else {
-
+    } else {
+        //If a custom marker is selected,
+        //Get marker thumbnail URL, Width and Height
+        //$markerdata[0] : Image URL
+        //$markerdata[1] : Image Width
+        //$markerdata[2] : Image Height
         $markerimg = wp_get_attachment_image_src(get_post_thumbnail_id($_POST['marker']), "full");
         $markerdata[] = esc_url_raw($markerimg[0]);
         $markerdata[] = absint($markerimg[1]);
         $markerdata[] = absint($markerimg[2]);
     }
 
-
     //Sanitize latitude, longitude and markerdata.
     //floattostr() is defined at the end of this file.
     $latitude = floattostr($_POST['latitude']);
     $longitude = floattostr($_POST['longitude']);
 
+    //Not using this for now, but in the next big update (V2.0)
+    $multiplemarkers = false;
+
     // Combine every data in one json array
-    $latlngmarker = json_encode(compact('latitude', 'longitude', 'markerdata'));
+    $latlngmarker = json_encode(compact('latitude', 'longitude', 'markerdata', 'multiplemarkers', 'customtitle', 'customexcerpt', 'customthumbnail'));
+
     // Check value
     if ($latlngmarker != NULL) {
         // Update post meta 

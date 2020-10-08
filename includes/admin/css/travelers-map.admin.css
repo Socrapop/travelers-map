@@ -4069,3 +4069,157 @@ html {
 .helper-bloc input[type="number"] {
   margin-bottom: 8px;
 }
+.popovers-container {
+  display: flex;
+  border: 1px solid grey;
+  padding: 10px;
+  max-width: 800px;
+}
+@media (max-width: 600px) {
+  .popovers-container {
+    flex-direction: column;
+  }
+}
+.popovers-options-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 40px;
+}
+.popovers-options-container .popover-preview-text {
+  font-weight: 600;
+}
+.popover-preview-text {
+  display: block;
+  margin-bottom: 15px;
+}
+.popover-label {
+  margin-bottom: 15px;
+}
+.popover-preview-container {
+  text-align: center;
+  flex: 1 1 auto;
+  background: #dfdfdf;
+  padding: 10px;
+}
+
+/* Post Edit bloc */
+
+#cttm-markers label {
+  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 30px 20px 0;
+}
+.row-markers-edit {
+  box-sizing: border-box;
+  margin: 0 !important;
+}
+.col-map-container {
+  min-width: 450px;
+  padding: 0 15px 15px;
+  flex-grow: 1;
+  flex-basis: 50%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.col-markers-container {
+  background: #f4f4f4;
+  padding: 0 15px 15px;
+  flex-grow: 1;
+  flex-basis: 50%;
+  flex-shrink: 0;
+}
+
+.col-markers-container .cttm-input {
+  width: 100%;
+}
+.col-markers-container .cttm-textarea {
+  width: 100%;
+}
+.col-markers-container .cttm-label {
+  font-weight: 500;
+}
+
+.col-markers-container .cttm-custom-flexcontainer {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.col-markers-container .cttm-custom-flexcontainer .cttm-label {
+  padding-right: 10px;
+  flex-basis: 25%;
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 25%;
+}
+.col-markers-container .cttm-custom-flexcontainer .cttm-textarea {
+  flex-basis: 75%;
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 75%;
+}
+.col-markers-container .cttm-custom-flexcontainer .cttm-input {
+  flex-basis: 75%;
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 75%;
+}
+.col-markers-container .cttm-custom-flexcontainer .cttm-custom-thumb-container {
+  border: 1px solid #cecece;
+  border-radius: 5px;
+  background-color: #f4f4f4;
+  padding: 2px;
+  width: auto;
+  max-width: 40%;
+  display: inline-block;
+}
+.col-markers-container
+  .cttm-custom-flexcontainer
+  .cttm-custom-thumb-container.hidden {
+  display: none !important;
+}
+.col-markers-container
+  .cttm-custom-flexcontainer
+  .cttm-custom-thumb-container
+  .upload-custom-img {
+  padding: 20px;
+  display: block;
+  background-color: #ddd;
+  border: none;
+}
+
+.col-markers-container
+  .cttm-custom-flexcontainer
+  .cttm-custom-thumb-container
+  .upload-custom-img.hidden {
+  display: none;
+}
+.col-markers-container
+  .cttm-custom-flexcontainer
+  .cttm-custom-thumb-container
+  .upload-custom-img:hover,
+.col-markers-container
+  .cttm-custom-flexcontainer
+  .cttm-custom-thumb-container
+  .upload-custom-img:focus {
+  background: #cecece;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-custom-thumb-container .delete-custom-img {
+  height: auto !important;
+  margin: 0 auto;
+  text-align: center;
+  padding: 5px;
+  width: 100%;
+  display: block;
+}
+
+#btn-delete-current-marker {
+  float: right;
+}

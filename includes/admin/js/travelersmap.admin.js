@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         draggable: true,
         icon: myIcon,
       }).addTo(cttm_map);
+      cttm_map.setView([latinput.value, lnginput.value]);
 
       //If marker is drag&dropped, change the form latitude and longitude, keeping only 5 decimals
       marker.on('dragend', function (e) {
@@ -212,6 +213,78 @@ document.addEventListener('DOMContentLoaded', function (event) {
         cttm_map.removeLayer(marker);
       }
     });
+    /* 
+      Custom media upload, must use jQuery.
+    */
+
+    jQuery(function ($) {
+      // Set all variables to be used in scope
+      var frame,
+        metaBox = $('#LatLngMarker'),
+        addImgLink = metaBox.find('.upload-custom-img'),
+        delImgLink = metaBox.find('.delete-custom-img'),
+        addImgLinkContainer = metaBox.find('#cttm-custom-thumb-link-container'),
+        imgContainer = metaBox.find('#cttm-custom-thumb-container'),
+        imgIdInput = metaBox.find('.custom-img-id');
+
+      // ADD IMAGE LINK
+      addImgLink.on('click', function (event) {
+        event.preventDefault();
+
+        // If the media frame already exists, reopen it.
+        if (frame) {
+          frame.open();
+          return;
+        }
+
+        // Create a new media frame
+        frame = wp.media({
+          multiple: false, // Set to true to allow multiple files to be selected
+        });
+
+        // When an image is selected in the media frame...
+        frame.on('select', function () {
+          // Get media attachment details from the frame state
+          var attachment = frame.state().get('selection').first().toJSON();
+          
+          // Send the attachment URL to our custom image input field.
+          imgContainer.prepend(
+            '<img src="' +
+            attachment.url +
+              '" alt="" style="max-width:300px; width:100%;" class="cttm-custom-thumb-el"/>'
+          );
+          imgContainer.removeClass('hidden');
+          // Send the attachment id to our hidden input
+          imgIdInput.val(attachment.id);
+
+          // Hide the add image link
+          addImgLinkContainer.addClass('hidden');
+
+          // Unhide the remove image link
+          delImgLink.removeClass('hidden');
+        });
+
+        // Finally, open the modal on click
+        frame.open();
+      });
+
+      // DELETE IMAGE LINK
+      delImgLink.on('click', function (event) {
+        event.preventDefault();
+
+        // Clear out the preview image
+        imgContainer.find('.cttm-custom-thumb-el').remove();
+        imgContainer.addClass('hidden');
+        // Un-hide the add image link
+        addImgLinkContainer.removeClass('hidden');
+
+        // Hide the delete image link
+        delImgLink.addClass('hidden');
+
+        // Delete the image id from the hidden input
+        imgIdInput.val('');
+      });
+    });
   } //END IF document.getElementById("cttm-latfield")!=null
 
   //If Shortcode Helper page
@@ -244,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     /*
 	  	Define all Event Listeners on form, so the shortcode is updated each time the user change a form element.
-	  	 */
+	  */
 
     // Width Event Listener
     document.getElementById('width').addEventListener('input', function (e) {
@@ -679,6 +752,56 @@ document.addEventListener('DOMContentLoaded', function (event) {
         subdomains +
         attribution +
         ']';
+    }
+  }
+
+  //If it's the plugin's settings page.
+  if (
+    document.getElementsByClassName('popover-preview-container').length != 0
+  ) {
+    //get all checkboxes and popover preview image
+    checkboxTitle = document.getElementById('cb_title');
+    checkboxThumbnail = document.getElementById('cb_thumbnail');
+    checkboxDate = document.getElementById('cb_date');
+    checkboxExcerpt = document.getElementById('cb_excerpt');
+    popoverPreviewImage = document.getElementById('popover-preview-image');
+
+    //Add on click event listeners to all checkbox so we can update the list of checked options
+    checkboxTitle.addEventListener('click', updatePopoverPreviewImg);
+    checkboxThumbnail.addEventListener('click', updatePopoverPreviewImg);
+    checkboxDate.addEventListener('click', updatePopoverPreviewImg);
+    checkboxExcerpt.addEventListener('click', updatePopoverPreviewImg);
+
+    updatePopoverPreviewImg();
+
+    /**
+     * Get all checkboxes and see if they are checked.
+     * Update accordingly the 'imageName' value.
+     * If nothing is selected, show nothing.gif, else add .png at the end.
+     * Finally, update image src with the image path.
+     */
+    function updatePopoverPreviewImg() {
+      let imagePath = popoverPreviewImage.dataset.path;
+      let imageName = '';
+      let imageSrc = '';
+
+      if (checkboxTitle.checked) {
+        imageName += 'title';
+      }
+      if (checkboxThumbnail.checked) {
+        imageName += 'thumb';
+      }
+      if (checkboxDate.checked) {
+        imageName += 'date';
+      }
+      if (checkboxExcerpt.checked) {
+        imageName += 'excerpt';
+      }
+
+      imageName === '' ? (imageName = 'nothing.gif') : (imageName += '.png');
+
+      imageSrc = imagePath + '/' + imageName;
+      popoverPreviewImage.src = imageSrc;
     }
   }
 });
