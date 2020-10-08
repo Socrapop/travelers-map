@@ -106,7 +106,7 @@ function cttm_meta_callback($post)
     if (metadata_exists('post', $post->ID, '_latlngmarker')) {
         $cttm_stored_meta = get_post_meta($post->ID, '_latlngmarker', true);
         extract(json_decode($cttm_stored_meta, true));
-
+     
         $markerurlcleaned = esc_url($markerdata[0]);
     };
 
