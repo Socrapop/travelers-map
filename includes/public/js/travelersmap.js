@@ -202,9 +202,9 @@ function initTravelersMap() {
             if (markerdatas.customexcerpt) {
               postdatas.excerpt = markerdatas.customexcerpt;
             }
-            // if(markerdatas.customthumbnail){
-            //   postdatas.thumb = markerdatas.customthumbnail;
-            // }
+            if (markerdatas.customthumbnail) {
+              postdatas.thumb = markerdatas.customthumbnail;
+            }
 
             // Create a leaflet icon object and add it to the map, if not set, use default
             //"d" is returned when no icon is set

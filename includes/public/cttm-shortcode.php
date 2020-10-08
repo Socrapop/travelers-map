@@ -258,15 +258,19 @@ function cttm_shortcode($attr)
 
             // If a custom thumbnail ID is defined, get the thumbnail url and replace it in the array
             $latlngmarkerarr_decoded = json_decode($latlngmarkerarr[0], true);
+            
             if (isset($latlngmarkerarr_decoded['customthumbnail'])) {
                 $cttm_thumbnail_id = intval($latlngmarkerarr_decoded['customthumbnail']); // = int: 114
                 $your_img_src = wp_get_attachment_image_src($cttm_thumbnail_id, 'travelersmap-thumb'); //Return false? This is not working, I don't know why.
-                
-                die(var_dump($your_img_src));
+                if($your_img_src != false){
+                    $latlngmarkerarr_decoded['customthumbnail'] = $your_img_src[0];
+                }else{
+                    $latlngmarkerarr_decoded['customthumbnail'] = "";
+                }
 
-                $latlngmarkerarr = json_encode($latlngmarkerarr_decoded);
+                $latlngmarkerarr[0] = json_encode($latlngmarkerarr_decoded);
             }
-
+            
             //Create the $cttm_metas array to store all the markers and posts informations. This will be send to out javascript file
             $cttm_metas[$i]['markerdatas'] = $latlngmarkerarr[0];
             $cttm_metas[$i]['postdatas'] = $cttm_postdatas;

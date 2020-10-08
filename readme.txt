@@ -70,6 +70,7 @@ Improved popovers customization:
 * Updated popovers CSS. If you have a caching plugin, you can clear the cache after the update if you have any problem.
 * Old settings are automatically converted into the new settings when updating to 1.11.0.
 * Updated Travelers' Map backend UI on post editing page, now optimized for V2.0 update.
+* Changed backend map to center on the current marker on page load.
 * Thanks to Rob de Cleen @rdc2701 for his Dutch and Italian translations! :)
 
 = 1.10.0 - 24/07/2020 = 
