@@ -192,13 +192,14 @@ function cttm_meta_callback($post)
                     <?php
                     //This code was taken from the WP media codex page : https://codex.wordpress.org/Javascript_Reference/wp.media
                     global $post;
-
+                    if (isset($customthumbnail)){
                     // See if there's a media id already saved as post meta
                     $your_img_id = intval($customthumbnail);
-
+                    }else{
+                        $your_img_id = "";
+                    }
                     // Get the image src
                     $your_img_src = wp_get_attachment_image_src($your_img_id, 'travelersmap-thumb');
-
                     // For convenience, see if the array is valid
                     $you_have_img = is_array($your_img_src);
                     ?>
