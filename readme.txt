@@ -5,10 +5,10 @@ Tags: geolocalize, openstreetmap, leaftlet, map, pin, travelers, markers, travel
 Requires at least: 4.6
 Tested up to: 5.4.2
 Requires PHP: 5.2.4
-Stable tag: 1.11.0
+Stable tag: 1.11.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.11.0
+Version 1.11.1
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
