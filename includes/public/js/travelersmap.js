@@ -155,6 +155,7 @@ function initTravelersMap() {
         },
         spiderfyDistanceMultiplier: 2.5,
       });
+    }
 
       // Generate Popover HTML Output and assign them to variables
       let [popoverOutput, popoverOptions] = cttmGeneratePopoverHTMLOutput(
@@ -318,7 +319,7 @@ function initTravelersMap() {
     // target can be any Element or other EventTarget.
     document.dispatchEvent(event_cttm);
   } //end function InitTravelersMap
-}
+
 document.addEventListener("DOMContentLoaded", function () {
   if (document.getElementsByClassName("travelersmap-container")) {
     initTravelersMap();
