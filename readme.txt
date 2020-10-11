@@ -61,11 +61,10 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
 
 == Changelog ==
-= 1.11.1 -11/10/2020 = 
+= 1.11.1 - 11/10/2020 = 
 * Fixed the map not loading with "disable_clustering" parameter set to true.
 
 = 1.11.0 - 08/10/2020 = 
-
 Improved popovers customization:
 * You can now choose which data you want to show in the popovers. Design will adapt accordingly.
 * Added the possibility to show the post's date in the popovers.
