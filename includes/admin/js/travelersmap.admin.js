@@ -1,15 +1,41 @@
-document.addEventListener('DOMContentLoaded', function (event) {
+document.addEventListener("DOMContentLoaded", function (event) {
   //IF it's a post edit page with the plugin initialized.
-  if (document.getElementById('cttm-latfield') != null) {
+  if (document.getElementById("cttm-latfield") != null) {
     // Set needed variables
     var iconurl;
-    var latinput = document.getElementById('cttm-latfield');
-    var lnginput = document.getElementById('cttm-lngfield');
-    var deletemarkerbtn = document.getElementById('btn-delete-current-marker');
+    var latinput = document.getElementById("cttm-latfield");
+    var lnginput = document.getElementById("cttm-lngfield");
+    var deletemarkerbtn = document.getElementById("btn-delete-current-marker");
+    var activateMultiMarkerButton = document.getElementById(
+      "btn-activate-multiple-markers"
+    );
+    var addAnotherMarkerButton = document.getElementById(
+      "btn-add-another-marker"
+    );
+    var multiMarkerActivatedDiv = document.getElementById(
+      "multimarkers-activated"
+    );
+    var multiMarkerNotActivatedDiv = document.getElementById(
+      "multimarkers-not-activated"
+    );
+    //Current Marker Object
+    var currentSelectedMarker = {
+      iconUrl: "",
+      customTitle: "",
+      customExcerpt: "",
+      customThumbnail: "",
+      latitude: "",
+      longitude: "",
+    };
+
+    activateMultiMarkerButton.onclick = function (e) {
+      multiMarkerNotActivatedDiv.setAttribute("class", "cttm-hidden");
+      multiMarkerActivatedDiv.removeAttribute("class", "cttm-hidden");
+    };
 
     // Get all markers input, and loop through each
     var radios = document
-      .getElementById('cttm-markers')
+      .getElementById("cttm-markers")
       .querySelectorAll("input[name='marker']");
     for (var i = 0, max = radios.length; i < max; i++) {
       //Get current selected marker icon and
@@ -48,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
 
     // Init Leaflet
-    var cttm_map = L.map('travelersmap-container').setView(
+    var cttm_map = L.map("travelersmap-container").setView(
       [45.280712, 5.89],
       3
     ); //Zoom 3
@@ -57,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     cttm_map.scrollWheelZoom.disable();
 
     //Enable Scrollwheel Zoom on focus
-    cttm_map.on('focus', () => {
+    cttm_map.on("focus", () => {
       cttm_map.scrollWheelZoom.enable();
     });
 
@@ -75,9 +101,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
     cttm_options = JSON.parse(json_cttm_options);
 
     //Get Tiles server URL + API key + Attribution
-    L.tileLayer(cttm_options['tileurl'], {
-      subdomains: cttm_options['subdomains'],
-      attribution: cttm_options['attribution'],
+    L.tileLayer(cttm_options["tileurl"], {
+      subdomains: cttm_options["subdomains"],
+      attribution: cttm_options["attribution"],
       noWrap: true,
       bounds: [
         [-90, -180],
@@ -89,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     var marker;
 
-    if (latinput.value != '' && lnginput.value != '') {
+    if (latinput.value != "" && lnginput.value != "") {
       marker = L.marker([latinput.value, lnginput.value], {
         draggable: true,
         icon: myIcon,
@@ -97,18 +123,18 @@ document.addEventListener('DOMContentLoaded', function (event) {
       cttm_map.setView([latinput.value, lnginput.value]);
 
       //If marker is drag&dropped, change the form latitude and longitude, keeping only 5 decimals
-      marker.on('dragend', function (e) {
+      marker.on("dragend", function (e) {
         latinput.value = e.target._latlng.lat.toFixed(5);
         lnginput.value = e.target._latlng.lng.toFixed(5);
       });
     }
 
     //On map click, add a marker or move the existing one to the click location
-    cttm_map.on('click', function (e) {
+    cttm_map.on("click", function (e) {
       // If a marker already exist
       if (cttm_map.hasLayer(marker)) {
         //add transition style only on click, we don't want the transition if the user drag&drop the marker.
-        marker._icon.style.transition = 'transform 0.3s ease-out';
+        marker._icon.style.transition = "transform 0.3s ease-out";
 
         // set new latitude and longitude
         marker.setLatLng(e.latlng);
@@ -133,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         lnginput.value = e.latlng.lng.toFixed(5);
 
         //If marker is drag&dropped, change the form latitude and longitude, keeping only 5 decimals
-        marker.on('dragend', function (e) {
+        marker.on("dragend", function (e) {
           latinput.value = e.target._latlng.lat.toFixed(5);
           lnginput.value = e.target._latlng.lng.toFixed(5);
         });
@@ -145,10 +171,10 @@ document.addEventListener('DOMContentLoaded', function (event) {
     //This is very useful to rapidly find a place
     cttm_map.addControl(
       new L.Control.Search({
-        url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
-        jsonpParam: 'json_callback',
-        propertyName: 'display_name',
-        propertyLoc: ['lat', 'lon'],
+        url: "https://nominatim.openstreetmap.org/search?format=json&q={s}",
+        jsonpParam: "json_callback",
+        propertyName: "display_name",
+        propertyLoc: ["lat", "lon"],
         autoCollapse: false,
         collapsed: false,
         autoType: true,
@@ -161,11 +187,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     //When using the search input of Leaflet.search, "Enter" key was publishing/updating the Wordpress post.
     //This function disable this behaviour when typing in the search input.
-    searchinput = document.querySelector('#searchtext9');
-    searchinput.addEventListener('keydown', disableEnterKey);
+    searchinput = document.querySelector("#searchtext9");
+    searchinput.addEventListener("keydown", disableEnterKey);
     //On focus, enable zoom with mousewheel on map.
     searchinput.addEventListener(
-      'focus',
+      "focus",
       function () {
         cttm_map.scrollWheelZoom.enable();
       },
@@ -173,26 +199,26 @@ document.addEventListener('DOMContentLoaded', function (event) {
     );
 
     // Disable enter key on latitude and Longitude input field too, to avoid activating "delete current marker" button
-    latinput.addEventListener('keydown', disableEnterKey);
-    lnginput.addEventListener('keydown', disableEnterKey);
+    latinput.addEventListener("keydown", disableEnterKey);
+    lnginput.addEventListener("keydown", disableEnterKey);
 
     function disableEnterKey(e) {
       if (e.keyCode === 13) {
         // 13 is enter
         e.preventDefault();
-        if (e.target.id == 'cttm-latfield' || e.target.id == 'cttm-lngfield') {
+        if (e.target.id == "cttm-latfield" || e.target.id == "cttm-lngfield") {
           e.target.blur();
         }
         return false;
       }
     }
 
-    latinput.addEventListener('change', updateMarkerLatLng);
-    lnginput.addEventListener('change', updateMarkerLatLng);
+    latinput.addEventListener("change", updateMarkerLatLng);
+    lnginput.addEventListener("change", updateMarkerLatLng);
 
     function updateMarkerLatLng(e) {
       //add transition style only on click, we don't want the transition if the user drag&drop the marker.
-      marker._icon.style.transition = 'transform 0.3s ease-out';
+      marker._icon.style.transition = "transform 0.3s ease-out";
 
       inputlatlng = { lat: latinput.value, lng: lnginput.value };
       marker.setLatLng(inputlatlng);
@@ -206,9 +232,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
     /*
 	  		Delete current marker information on "delete current marker" button click.
 	  	 */
-    deletemarkerbtn.addEventListener('click', function () {
-      latinput.value = '';
-      lnginput.value = '';
+    deletemarkerbtn.addEventListener("click", function () {
+      latinput.value = "";
+      lnginput.value = "";
       if (cttm_map.hasLayer(marker)) {
         cttm_map.removeLayer(marker);
       }
@@ -220,15 +246,15 @@ document.addEventListener('DOMContentLoaded', function (event) {
     jQuery(function ($) {
       // Set all variables to be used in scope
       var frame,
-        metaBox = $('#LatLngMarker'),
-        addImgLink = metaBox.find('.upload-custom-img'),
-        delImgLink = metaBox.find('.delete-custom-img'),
-        addImgLinkContainer = metaBox.find('#cttm-custom-thumb-link-container'),
-        imgContainer = metaBox.find('#cttm-custom-thumb-container'),
-        imgIdInput = metaBox.find('.custom-img-id');
+        metaBox = $("#LatLngMarker"),
+        addImgLink = metaBox.find(".upload-custom-img"),
+        delImgLink = metaBox.find(".delete-custom-img"),
+        addImgLinkContainer = metaBox.find("#cttm-custom-thumb-link-container"),
+        imgContainer = metaBox.find("#cttm-custom-thumb-container"),
+        imgIdInput = metaBox.find(".custom-img-id");
 
       // ADD IMAGE LINK
-      addImgLink.on('click', function (event) {
+      addImgLink.on("click", function (event) {
         event.preventDefault();
 
         // If the media frame already exists, reopen it.
@@ -243,25 +269,25 @@ document.addEventListener('DOMContentLoaded', function (event) {
         });
 
         // When an image is selected in the media frame...
-        frame.on('select', function () {
+        frame.on("select", function () {
           // Get media attachment details from the frame state
-          var attachment = frame.state().get('selection').first().toJSON();
-          
+          var attachment = frame.state().get("selection").first().toJSON();
+
           // Send the attachment URL to our custom image input field.
           imgContainer.prepend(
             '<img src="' +
-            attachment.url +
+              attachment.url +
               '" alt="" style="max-width:300px; width:100%;" class="cttm-custom-thumb-el"/>'
           );
-          imgContainer.removeClass('hidden');
+          imgContainer.removeClass("hidden");
           // Send the attachment id to our hidden input
           imgIdInput.val(attachment.id);
 
           // Hide the add image link
-          addImgLinkContainer.addClass('hidden');
+          addImgLinkContainer.addClass("hidden");
 
           // Unhide the remove image link
-          delImgLink.removeClass('hidden');
+          delImgLink.removeClass("hidden");
         });
 
         // Finally, open the modal on click
@@ -269,102 +295,102 @@ document.addEventListener('DOMContentLoaded', function (event) {
       });
 
       // DELETE IMAGE LINK
-      delImgLink.on('click', function (event) {
+      delImgLink.on("click", function (event) {
         event.preventDefault();
 
         // Clear out the preview image
-        imgContainer.find('.cttm-custom-thumb-el').remove();
-        imgContainer.addClass('hidden');
+        imgContainer.find(".cttm-custom-thumb-el").remove();
+        imgContainer.addClass("hidden");
         // Un-hide the add image link
-        addImgLinkContainer.removeClass('hidden');
+        addImgLinkContainer.removeClass("hidden");
 
         // Hide the delete image link
-        delImgLink.addClass('hidden');
+        delImgLink.addClass("hidden");
 
         // Delete the image id from the hidden input
-        imgIdInput.val('');
+        imgIdInput.val("");
       });
     });
   } //END IF document.getElementById("cttm-latfield")!=null
 
   //If Shortcode Helper page
-  if (document.getElementsByClassName('wrap-shortcode-helper').length != 0) {
+  if (document.getElementsByClassName("wrap-shortcode-helper").length != 0) {
     /*
 	  		Define all default variables.
 	  	 */
-    var shortcode = document.getElementById('cttm-shortcode-helper');
-    var width = '';
-    var height = '';
-    var maxwidth = '';
-    var maxheight = '';
-    var minzoom = '';
-    var maxzoom = '';
-    var thispostsmarker = '';
-    var centeredonthis = '';
-    var post_id = '';
-    var categoriesstring = '';
-    var tagsstring = '';
-    var posttypestring = '';
-    var init_maxzoom = '';
-    var custom_tax = '';
-    var open_link_in_new_tab = '';
-    var disable_clustering = '';
-    var tileurl = '';
-    var subdomains = '';
-    var attribution = '';
-    var max_cluster_radius = '';
-    var current_query_markers = '';
+    var shortcode = document.getElementById("cttm-shortcode-helper");
+    var width = "";
+    var height = "";
+    var maxwidth = "";
+    var maxheight = "";
+    var minzoom = "";
+    var maxzoom = "";
+    var thispostsmarker = "";
+    var centeredonthis = "";
+    var post_id = "";
+    var categoriesstring = "";
+    var tagsstring = "";
+    var posttypestring = "";
+    var init_maxzoom = "";
+    var custom_tax = "";
+    var open_link_in_new_tab = "";
+    var disable_clustering = "";
+    var tileurl = "";
+    var subdomains = "";
+    var attribution = "";
+    var max_cluster_radius = "";
+    var current_query_markers = "";
 
     /*
 	  	Define all Event Listeners on form, so the shortcode is updated each time the user change a form element.
 	  */
 
     // Width Event Listener
-    document.getElementById('width').addEventListener('input', function (e) {
+    document.getElementById("width").addEventListener("input", function (e) {
       // Clean every space from the input to avoid shortcode problems.
-      cleanedinput = this.value.split(' ').join('');
+      cleanedinput = this.value.split(" ").join("");
 
       // If input is default or empty, set width to empty string.
-      if (cleanedinput == '100%' || cleanedinput == '') {
-        width = '';
+      if (cleanedinput == "100%" || cleanedinput == "") {
+        width = "";
       } else {
         // Else, set width variable to output in the shortcode.
 
-        width = ' width=' + cleanedinput;
+        width = " width=" + cleanedinput;
       }
       //Update shortcode function
       cttmShortcodeUpdate();
     });
 
     // Height Event Listener
-    document.getElementById('height').addEventListener('input', function (e) {
+    document.getElementById("height").addEventListener("input", function (e) {
       // Clean every space from the input to avoid shortcode problems.
-      cleanedinput = this.value.split(' ').join('');
+      cleanedinput = this.value.split(" ").join("");
 
       // If input is default or empty, set height to empty string.
-      if (cleanedinput == '600px' || cleanedinput == '') {
-        height = '';
+      if (cleanedinput == "600px" || cleanedinput == "") {
+        height = "";
       } else {
         // Else, set height variable to output in the shortcode.
 
-        height = ' height=' + cleanedinput;
+        height = " height=" + cleanedinput;
       }
       //Update shortcode function
       cttmShortcodeUpdate();
     });
 
     // Maxwidth Event Listener
-    document.getElementById('maxwidth').addEventListener('input', function (e) {
+    document.getElementById("maxwidth").addEventListener("input", function (e) {
       // Clean every space from the input to avoid shortcode problems.
-      cleanedinput = this.value.split(' ').join('');
+      cleanedinput = this.value.split(" ").join("");
 
       // If input is empty, set maxwidth to empty string.
-      if (cleanedinput == '') {
-        maxwidth = '';
+      if (cleanedinput == "") {
+        maxwidth = "";
       } else {
         // Else, set maxwidth variable to output in the shortcode.
 
-        maxwidth = ' maxwidth=' + cleanedinput;
+        maxwidth = " maxwidth=" + cleanedinput;
       }
       //Update shortcode function
       cttmShortcodeUpdate();
@@ -372,18 +398,18 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     // Maxheight Event Listener
     document
-      .getElementById('maxheight')
-      .addEventListener('input', function (e) {
+      .getElementById("maxheight")
+      .addEventListener("input", function (e) {
         // Clean every space from the input to avoid shortcode problems.
-        cleanedinput = this.value.split(' ').join('');
+        cleanedinput = this.value.split(" ").join("");
 
         // If input is empty, set maxheight to empty string.
-        if (cleanedinput == '') {
-          maxheight = '';
+        if (cleanedinput == "") {
+          maxheight = "";
         } else {
           // Else, set maxheight variable to output in the shortcode.
 
-          maxheight = ' maxheight=' + cleanedinput;
+          maxheight = " maxheight=" + cleanedinput;
         }
 
         //Update shortcode function
@@ -391,34 +417,34 @@ document.addEventListener('DOMContentLoaded', function (event) {
       });
 
     // MinZoom Event Listener
-    document.getElementById('minzoom').addEventListener('input', function (e) {
+    document.getElementById("minzoom").addEventListener("input", function (e) {
       // Clean every space from the input to avoid shortcode problems.
-      cleanedinput = this.value.split(' ').join('');
+      cleanedinput = this.value.split(" ").join("");
 
       // If input is empty, set minzoom to empty string.
-      if (cleanedinput == '') {
-        minzoom = '';
+      if (cleanedinput == "") {
+        minzoom = "";
       } else {
         // Else, set minzoom variable to output in the shortcode.
 
-        minzoom = ' minzoom=' + cleanedinput;
+        minzoom = " minzoom=" + cleanedinput;
       }
       //Update shortcode function
       cttmShortcodeUpdate();
     });
 
     // MaxZoom Event Listener
-    document.getElementById('maxzoom').addEventListener('input', function (e) {
+    document.getElementById("maxzoom").addEventListener("input", function (e) {
       // Clean every space from the input to avoid shortcode problems.
-      cleanedinput = this.value.split(' ').join('');
+      cleanedinput = this.value.split(" ").join("");
 
       // If input is empty, set maxzoom to empty string.
-      if (cleanedinput == '') {
-        maxzoom = '';
+      if (cleanedinput == "") {
+        maxzoom = "";
       } else {
         // Else, set maxzoom variable to output in the shortcode.
 
-        maxzoom = ' maxzoom=' + cleanedinput;
+        maxzoom = " maxzoom=" + cleanedinput;
       }
 
       //Update shortcode function
@@ -427,18 +453,18 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     // Init_Maxzoom Event Listener
     document
-      .getElementById('init-maxzoom')
-      .addEventListener('input', function (e) {
+      .getElementById("init-maxzoom")
+      .addEventListener("input", function (e) {
         // Clean every space from the input to avoid shortcode problems.
-        cleanedinput = this.value.split(' ').join('');
+        cleanedinput = this.value.split(" ").join("");
 
         // If input is empty, set maxzoom to empty string.
-        if (cleanedinput == '') {
-          init_maxzoom = '';
+        if (cleanedinput == "") {
+          init_maxzoom = "";
         } else {
           // Else, set maxzoom variable to output in the shortcode.
 
-          init_maxzoom = ' init_maxzoom=' + cleanedinput;
+          init_maxzoom = " init_maxzoom=" + cleanedinput;
         }
 
         //Update shortcode function
@@ -447,42 +473,42 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     // This post's marker only Event Listener
     document
-      .getElementById('thispostsmarker')
-      .addEventListener('change', function (e) {
+      .getElementById("thispostsmarker")
+      .addEventListener("change", function (e) {
         //If checked, set output
         if (this.checked) {
-          thispostsmarker = ' this_post=true';
+          thispostsmarker = " this_post=true";
         } else {
-          thispostsmarker = '';
+          thispostsmarker = "";
         }
         cttmShortcodeUpdate();
       });
 
     // Centered on this post's marker only Event Listener
     document
-      .getElementById('centered_on_this')
-      .addEventListener('change', function (e) {
+      .getElementById("centered_on_this")
+      .addEventListener("change", function (e) {
         //If checked, set output
         if (this.checked) {
-          centeredonthis = ' centered_on_this=true';
+          centeredonthis = " centered_on_this=true";
         } else {
-          centeredonthis = '';
+          centeredonthis = "";
         }
         cttmShortcodeUpdate();
       });
 
     // post_id Event Listener
-    document.getElementById('post_id').addEventListener('input', function (e) {
+    document.getElementById("post_id").addEventListener("input", function (e) {
       // Clean every space from the input to avoid shortcode problems.
-      cleanedinput = this.value.split(' ').join('');
+      cleanedinput = this.value.split(" ").join("");
 
       // If input is empty, set maxzoom to empty string.
-      if (cleanedinput == '') {
-        post_id = '';
+      if (cleanedinput == "") {
+        post_id = "";
       } else {
         // Else, set maxzoom variable to output in the shortcode.
 
-        post_id = ' post_id=' + cleanedinput;
+        post_id = " post_id=" + cleanedinput;
       }
 
       //Update shortcode function
@@ -494,12 +520,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
 		 */
 
     // Get all categories checkboxes
-    var catCheckboxes = document.getElementsByClassName('cttm-cat-checkbox');
+    var catCheckboxes = document.getElementsByClassName("cttm-cat-checkbox");
 
     // Loop through checkboxes and set Event Listener on change.
     for (var i = 0; i < catCheckboxes.length; i++) {
-      catCheckboxes[i].addEventListener('change', function (e) {
-        categoriesstring = cttmCheckboxToString(catCheckboxes, 'cats');
+      catCheckboxes[i].addEventListener("change", function (e) {
+        categoriesstring = cttmCheckboxToString(catCheckboxes, "cats");
         cttmShortcodeUpdate();
       });
     }
@@ -509,12 +535,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
 		 */
 
     // Get all categories checkboxes
-    var tagCheckboxes = document.getElementsByClassName('cttm-tag-checkbox');
+    var tagCheckboxes = document.getElementsByClassName("cttm-tag-checkbox");
 
     // Loop through checkboxes and set Event Listener on change.
     for (var i = 0; i < tagCheckboxes.length; i++) {
-      tagCheckboxes[i].addEventListener('change', function (e) {
-        tagsstring = cttmCheckboxToString(tagCheckboxes, 'tags');
+      tagCheckboxes[i].addEventListener("change", function (e) {
+        tagsstring = cttmCheckboxToString(tagCheckboxes, "tags");
         cttmShortcodeUpdate();
       });
     }
@@ -525,13 +551,13 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     // Get all post types checkboxes
     var posttypeCheckboxes = document.getElementsByClassName(
-      'cttm-posttype-checkbox'
+      "cttm-posttype-checkbox"
     );
 
     // Loop through checkboxes and set Event Listener on change.
     for (var i = 0; i < posttypeCheckboxes.length; i++) {
-      posttypeCheckboxes[i].addEventListener('change', function (e) {
-        posttypestring = cttmCheckboxToString(posttypeCheckboxes, 'post_types');
+      posttypeCheckboxes[i].addEventListener("change", function (e) {
+        posttypestring = cttmCheckboxToString(posttypeCheckboxes, "post_types");
         cttmShortcodeUpdate();
       });
     }
@@ -541,23 +567,23 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     // Get all Custom Taxonomies HTML containers
     var customTaxonomiesContainers = document.getElementsByClassName(
-      'customtaxonomy'
+      "customtaxonomy"
     );
     var customTaxonomyStrings = {}; // This object will store every custom taxonomy strings
     for (var index = 0; index < customTaxonomiesContainers.length; index++) {
       // Get all Custom Taxonomies names from data-taxonomy-name attribute
       let customTaxonomyName = customTaxonomiesContainers[index].getAttribute(
-        'data-taxonomy-name'
+        "data-taxonomy-name"
       );
 
       //Get all checkboxes from this taxonomy
       let customTaxonomyCheckboxes = document.getElementsByClassName(
-        'cttm-' + customTaxonomyName + '-checkbox'
+        "cttm-" + customTaxonomyName + "-checkbox"
       );
 
       // Loop through checkboxes and set Event Listener on change.
       for (var i = 0; i < customTaxonomyCheckboxes.length; i++) {
-        customTaxonomyCheckboxes[i].addEventListener('change', function (e) {
+        customTaxonomyCheckboxes[i].addEventListener("change", function (e) {
           customTaxonomyStrings[customTaxonomyName] = cttmCheckboxToString(
             customTaxonomyCheckboxes,
             customTaxonomyName,
@@ -570,66 +596,66 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
     // Max Cluster radius Event Listener
     document
-      .getElementById('max_cluster_radius')
-      .addEventListener('input', function (e) {
+      .getElementById("max_cluster_radius")
+      .addEventListener("input", function (e) {
         // Clean every space from the input to avoid shortcode problems.
-        cleanedinput = this.value.split(' ').join('');
+        cleanedinput = this.value.split(" ").join("");
 
         // If input is empty, set maxClusterRadius to empty string.
-        if (cleanedinput == '') {
-          max_cluster_radius = '';
+        if (cleanedinput == "") {
+          max_cluster_radius = "";
         } else {
           // Else, set maxwidth variable to output in the shortcode.
 
-          max_cluster_radius = ' max_cluster_radius=' + cleanedinput;
+          max_cluster_radius = " max_cluster_radius=" + cleanedinput;
         }
         //Update shortcode function
         cttmShortcodeUpdate();
       });
     // Disable Clustering marker only Event Listener
     document
-      .getElementById('disableclustering')
-      .addEventListener('change', function (e) {
+      .getElementById("disableclustering")
+      .addEventListener("change", function (e) {
         //If checked, set output
         if (this.checked) {
-          disable_clustering = ' disable_clustering=true';
+          disable_clustering = " disable_clustering=true";
         } else {
-          disable_clustering = '';
+          disable_clustering = "";
         }
         cttmShortcodeUpdate();
       });
     // Open Link in a new Tab Event Listener
     document
-      .getElementById('open_link_in_new_tab')
-      .addEventListener('change', function (e) {
+      .getElementById("open_link_in_new_tab")
+      .addEventListener("change", function (e) {
         //If checked, set output
         if (this.checked) {
-          open_link_in_new_tab = ' open_link_in_new_tab=true';
+          open_link_in_new_tab = " open_link_in_new_tab=true";
         } else {
-          open_link_in_new_tab = '';
+          open_link_in_new_tab = "";
         }
         cttmShortcodeUpdate();
       });
 
     // This page query markers only Event Listener
     document
-      .getElementById('current_query_markers')
-      .addEventListener('change', function (e) {
+      .getElementById("current_query_markers")
+      .addEventListener("change", function (e) {
         console.log(this);
         //If checked, set output
         if (this.checked) {
-          current_query_markers = ' current_query_markers=true';
+          current_query_markers = " current_query_markers=true";
         } else {
-          current_query_markers = '';
+          current_query_markers = "";
         }
         cttmShortcodeUpdate();
       });
 
     // Tile Server URL Event Listener
-    document.getElementById('tileurl').addEventListener('input', function (e) {
+    document.getElementById("tileurl").addEventListener("input", function (e) {
       // If input is default or empty, set width to empty string.
-      if (this.value == '') {
-        tileurl = '';
+      if (this.value == "") {
+        tileurl = "";
       } else {
         // Else, set width variable to output in the shortcode.
 
@@ -640,11 +666,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
     });
     // Subdomains Event Listener
     document
-      .getElementById('subdomains')
-      .addEventListener('input', function (e) {
+      .getElementById("subdomains")
+      .addEventListener("input", function (e) {
         // If input is default or empty, set width to empty string.
-        if (this.value == '') {
-          subdomains = '';
+        if (this.value == "") {
+          subdomains = "";
         } else {
           // Else, set width variable to output in the shortcode.
 
@@ -655,11 +681,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
       });
     // Attribution Event Listener
     document
-      .getElementById('attribution')
-      .addEventListener('input', function (e) {
+      .getElementById("attribution")
+      .addEventListener("input", function (e) {
         // If input is default or empty, set width to empty string.
-        if (this.value == '') {
-          attribution = '';
+        if (this.value == "") {
+          attribution = "";
         } else {
           // Else, set width variable to output in the shortcode.
 
@@ -675,7 +701,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 		 */
     function cttmCheckboxToString(checkboxes, type, isCustomTax = false) {
       var firstChecked = true;
-      var checkedString = '';
+      var checkedString = "";
       //Loop through sent checkboxes
       for (var i = 0; i < checkboxes.length; i++) {
         //If current checkbox is checked
@@ -687,7 +713,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
             firstChecked = false;
           } else {
             //If not the first, add this string seaparated by a comma for shortcode
-            checkedString = checkedString + ',' + checkboxes[i].value;
+            checkedString = checkedString + "," + checkboxes[i].value;
           }
         }
       }
@@ -695,9 +721,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
       if (!firstChecked) {
         //If it's a custom tax, don't add a space before.
         if (isCustomTax == true) {
-          checkedString = type + '=' + checkedString;
+          checkedString = type + "=" + checkedString;
         } else {
-          checkedString = ' ' + type + '=' + checkedString;
+          checkedString = " " + type + "=" + checkedString;
         }
       }
       return checkedString;
@@ -707,17 +733,17 @@ document.addEventListener('DOMContentLoaded', function (event) {
 		// and combine them nicely into a variable we return at the end.
 		 */
     function cttmCustomTaxonomiesStringUpdate() {
-      let customTaxString = ''; //reset our string
+      let customTaxString = ""; //reset our string
       //Loop through each key of our object
       Object.keys(customTaxonomyStrings).forEach(function (item) {
         //If the current item is an empty string (if user uncheck all the terms of a custom tax), don't do anything
-        if (customTaxonomyStrings[item] != '') {
+        if (customTaxonomyStrings[item] != "") {
           //If first item added, add custom_tax and opening quote
-          if (customTaxString === '') {
+          if (customTaxString === "") {
             customTaxString = ' custom_tax="' + customTaxonomyStrings[item];
           } else {
             // Else (if already an item), separate the items with an ampersand (&)
-            customTaxString += '&' + customTaxonomyStrings[item];
+            customTaxString += "&" + customTaxonomyStrings[item];
           }
         }
       });
@@ -729,7 +755,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 		 */
     function cttmShortcodeUpdate() {
       shortcode.innerText =
-        '[travelers-map' +
+        "[travelers-map" +
         width +
         maxwidth +
         height +
@@ -751,26 +777,26 @@ document.addEventListener('DOMContentLoaded', function (event) {
         tileurl +
         subdomains +
         attribution +
-        ']';
+        "]";
     }
   }
 
   //If it's the plugin's settings page.
   if (
-    document.getElementsByClassName('popover-preview-container').length != 0
+    document.getElementsByClassName("popover-preview-container").length != 0
   ) {
     //get all checkboxes and popover preview image
-    checkboxTitle = document.getElementById('cb_title');
-    checkboxThumbnail = document.getElementById('cb_thumbnail');
-    checkboxDate = document.getElementById('cb_date');
-    checkboxExcerpt = document.getElementById('cb_excerpt');
-    popoverPreviewImage = document.getElementById('popover-preview-image');
+    checkboxTitle = document.getElementById("cb_title");
+    checkboxThumbnail = document.getElementById("cb_thumbnail");
+    checkboxDate = document.getElementById("cb_date");
+    checkboxExcerpt = document.getElementById("cb_excerpt");
+    popoverPreviewImage = document.getElementById("popover-preview-image");
 
     //Add on click event listeners to all checkbox so we can update the list of checked options
-    checkboxTitle.addEventListener('click', updatePopoverPreviewImg);
-    checkboxThumbnail.addEventListener('click', updatePopoverPreviewImg);
-    checkboxDate.addEventListener('click', updatePopoverPreviewImg);
-    checkboxExcerpt.addEventListener('click', updatePopoverPreviewImg);
+    checkboxTitle.addEventListener("click", updatePopoverPreviewImg);
+    checkboxThumbnail.addEventListener("click", updatePopoverPreviewImg);
+    checkboxDate.addEventListener("click", updatePopoverPreviewImg);
+    checkboxExcerpt.addEventListener("click", updatePopoverPreviewImg);
 
     updatePopoverPreviewImg();
 
@@ -782,25 +808,25 @@ document.addEventListener('DOMContentLoaded', function (event) {
      */
     function updatePopoverPreviewImg() {
       let imagePath = popoverPreviewImage.dataset.path;
-      let imageName = '';
-      let imageSrc = '';
+      let imageName = "";
+      let imageSrc = "";
 
       if (checkboxTitle.checked) {
-        imageName += 'title';
+        imageName += "title";
       }
       if (checkboxThumbnail.checked) {
-        imageName += 'thumb';
+        imageName += "thumb";
       }
       if (checkboxDate.checked) {
-        imageName += 'date';
+        imageName += "date";
       }
       if (checkboxExcerpt.checked) {
-        imageName += 'excerpt';
+        imageName += "excerpt";
       }
 
-      imageName === '' ? (imageName = 'nothing.gif') : (imageName += '.png');
+      imageName === "" ? (imageName = "nothing.gif") : (imageName += ".png");
 
-      imageSrc = imagePath + '/' + imageName;
+      imageSrc = imagePath + "/" + imageName;
       popoverPreviewImage.src = imageSrc;
     }
   }

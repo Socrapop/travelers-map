@@ -4223,3 +4223,6 @@ html {
 #btn-delete-current-marker {
   float: right;
 }
+.cttm-hidden {
+  display: none;
+}

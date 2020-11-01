@@ -121,7 +121,9 @@ function cttm_meta_callback($post)
     )
 
 ?>
-
+    <div id="form-copy-multimarker" style="display:none; visibility:hidden">
+    
+    </div>
     <div class="row row-markers-edit">
         <div class="col-map-container">
             <h3>
@@ -151,7 +153,7 @@ function cttm_meta_callback($post)
 
 
                         if (isset($markerurlcleaned) && $markerurlcleaned == get_the_post_thumbnail_url()) {
-
+                            
                             $markerchecked = true;
                             echo '<label><input type="radio" name="marker" value="' . get_the_ID() . '" checked="checked">';
                         } else {
@@ -180,11 +182,11 @@ function cttm_meta_callback($post)
             <div style="margin-bottom: 20px;">
                 <h3><strong><?php _e('Advanced marker settings:', 'travelers-map'); ?></strong></h3>
                 <div class="cttm-custom-flexcontainer">
-                    <label for="customtitle" class="cttm-label"> <?php _e('Custom marker title:', 'travelers-map');  ?></label>
+                    <label id="cttm-customtitle-label" for="customtitle" class="cttm-label"> <?php _e('Custom marker title:', 'travelers-map');  ?></label>
                     <input id="cttm-customtitle" class="cttm-input" name="customtitle" type="text" value="<?php if (isset($customtitle)) echo $customtitle ?>"> <br>
                 </div>
                 <div class="cttm-custom-flexcontainer">
-                    <label for="customexcerpt" class="cttm-label"> <?php _e('Custom marker excerpt:', 'travelers-map');  ?></label>
+                    <label id="cttm-customexcerpt-label" for="customexcerpt" class="cttm-label"> <?php _e('Custom marker excerpt:', 'travelers-map');  ?></label>
                     <textarea class="cttm-textarea" id="cttm-customexcerpt" name="customexcerpt" type="text"><?php if (isset($customexcerpt)) echo $customexcerpt ?></textarea><br>
                 </div>
                 <div class="cttm-custom-flexcontainer">
@@ -255,6 +257,17 @@ function cttm_meta_callback($post)
                 <button id="btn-delete-current-marker" type="button" class="components-button is-link is-destructive" style="padding: 10px;"><?php _e('Delete current marker', 'travelers-map'); ?></button>
             </div>
         </div>
+        <div class="col-multimarkers-container">
+            
+        <h3><strong><?php _e('Multiple markers:', 'travelers-map'); ?></strong></h3>
+            <div id="multimarkers-not-activated">
+            <button id="btn-activate-multiple-markers" type="button" class="components-button is-button is-default is-large" ><?php _e('Add an additional marker', 'travelers-map'); ?></button>
+            <p><?php _e('Multiple marker mode is not yet activated. If you need to add several markers for this post, click on the button above.', 'travelers-map'); ?></p>
+        </div>
+            <div id="multimarkers-activated" class="cttm-hidden">
+                <button id="btn-add-another-marker" type="button" class="components-button is-button is-default is-large" ><?php _e('Add an additional marker', 'travelers-map'); ?></button>
+            </div>
+        </div>
     </div>
 
 
@@ -276,7 +289,7 @@ foreach ($posttypes as $posttype) {
  * Saves the custom meta input sent by the form
  * This function is doing the following :
  * 1 - Security checks, if something is off, abort
- * 2 - Check every values sent, if something is missing, delete existing values and abort (so to erase a marker, one has to delete a field)
+ * 2 - Check every values sent, if something necessary (lat/long/markerURL) is missing, delete existing values and abort
  * 3 - Get all values (latitude, longitude, and marker img URL, width and height) sanitized and compacted in one json array, for database query speed.
  * 4 - Save json array to database
  * 5 - Set current post "hasmarker" term in our private taxonomy 'cttm-markers-tax', so we can easily query every post with a marker without any speed problem. (querying posts by multiple meta-datas can be really slow in Wordpress)
@@ -326,6 +339,7 @@ function cttm_meta_save($post_id)
     if (!is_numeric($customthumbnail)) {
         $customthumbnail = "";
     }
+    
     //If marker is default, sanitize and store in $markerdata
     if ($_POST['marker'] == 'default') {
         $markerdata = sanitize_text_field($_POST['marker']);
@@ -351,6 +365,9 @@ function cttm_meta_save($post_id)
 
     //Not using this for now, but in the next big update (V2.0)
     $multiplemarkers = false;
+    //Get multiplemarkers hidden field (incremented for each new marker, decremented after each removal.)
+    //For X multiple marker, loop to find  $_POST['latitudeX'] etc... and sanitize like before.
+    //compact and save as an array of array to add on latlngmarker
 
     // Combine every data in one json array
     $latlngmarker = json_encode(compact('latitude', 'longitude', 'markerdata', 'multiplemarkers', 'customtitle', 'customexcerpt', 'customthumbnail'));
