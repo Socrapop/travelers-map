@@ -369,8 +369,8 @@ function cttm_meta_save($post_id)
     //For X multiple marker, loop to find  $_POST['latitudeX'] etc... and sanitize like before.
     //compact and save as an array of array to add on latlngmarker
 
-    // Combine every data in one json array
-    $latlngmarker = json_encode(compact('latitude', 'longitude', 'markerdata', 'multiplemarkers', 'customtitle', 'customexcerpt', 'customthumbnail'));
+    // Combine every data in one json array. json_encode second parameter is here to prevent custom title and excerpt from breaking the map and accented characters.
+    $latlngmarker = json_encode(compact('latitude', 'longitude', 'markerdata', 'multiplemarkers', 'customtitle', 'customexcerpt', 'customthumbnail'), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_APOS);
 
     // Check value
     if ($latlngmarker != NULL) {

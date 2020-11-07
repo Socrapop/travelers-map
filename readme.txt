@@ -64,6 +64,10 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 
 = 2.0.0 - 11/10/2020 = 
 
+= 1.11.2 - 07/11/2020 = 
+* Fixed apostrophes in custom title and excerpt to break the map.
+* Fixed accents and special characters in custom title and excerpt from displaying as html entities in popovers.
+* You must save again your broken custom titles and excerpts for the fix to work, sorry for the inconvenience.
 
 = 1.11.1 - 11/10/2020 = 
 * Fixed the map not loading with "disable_clustering" parameter set to true.
