@@ -63,6 +63,7 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 == Changelog ==
 
 = 2.0.0 - 11/10/2020 = 
+* Added max bounds to south and north of the map so the user can't leave the map on panning.
 
 = 1.11.2 - 07/11/2020 = 
 * Fixed apostrophes in custom title and excerpt to break the map.
