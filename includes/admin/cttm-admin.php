@@ -176,7 +176,7 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 			<strong><?php _e('Choose a marker:', 'travelers-map'); ?></strong>
 
 		</p>
-		<div id="cttm-markers">
+		<div id="<?php echo ('cttm-markers-' . $marker_number); ?>" class="cttm-markers">
 			<?php
 
 			$markerchecked = false;
@@ -216,21 +216,21 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 		<div style="margin-bottom: 20px;">
 			<h3><strong><?php _e('Advanced marker settings:', 'travelers-map'); ?></strong></h3>
 			<div class="cttm-custom-flexcontainer">
-				<label id="cttm-customtitle-label" for="customtitle" class="cttm-label"> <?php _e('Custom marker title:', 'travelers-map'); ?></label>
-				<input id="cttm-customtitle" class="cttm-input" name="customtitle[]" type="text" value="<?php if (isset($customtitle)) {
-																											echo $customtitle;
-																										}
-																										?>"> <br>
+				<label id="<?php echo ('cttm-customtitle-label-' . $marker_number); ?>" for="<?php echo ('cttm-customtitle-' . $marker_number); ?>" class="cttm-label"> <?php _e('Custom marker title:', 'travelers-map'); ?></label>
+				<input id="<?php echo ('cttm-customtitle-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" class="cttm-input" name="customtitle[]" type="text" value="<?php if (isset($customtitle)) {
+																																																	echo $customtitle;
+																																																}
+																																																?>"> <br>
 			</div>
 			<div class="cttm-custom-flexcontainer">
-				<label id="cttm-customexcerpt-label" for="customexcerpt" class="cttm-label"> <?php _e('Custom marker excerpt:', 'travelers-map'); ?></label>
-				<textarea class="cttm-textarea" id="cttm-customexcerpt" name="customexcerpt[]" type="text"><?php if (isset($customexcerpt)) {
-																												echo $customexcerpt;
-																											}
-																											?></textarea><br>
+				<label id="<?php echo ('cttm-customexcerpt-label-' . $marker_number); ?>" for="<?php echo ('cttm-customexcerpt-' . $marker_number); ?>" class="cttm-label"> <?php _e('Custom marker excerpt:', 'travelers-map'); ?></label>
+				<textarea class="cttm-textarea" id="<?php echo ('cttm-customexcerpt-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" name="customexcerpt[]" type="text"><?php if (isset($customexcerpt)) {
+																																																		echo $customexcerpt;
+																																																	}
+																																																	?></textarea><br>
 			</div>
 			<div class="cttm-custom-flexcontainer">
-				<label for="customthumbnail" class="cttm-label"> <?php _e('Custom marker thumbnail:', 'travelers-map'); ?></label>
+				<label class="cttm-label"> <?php _e('Custom marker thumbnail:', 'travelers-map'); ?></label>
 				<?php
 				//This code was taken from the WP media codex page : https://codex.wordpress.org/Javascript_Reference/wp.media
 				global $post;
@@ -247,7 +247,7 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 				?>
 				<!-- Your image container, which can be manipulated with js -->
 				<?php if ($you_have_img) : ?>
-					<div id="cttm-custom-thumb-container" class="cttm-custom-thumb-container">
+					<div id="<?php echo ('cttm-custom-thumb-container-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" class="cttm-custom-thumb-container">
 						<img src="<?php echo $your_img_src[0] ?>" alt="" style="max-width:300px; width:100%;" class="cttm-custom-thumb-el" />
 						<div class="delete-custom-thumb-container">
 							<button type="button" class="delete-custom-img components-button is-link is-destructive">
@@ -255,20 +255,20 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 							</button>
 						</div>
 					</div>
-					<div id="cttm-custom-thumb-link-container" class="cttm-custom-thumb-container hidden">
+					<div id="<?php echo ('cttm-custom-thumb-link-container-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" class="cttm-custom-thumb-container cttm-custom-thumb-link-container hidden">
 						<button class="upload-custom-img" type="button">
 							<?php _e('Set custom marker thumbnail', 'travelers-map'); ?>
 						</button>
 					</div>
 				<?php else : ?>
-					<div id="cttm-custom-thumb-container" class="cttm-custom-thumb-container hidden">
+					<div id="<?php echo ('cttm-custom-thumb-container-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" class="cttm-custom-thumb-container hidden">
 						<div class="delete-custom-thumb-container">
 							<button type="button" class="delete-custom-img components-button is-link is-destructive">
 								<?php _e('Remove this marker thumbnail', 'travelers-map'); ?>
 							</button>
 						</div>
 					</div>
-					<div id="cttm-custom-thumb-link-container" class="cttm-custom-thumb-container">
+					<div id="<?php echo ('cttm-custom-thumb-link-container-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" class="cttm-custom-thumb-container cttm-custom-thumb-link-container">
 						<button class="upload-custom-img" type="button">
 							<?php _e('Set custom marker thumbnail', 'travelers-map'); ?>
 						</button>
@@ -277,27 +277,27 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 
 
 				<!-- A hidden input to set and post the chosen image id -->
-				<input id="cttm_customthumbnail" class="custom-img-id" name="customthumbnail[]" type="hidden" value="<?php echo esc_attr($your_img_id); ?>" />
+				<input id="<?php echo ('cttm-customthumbnail-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" class="custom-img-id" name="customthumbnail[]" type="hidden" value="<?php echo esc_attr($your_img_id); ?>" />
 			</div>
 
 
 
 			<div class="cttm-custom-flexcontainer">
-				<label for="latitude" class="cttm-label"><?php _e('Latitude', 'travelers-map'); ?></label>
-				<input id="cttm-latfield" type="number" name="latitude[]" step="0.00001" max="90" min="-90" value="<?php if (isset($latitude)) {
-																														echo $latitude;
-																													}
-																													?>" />
+				<label for="<?php echo ('cttm-latfield-' . $marker_number); ?>" class="cttm-label"><?php _e('Latitude', 'travelers-map'); ?></label>
+				<input id="<?php echo ('cttm-latfield-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" type="number" name="latitude[]" step="0.00001" max="90" min="-90" value="<?php if (isset($latitude)) {
+																																																				echo $latitude;
+																																																			}
+																																																			?>" />
 			</div>
 			<div class="cttm-custom-flexcontainer">
-				<label for="longitude" class="cttm-label"><?php _e('Longitude', 'travelers-map'); ?></label>
-				<input id="cttm-lngfield" type="number" name="longitude[]" step="0.00001" value="<?php if (isset($longitude)) {
-																										echo $longitude;
-																									}
-																									?>" />
+				<label for="<?php echo ('cttm-longitude-' . $marker_number); ?>" class="cttm-label"><?php _e('Longitude', 'travelers-map'); ?></label>
+				<input id="<?php echo ('cttm-longitude-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" type="number" name="longitude[]" step="0.00001" value="<?php if (isset($longitude)) {
+																																																echo $longitude;
+																																															}
+																																															?>" />
 			</div>
 
-			<button id="btn-delete-current-marker" type="button" class="components-button is-link is-destructive" style="padding: 10px;"><?php _e('Delete current marker', 'travelers-map'); ?></button>
+			<button id="<?php echo ('btn-delete-current-marker-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" type="button" class="components-button is-link is-destructive" style="padding: 10px;"><?php _e('Delete current marker', 'travelers-map'); ?></button>
 		</div>
 	</div>
 <?php } // cttm_generate_marker_form_HTML()
@@ -363,7 +363,6 @@ function cttm_meta_save($post_id)
 				$number_of_validated_markers--;
 			}
 		}
-		console_log("number_of_markers: " . $number_of_markers);
 		if ($number_of_validated_markers !== $number_of_markers) {
 			$markers_data_array = cttm_update_multiplemarkers_in_array($number_of_validated_markers, $markers_data_array);
 		}

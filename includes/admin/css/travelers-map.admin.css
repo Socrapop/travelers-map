@@ -113,7 +113,7 @@ html {
 }
 
 .no-gutters > .col,
-.no-gutters > [class*="col-"] {
+.no-gutters > [class*='col-'] {
   padding-right: 0;
   padding-left: 0;
 }
@@ -4066,7 +4066,7 @@ html {
   background: #60a3bc;
   color: white;
 }
-.helper-bloc input[type="number"] {
+.helper-bloc input[type='number'] {
   margin-bottom: 8px;
 }
 .popovers-container {
@@ -4104,7 +4104,7 @@ html {
 
 /* Post Edit bloc */
 
-#cttm-markers label {
+.cttm-markers label {
   display: inline-block;
   display: inline-flex;
   align-items: center;
