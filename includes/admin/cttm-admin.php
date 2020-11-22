@@ -190,9 +190,9 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 
 					if (isset($marker_url_cleaned) && $marker_url_cleaned == get_the_post_thumbnail_url()) {
 						$markerchecked = true;
-						echo '<label><input type="radio" name="marker[' . $marker_number . ']" value="' . get_the_ID() . '" checked="checked" data-marker-number="' . $marker_number . '">';
+						echo '<label><input type="radio" name="marker[' . $marker_number . ']" value="' . get_the_ID() . '" checked="checked">';
 					} else {
-						echo '<label><input type="radio" name="marker[' . $marker_number . ']" value="' . get_the_ID() . '" data-marker-number="' . $marker_number . '">';
+						echo '<label><input type="radio" name="marker[' . $marker_number . ']" value="' . get_the_ID() . '" >';
 					}
 					echo '<img src="' . get_the_post_thumbnail_url() . '"></label>';
 				}
@@ -206,9 +206,9 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 				<?php
 				// If no marker was selected already, check default marker by default
 				if ($markerchecked == false) {
-					echo '<input type="radio" name="marker[' . $marker_number . ']" value="default" checked="checked" data-marker-number="' . $marker_number . '">';
+					echo '<input type="radio" name="marker[' . $marker_number . ']" value="default" checked="checked">';
 				} else {
-					echo '<input type="radio" name="marker[' . $marker_number . ']" value="default" data-marker-number="' . $marker_number . '">';
+					echo '<input type="radio" name="marker[' . $marker_number . ']" value="default">';
 				} ?>
 				<img src="<?php echo (plugins_url('images/marker-icon.png', __FILE__)) ?>">
 			</label>
@@ -217,17 +217,17 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 			<h3><strong><?php _e('Advanced marker settings:', 'travelers-map'); ?></strong></h3>
 			<div class="cttm-custom-flexcontainer">
 				<label id="<?php echo ('cttm-customtitle-label-' . $marker_number); ?>" for="<?php echo ('cttm-customtitle-' . $marker_number); ?>" class="cttm-label"> <?php _e('Custom marker title:', 'travelers-map'); ?></label>
-				<input id="<?php echo ('cttm-customtitle-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" class="cttm-input" name="customtitle[]" type="text" value="<?php if (isset($customtitle)) {
-																																																	echo $customtitle;
-																																																}
-																																																?>"> <br>
+				<input id="<?php echo ('cttm-customtitle-' . $marker_number); ?>" class="cttm-input" name="customtitle[]" type="text" value="<?php if (isset($customtitle)) {
+																																					echo $customtitle;
+																																				}
+																																				?>"> <br>
 			</div>
 			<div class="cttm-custom-flexcontainer">
 				<label id="<?php echo ('cttm-customexcerpt-label-' . $marker_number); ?>" for="<?php echo ('cttm-customexcerpt-' . $marker_number); ?>" class="cttm-label"> <?php _e('Custom marker excerpt:', 'travelers-map'); ?></label>
-				<textarea class="cttm-textarea" id="<?php echo ('cttm-customexcerpt-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" name="customexcerpt[]" type="text"><?php if (isset($customexcerpt)) {
-																																																		echo $customexcerpt;
-																																																	}
-																																																	?></textarea><br>
+				<textarea class="cttm-textarea" id="<?php echo ('cttm-customexcerpt-' . $marker_number); ?>" name="customexcerpt[]" type="text"><?php if (isset($customexcerpt)) {
+																																					echo $customexcerpt;
+																																				}
+																																				?></textarea><br>
 			</div>
 			<div class="cttm-custom-flexcontainer">
 				<label class="cttm-label"> <?php _e('Custom marker thumbnail:', 'travelers-map'); ?></label>
@@ -247,7 +247,7 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 				?>
 				<!-- Your image container, which can be manipulated with js -->
 				<?php if ($you_have_img) : ?>
-					<div id="<?php echo ('cttm-custom-thumb-container-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" class="cttm-custom-thumb-container">
+					<div id="<?php echo ('cttm-custom-thumb-container-' . $marker_number); ?>" class="cttm-custom-thumb-container">
 						<img src="<?php echo $your_img_src[0] ?>" alt="" style="max-width:300px; width:100%;" class="cttm-custom-thumb-el" />
 						<div class="delete-custom-thumb-container">
 							<button type="button" class="delete-custom-img components-button is-link is-destructive">
@@ -255,20 +255,20 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 							</button>
 						</div>
 					</div>
-					<div id="<?php echo ('cttm-custom-thumb-link-container-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" class="cttm-custom-thumb-container cttm-custom-thumb-link-container hidden">
+					<div id="<?php echo ('cttm-custom-thumb-link-container-' . $marker_number); ?>" class="cttm-custom-thumb-container cttm-custom-thumb-link-container hidden">
 						<button class="upload-custom-img" type="button">
 							<?php _e('Set custom marker thumbnail', 'travelers-map'); ?>
 						</button>
 					</div>
 				<?php else : ?>
-					<div id="<?php echo ('cttm-custom-thumb-container-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" class="cttm-custom-thumb-container hidden">
+					<div id="<?php echo ('cttm-custom-thumb-container-' . $marker_number); ?>" class="cttm-custom-thumb-container hidden">
 						<div class="delete-custom-thumb-container">
 							<button type="button" class="delete-custom-img components-button is-link is-destructive">
 								<?php _e('Remove this marker thumbnail', 'travelers-map'); ?>
 							</button>
 						</div>
 					</div>
-					<div id="<?php echo ('cttm-custom-thumb-link-container-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" class="cttm-custom-thumb-container cttm-custom-thumb-link-container">
+					<div id="<?php echo ('cttm-custom-thumb-link-container-' . $marker_number); ?>" class="cttm-custom-thumb-container cttm-custom-thumb-link-container">
 						<button class="upload-custom-img" type="button">
 							<?php _e('Set custom marker thumbnail', 'travelers-map'); ?>
 						</button>
@@ -277,27 +277,27 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 
 
 				<!-- A hidden input to set and post the chosen image id -->
-				<input id="<?php echo ('cttm-customthumbnail-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" class="custom-img-id" name="customthumbnail[]" type="hidden" value="<?php echo esc_attr($your_img_id); ?>" />
+				<input id="<?php echo ('cttm-customthumbnail-' . $marker_number); ?>" class="custom-img-id" name="customthumbnail[]" type="hidden" value="<?php echo esc_attr($your_img_id); ?>" />
 			</div>
 
 
 
 			<div class="cttm-custom-flexcontainer">
 				<label for="<?php echo ('cttm-latfield-' . $marker_number); ?>" class="cttm-label"><?php _e('Latitude', 'travelers-map'); ?></label>
-				<input id="<?php echo ('cttm-latfield-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" type="number" name="latitude[]" step="0.00001" max="90" min="-90" value="<?php if (isset($latitude)) {
-																																																				echo $latitude;
-																																																			}
-																																																			?>" />
+				<input id="<?php echo ('cttm-latfield-' . $marker_number); ?>" type="number" name="latitude[]" step="0.00001" max="90" min="-90" value="<?php if (isset($latitude)) {
+																																							echo $latitude;
+																																						}
+																																						?>" />
 			</div>
 			<div class="cttm-custom-flexcontainer">
 				<label for="<?php echo ('cttm-longitude-' . $marker_number); ?>" class="cttm-label"><?php _e('Longitude', 'travelers-map'); ?></label>
-				<input id="<?php echo ('cttm-longitude-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" type="number" name="longitude[]" step="0.00001" value="<?php if (isset($longitude)) {
-																																																echo $longitude;
-																																															}
-																																															?>" />
+				<input id="<?php echo ('cttm-longitude-' . $marker_number); ?>" type="number" name="longitude[]" step="0.00001" value="<?php if (isset($longitude)) {
+																																			echo $longitude;
+																																		}
+																																		?>" />
 			</div>
 
-			<button id="<?php echo ('btn-delete-current-marker-' . $marker_number); ?>" data-marker-number="<?php echo $marker_number; ?>" type="button" class="components-button is-link is-destructive" style="padding: 10px;"><?php _e('Delete current marker', 'travelers-map'); ?></button>
+			<button id="<?php echo ('btn-delete-current-marker-' . $marker_number); ?>" type="button" class="components-button is-link is-destructive" style="padding: 10px;"><?php _e('Delete current marker', 'travelers-map'); ?></button>
 		</div>
 	</div>
 <?php } // cttm_generate_marker_form_HTML()
