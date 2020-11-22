@@ -128,12 +128,14 @@ function cttm_meta_callback($post)
 		//Generate first marker form
 		cttm_generate_marker_form_HTML(0, $markers_query, $marker_data_array);
 
+		// cttm_generate_marker_form_HTML(1, $markers_query, $marker_data_array);
+		// cttm_generate_marker_form_HTML(2, $markers_query, $marker_data_array);
+
 		// If multiple markers are set, loop through each and create a form
 		if ($marker_data_array['multiplemarkers'] !== false) {
 			for ($index = 1; $index < $marker_data_array['multiplemarkers']; $index++) {
 				$current_additional_marker = "additional_marker_" . $index;
-				//$$ is used to get a dynamic variable anem based on the value of another variable. Here, we get the string generated above as the variable name.
-				cttm_generate_marker_form_HTML($index, $markers_query, $$current_additional_marker);
+				cttm_generate_marker_form_HTML($index, $markers_query, $marker_data_array[$current_additional_marker]);
 			}
 		}
 		?>
