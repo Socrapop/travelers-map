@@ -19,14 +19,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
       'multimarkers-not-activated'
     );
     //Current Marker Object
-    var currentSelectedMarker = {
-      iconUrl: '',
-      customTitle: '',
-      customExcerpt: '',
-      customThumbnail: '',
-      latitude: '',
-      longitude: '',
-    };
+    var currentSelectedMarker = 0;
+    var numberOfMarkers = 1;
 
     activateMultiMarkerButton.onclick = function (e) {
       multiMarkerNotActivatedDiv.setAttribute('class', 'cttm-hidden');
@@ -112,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }).addTo(cttm_map);
 
     //Set marker on map if already chosen
-
+    // foreach
     var marker;
 
     if (latinput.value != '' && lnginput.value != '') {
@@ -252,9 +246,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
           addImgLink = $(this).find('.upload-custom-img'),
           delImgLink = $(this).find('.delete-custom-img'),
           addImgLinkContainer = $(this).find(
-            '#cttm-custom-thumb-link-container'
+            '.cttm-custom-thumb-link-container'
           ),
-          imgContainer = $(this).find('#cttm-custom-thumb-container'),
+          imgContainer = $(this).find('.cttm-custom-thumb-container'),
           imgIdInput = $(this).find('.custom-img-id');
 
         // ADD IMAGE LINK
