@@ -184,9 +184,8 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
             $markerchecked = false;
 
             foreach ($markers_query as $marker_post) {
-
                 // For each marker, check if it was selected already and check it by default on page load.
-                if (isset($markerurlcleaned) && $markerurlcleaned == get_the_post_thumbnail_url($marker_post)) {
+                if (isset($marker_url_cleaned) && $marker_url_cleaned == get_the_post_thumbnail_url($marker_post)) {
 
                     $markerchecked = true;
                     echo '<label><input type="radio" name="marker[' . $marker_number . ']" value="' . $marker_post->ID . '" checked="checked">';
