@@ -138,32 +138,28 @@ function cttm_meta_callback($post)
             <div id="cttm-markers">
                 <?php
                 //Query user's markers
-                $the_query = new WP_Query($cttm_marker_query_args);
+                $the_markers_query = get_posts($cttm_marker_query_args);
 
                 $markerchecked = false;
 
-                if ($the_query->have_posts()) {
+                foreach ($the_markers_query as $marker_post){
 
-                    while ($the_query->have_posts()) {
-
-                        $the_query->the_post();
                         // For each marker, check if it was selected already and check it by default on page load. 
+						
 
-
-                        if (isset($markerurlcleaned) && $markerurlcleaned == get_the_post_thumbnail_url()) {
+                        if (isset($markerurlcleaned) && $markerurlcleaned == get_the_post_thumbnail_url($marker_post)) {
 
                             $markerchecked = true;
-                            echo '<label><input type="radio" name="marker" value="' . get_the_ID() . '" checked="checked">';
+                            echo '<label><input type="radio" name="marker" value="' . $marker_post->ID . '" checked="checked">';
                         } else {
 
-                            echo '<label><input type="radio" name="marker" value="' . get_the_ID() . '">';
+                            echo '<label><input type="radio" name="marker" value="' . $marker_post->ID  . '">';
                         }
-                        echo '<img src="' . get_the_post_thumbnail_url() . '"></label>';
-                    }
-
-                    /* Restore original Post Data */
-                    wp_reset_postdata();
-                }
+                        echo '<img src="' . get_the_post_thumbnail_url($marker_post) . '"></label>';
+                    
+					}
+                   
+                
                 ?>
                 <label>
 

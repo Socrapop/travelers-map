@@ -53,6 +53,12 @@ function initTravelersMap() {
      */
     let cttm_map_options = new Object();
 
+     //Add max bounds on north and south of the map
+     cttm_map_options.maxBounds = [
+      [-90, -Infinity],
+      [90, Infinity],
+    ];
+    
     // If one-finger touch event is disabled on mobile
     if (cttm_options["onefinger"]) {
       cttm_map_options.dragging = !L.Browser.mobile;

@@ -5,10 +5,10 @@ Tags: geolocalize, openstreetmap, leaftlet, map, pin, travelers, markers, travel
 Requires at least: 4.6
 Tested up to: 5.5.1
 Requires PHP: 5.2.4
-Stable tag: 1.11.2
+Stable tag: 1.11.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 1.11.2
+Version 1.11.3
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -61,6 +61,10 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
 
 == Changelog ==
+
+= 1.11.3 - 29/11/2020 = 
+* Added max bounds to south and north of the frontend map so the user can't leave the map on panning.
+* Fixed Travelers' Map accidentally overriding the "take over editing" modal buttons when multiple editors tried to edit the same post at the same time.
 
 = 1.11.2 - 07/11/2020 = 
 * Fixed apostrophes in custom title and excerpt to break the map.
