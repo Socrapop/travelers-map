@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function (event) {
   //IF it's a post edit page with the plugin initialized.
-  if (document.getElementById('cttm-latfield') != null) {
+ 
+  if (document.getElementById('LatLngMarker') != null) {
     // Set needed variables
     var iconurl;
     var latinput = document.getElementById('cttm-latfield');
@@ -19,7 +20,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
       'multimarkers-not-activated'
     );
     //Current Marker Object
-    var currentSelectedMarker = 0;
+    var currentSelectedMarkerID = 0;
+    var currentSelectedMarker = getCurrentSelectedMarker(currentSelectedMarkerID);
     var numberOfMarkers = 1;
 
     activateMultiMarkerButton.onclick = function (e) {
@@ -27,10 +29,15 @@ document.addEventListener('DOMContentLoaded', function (event) {
       multiMarkerActivatedDiv.removeAttribute('class', 'cttm-hidden');
     };
 
+    //LOOP through each markers at load time
+    // >> Create a marker layer for each in an array
+    // >> Get radios inputs  and create icon Object
+    // >> Bind these radios input the onchange to change current marker layer
+
+
     // Get all markers input, and loop through each
-    var radios = document
-      .getElementById('cttm-markers')
-      .querySelectorAll("input[name='marker[0]']");
+    var radios = currentSelectedMarker.querySelectorAll("input[name='marker["+currentSelectedMarkerID+"]']");
+      
     for (var i = 0, max = radios.length; i < max; i++) {
       //Get current selected marker icon and
       //create myIcon object for leaflet
@@ -49,7 +56,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
       //Bind onchange event on radio button
       //Onchange, get new marker icon and
       //change myIcon object
-      radios[i].onchange = function () {
+      radios[i].onchange = function(){
+        let tart = currentSelectedMarkerID;
+        /////GET "this" markernumber in ID
         if (this.checked == true) {
           iconurl = this.nextElementSibling.currentSrc;
           imgwidth = this.nextElementSibling.width;
@@ -309,8 +318,27 @@ document.addEventListener('DOMContentLoaded', function (event) {
         });
       });
     }); //Custom media upload
+    function getCurrentSelectedMarker(currentSelectedMarkerID){
+      return document.querySelector('.col-markers-container[data-marker-number="'+currentSelectedMarkerID+'"]')
+    }
+
   } //END IF document.getElementById("cttm-latfield")!=null
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   //If Shortcode Helper page
   if (document.getElementsByClassName('wrap-shortcode-helper').length != 0) {
     /*
