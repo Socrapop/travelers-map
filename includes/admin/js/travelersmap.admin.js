@@ -53,6 +53,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
       3
     ); //Zoom 3
 
+    //InvalidateSize after 100ms for map resize issue in gutenberg
+    setTimeout(function(){ 
+      cttm_map.invalidateSize();
+    }, 100);
+    
     //Disable Scrollwheel zoom when map is not in focus
     cttm_map.scrollWheelZoom.disable();
 
