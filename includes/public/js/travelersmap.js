@@ -311,6 +311,14 @@ function initTravelersMap() {
         });
       }
     } //END if (!json_cttm_metas)
+
+    //Recalculate map size after 100ms to avoid problems with page builders changing element size on document load.
+    //Avoid problem with tiles not loading inside the whole container.
+    const mapindexcopy = mapindex;
+    setTimeout(() => {
+      cttm_map[mapindexcopy].invalidateSize()
+    }, 1000);
+
     mapindex++;
   } // END FUNCTION cttmMapLoop()
 

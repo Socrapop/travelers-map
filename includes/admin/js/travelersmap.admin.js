@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function (event) {
   //IF it's a post edit page with the plugin initialized.
- 
+
   if (document.getElementById('LatLngMarker') != null) {
     // Set needed variables
     var iconurl;
@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
 
     // Get all markers input, and loop through each
-    var radios = currentSelectedMarker.querySelectorAll("input[name='marker["+currentSelectedMarkerID+"]']");
-      
+    var radios = currentSelectedMarker.querySelectorAll("input[name='marker[" + currentSelectedMarkerID + "]']");
+
     for (var i = 0, max = radios.length; i < max; i++) {
       //Get current selected marker icon and
       //create myIcon object for leaflet
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
       //Bind onchange event on radio button
       //Onchange, get new marker icon and
       //change myIcon object
-      radios[i].onchange = function(){
+      radios[i].onchange = function () {
         let tart = currentSelectedMarkerID;
         /////GET "this" markernumber in ID
         if (this.checked == true) {
@@ -81,6 +81,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
       [45.280712, 5.89],
       3
     ); //Zoom 3
+
+    //InvalidateSize after 100ms for map resize issue in gutenberg
+    setTimeout(function () {
+      cttm_map.invalidateSize();
+    }, 100);
 
     //Disable Scrollwheel zoom when map is not in focus
     cttm_map.scrollWheelZoom.disable();
@@ -233,8 +238,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
 
     /*
-	  		Delete current marker information on "delete current marker" button click.
-	  	 */
+        Delete current marker information on "delete current marker" button click.
+       */
     deletemarkerbtn.addEventListener('click', function () {
       latinput.value = '';
       lnginput.value = '';
@@ -282,8 +287,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
             // Send the attachment URL to our custom image input field.
             imgContainer.prepend(
               '<img src="' +
-                attachment.url +
-                '" alt="" style="max-width:300px; width:100%;" class="cttm-custom-thumb-el"/>'
+              attachment.url +
+              '" alt="" style="max-width:300px; width:100%;" class="cttm-custom-thumb-el"/>'
             );
             imgContainer.removeClass('hidden');
             // Send the attachment id to our hidden input
@@ -318,8 +323,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
         });
       });
     }); //Custom media upload
-    function getCurrentSelectedMarker(currentSelectedMarkerID){
-      return document.querySelector('.col-markers-container[data-marker-number="'+currentSelectedMarkerID+'"]')
+    function getCurrentSelectedMarker(currentSelectedMarkerID) {
+      return document.querySelector('.col-markers-container[data-marker-number="' + currentSelectedMarkerID + '"]')
     }
 
   } //END IF document.getElementById("cttm-latfield")!=null
@@ -338,12 +343,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
 
 
-  
+
   //If Shortcode Helper page
   if (document.getElementsByClassName('wrap-shortcode-helper').length != 0) {
     /*
-	  		Define all default variables.
-	  	 */
+        Define all default variables.
+       */
     var shortcode = document.getElementById('cttm-shortcode-helper');
     var width = '';
     var height = '';
@@ -368,8 +373,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
     var current_query_markers = '';
 
     /*
-	  	Define all Event Listeners on form, so the shortcode is updated each time the user change a form element.
-	  */
+      Define all Event Listeners on form, so the shortcode is updated each time the user change a form element.
+    */
 
     // Width Event Listener
     document.getElementById('width').addEventListener('input', function (e) {
@@ -542,8 +547,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
     });
 
     /*
-				Categories Event Listener
-		 */
+        Categories Event Listener
+     */
 
     // Get all categories checkboxes
     var catCheckboxes = document.getElementsByClassName('cttm-cat-checkbox');
@@ -557,8 +562,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
 
     /*
-				Tags Event Listener
-		 */
+        Tags Event Listener
+     */
 
     // Get all categories checkboxes
     var tagCheckboxes = document.getElementsByClassName('cttm-tag-checkbox');
@@ -572,8 +577,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
 
     /*
-				Post types Event Listener
-		 */
+        Post types Event Listener
+     */
 
     // Get all post types checkboxes
     var posttypeCheckboxes = document.getElementsByClassName(
@@ -588,8 +593,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
       });
     }
     /*
-				Custom Taxonomies Event Listeners
-		 */
+        Custom Taxonomies Event Listeners
+     */
 
     // Get all Custom Taxonomies HTML containers
     var customTaxonomiesContainers = document.getElementsByClassName(
@@ -722,9 +727,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
       });
 
     /*
-			// Get all current checkboxes and add the checked ones to a string
-			// return the string output for shortcode.
-		 */
+      // Get all current checkboxes and add the checked ones to a string
+      // return the string output for shortcode.
+     */
     function cttmCheckboxToString(checkboxes, type, isCustomTax = false) {
       var firstChecked = true;
       var checkedString = '';
@@ -755,9 +760,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
       return checkedString;
     }
     /*
-		// Get all checked custom taxonomies strings from customTaxonomyStrings object (populated in Custom Taxonomies Event Listeners)
-		// and combine them nicely into a variable we return at the end.
-		 */
+    // Get all checked custom taxonomies strings from customTaxonomyStrings object (populated in Custom Taxonomies Event Listeners)
+    // and combine them nicely into a variable we return at the end.
+     */
     function cttmCustomTaxonomiesStringUpdate() {
       let customTaxString = ''; //reset our string
       //Loop through each key of our object
@@ -777,8 +782,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
       return customTaxString + '"'; //Add closing quote before returning
     }
     /*
-			// Get all string variables and add them to shortcode.
-		 */
+      // Get all string variables and add them to shortcode.
+     */
     function cttmShortcodeUpdate() {
       shortcode.innerText =
         '[travelers-map' +

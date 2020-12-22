@@ -3,7 +3,7 @@ Contributors: socrapop
 Donate link: https://www.paypal.me/CamilleVerrier
 Tags: geolocalize, openstreetmap, leaftlet, map, pin, travelers, markers, travel blog
 Requires at least: 4.6
-Tested up to: 5.5.1
+Tested up to: 5.6
 Requires PHP: 5.2.4
 Stable tag: 2.0.0
 License: GPLv3 or later
@@ -62,8 +62,13 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 
 == Changelog ==
 
-= 2.0.0 - 11/10/2020 = 
+= 2.0.0 - 01/01/2021 = 
 
+
+= 1.11.4 - 20/12/2020 = 
+* Adressing an issue with some page builders: 
+ When the container of the map is resized after page load, the tiles were not loading properly inside the new container size -> Added a script to recalculate the container size after 1 second.
+* Fixed the same problem inside the gutenberg editor for some people.
 
 = 1.11.3 – 29/11/2020= 
 * Added max bounds to south and north of the frontend map so the user can’t leave the map on panning.
