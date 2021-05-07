@@ -27,7 +27,6 @@ function cttm_shortcode($attr)
     $settings_posttypes = $cttm_options['posttypes'];
     $searchfield = $cttm_options['search_field'];
     $fullscreen = $cttm_options['fullscreen_button'];
-    $cttm_postdatas = array();
 
     if ($searchfield) {
         wp_enqueue_script('leaflet_search');
@@ -326,7 +325,7 @@ function cttm_shortcode($attr)
    //Send Json variables to our javascript file 'travelersmap.js'
    wp_localize_script('travelersmap_init', 'cttm_options_params', $cttm_options_params);
    wp_localize_script('travelersmap_init', 'cttm_shortcode_' . $id, ${"cttm_shortcode_$id"});
-    if ($cttm_postdatas) {
+    if ($cttm_metas) {
         $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; "><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">Travelers\' Map is loading... <br> If you see this after your page is loaded completely, leafletJS files are missing.</div></div>';
     } else {
         $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; "><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">No markers found for this Travelers\' map. <br> Please add some markers to your posts before using this shortcode.</div></div>';
