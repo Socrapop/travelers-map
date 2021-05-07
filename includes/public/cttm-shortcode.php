@@ -262,9 +262,9 @@ function cttm_shortcode($attr)
             if (isset($latlngmarkerarr_decoded['customthumbnail'])) {
                 $cttm_thumbnail_id = intval($latlngmarkerarr_decoded['customthumbnail']); // = int: 114
                 $your_img_src = wp_get_attachment_image_src($cttm_thumbnail_id, 'travelersmap-thumb'); //Return false? This is not working, I don't know why.
-                if($your_img_src != false){
+                if ($your_img_src != false) {
                     $latlngmarkerarr_decoded['customthumbnail'] = $your_img_src[0];
-                }else{
+                } else {
                     $latlngmarkerarr_decoded['customthumbnail'] = "";
                 }
 
@@ -322,13 +322,13 @@ function cttm_shortcode($attr)
         'cttm_shortcode_options' => $cttm_shortcode_options,
     );
 
-   //Send Json variables to our javascript file 'travelersmap.js'
-   wp_localize_script('travelersmap_init', 'cttm_options_params', $cttm_options_params);
-   wp_localize_script('travelersmap_init', 'cttm_shortcode_' . $id, ${"cttm_shortcode_$id"});
+    //Send Json variables to our javascript file 'travelersmap.js'
+    wp_localize_script('travelersmap_init', 'cttm_options_params', $cttm_options_params);
+    wp_localize_script('travelersmap_init', 'cttm_shortcode_' . $id, ${"cttm_shortcode_$id"});
     if ($cttm_metas) {
-        $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; "><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">Travelers\' Map is loading... <br> If you see this after your page is loaded completely, leafletJS files are missing.</div></div>';
+        $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; position:relative;"><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">Travelers\' Map is loading... <br> If you see this after your page is loaded completely, leafletJS files are missing.</div></div>';
     } else {
-        $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; "><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">No markers found for this Travelers\' map. <br> Please add some markers to your posts before using this shortcode.</div></div>';
+        $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; position:relative;"><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">No markers found for this Travelers\' map. <br> Please add some markers to your posts before using this shortcode.</div></div>';
     }
     return $cttm_output;
 }
