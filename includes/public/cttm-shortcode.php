@@ -252,25 +252,24 @@ function cttm_shortcode($attr)
             $cttm_postdatas['url'] = get_permalink($cttm_post->ID);
             $cttm_postdatas['thetitle'] = get_the_title($cttm_post->ID);
             $cttm_postdatas['excerpt'] = get_the_excerpt($cttm_post->ID);
-            $cttm_postdatas['date'] = get_the_date('U', $cttm_post->ID) * 1000; //Get the php unix timecode (in seconds) and multiply by 1000 because JS is using milliseconds.
-
+            $cttm_postdatas['date'] = get_the_date('Y-m-d H:i:s', $cttm_post->ID);
             $latlngmarkerarr = get_post_meta($cttm_post->ID, '_latlngmarker');
 
             // If a custom thumbnail ID is defined, get the thumbnail url and replace it in the array
             $latlngmarkerarr_decoded = json_decode($latlngmarkerarr[0], true);
-            
+
             if (isset($latlngmarkerarr_decoded['customthumbnail'])) {
                 $cttm_thumbnail_id = intval($latlngmarkerarr_decoded['customthumbnail']); // = int: 114
                 $your_img_src = wp_get_attachment_image_src($cttm_thumbnail_id, 'travelersmap-thumb'); //Return false? This is not working, I don't know why.
-                if($your_img_src != false){
+                if ($your_img_src != false) {
                     $latlngmarkerarr_decoded['customthumbnail'] = $your_img_src[0];
-                }else{
+                } else {
                     $latlngmarkerarr_decoded['customthumbnail'] = "";
                 }
 
                 $latlngmarkerarr[0] = json_encode($latlngmarkerarr_decoded);
             }
-            
+
             //Create the $cttm_metas array to store all the markers and posts informations. This will be send to out javascript file
             $cttm_metas[$i]['markerdatas'] = $latlngmarkerarr[0];
             $cttm_metas[$i]['postdatas'] = $cttm_postdatas;
@@ -283,7 +282,7 @@ function cttm_shortcode($attr)
         $cttm_metas = 0;
     }
     //json_encode the array to send it to our javascript
-    //htmlspecialchars to avoid errors with &quot; 
+    //htmlspecialchars to avoid errors with &quot;
     $cttm_metas = htmlspecialchars(json_encode($cttm_metas));
 
     //Get global options from the setting page to show the map in front-end
@@ -325,8 +324,10 @@ function cttm_shortcode($attr)
     //Send Json variables to our javascript file 'travelersmap.js'
     wp_localize_script('travelersmap_init', 'cttm_options_params', $cttm_options_params);
     wp_localize_script('travelersmap_init', 'cttm_shortcode_' . $id, ${"cttm_shortcode_$id"});
-
-    $cttm_output = '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; "><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">Travelers\' Map is loading... <br> If you see this after your page is loaded completely, leafletJS files are missing.</div></div>';
-
+    if ($cttm_metas) {
+        $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; position:relative;"><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">Travelers\' Map is loading... <br> If you see this after your page is loaded completely, leafletJS files are missing.</div></div>';
+    } else {
+        $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; position:relative;"><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">No markers found for this Travelers\' map. <br> Please add some markers to your posts before using this shortcode.</div></div>';
+    }
     return $cttm_output;
 }

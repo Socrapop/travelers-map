@@ -1,0 +1,808 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2021-05-06 17:50+0100\n"
+"PO-Revision-Date: 2021-05-06 18:27+0100\n"
+"Last-Translator: espenm <post@medialog.no>\n"
+"Language-Team: Espen Moe-Nilssen\n"
+"Language: no_NO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: travelers-map.php:95
+#, php-format
+msgid ""
+"Thank you for using Travelers' Map. <br>This plugin is creating a new "
+"thumbnail size for your markers' popovers to speed up their loading time in "
+"the frontend. <br><br><strong>If you already have images in your media "
+"library before activating this plugin, please consider regenerating them "
+"with the awesome plugin <a href=\"%1$s\" target=\"_blank\">Regenerate "
+"Thumbnails</a> as this is not supported by Wordpress alone.</strong> "
+"<br><br> Please note that <strong>images added after you activate this "
+"plugin are automatically generated in the right size</strong>."
+msgstr ""
+"Takk for at du bruker Travellers 'Map. <br> Dette programtillegget skaper en "
+"ny miniatyrstørrelse for markørenes bilder for å øke hastigheten på "
+"lastetiden i front-enden. <br> <br> <strong> Hvis du allerede har bilder i "
+"mediebiblioteket ditt før du aktiverer dette programtillegget, kan du "
+"vurdere å regenerere det med det fantastiske pluginet <a href=\"%1$s\" "
+"target=\"_blank\">Regenerer miniatyrbilder </a> da dette ikke støttes av "
+"Wordpress alene. </strong> <br> <br> Vær oppmerksom på at <strong> bilder "
+"som er lagt til etter at du har aktivert dette pluginet, genereres "
+"automatisk i riktig størrelse </strong> . "
+
+#: cttm-functions.php:23 cttm-functions.php:25
+msgid "Markers"
+msgstr "Markører "
+
+#: cttm-functions.php:24
+msgid "Marker"
+msgstr "Markør "
+
+#: cttm-functions.php:26
+msgid "Travelers' Map Markers"
+msgstr "Travelers' Map Markører "
+
+#: cttm-functions.php:27
+msgid "Add new"
+msgstr "Legg til ny"
+
+#: cttm-functions.php:28
+msgid "Add new marker"
+msgstr "Legg til ny markør "
+
+#: cttm-functions.php:29
+msgid "New marker"
+msgstr "Ny markør "
+
+#: cttm-functions.php:30
+msgid "Edit marker"
+msgstr "Rediger markør "
+
+#: cttm-functions.php:31
+msgid "View marker"
+msgstr "Vis markør "
+
+#: cttm-functions.php:32
+msgid "Customize markers"
+msgstr "Tilpass markører "
+
+#: cttm-functions.php:33
+msgid "Search marker"
+msgstr "Søk markør "
+
+#: cttm-functions.php:34
+msgid "No marker found"
+msgstr "Ingen markører funnet "
+
+#: cttm-functions.php:35
+msgid "No marker found in trash"
+msgstr "Ingen markør funnet i søppelbøtten (trash)"
+
+#: cttm-functions.php:69
+msgid "Travelers Map Markers"
+msgstr "Travelers Map markører"
+
+#: cttm-functions.php:84
+msgid "No thumbnail found."
+msgstr "Ingen miniatyrbilder funnet."
+
+#: cttm-settings.php:16
+msgid "Settings"
+msgstr "innstillinger"
+
+#: cttm-settings.php:27
+msgid "version"
+msgstr "versjon"
+
+#: cttm-settings.php:32 includes/admin/cttm-shortcode-helper.php:26
+msgid ""
+"Do you want to make Travelers' Map better? All the updates are based on "
+"community feedbacks!"
+msgstr ""
+"Do you want to make Travelers' Map better? All the updates are based on "
+"community feedbacks!"
+
+#: cttm-settings.php:34 includes/admin/cttm-shortcode-helper.php:28
+#, php-format
+msgid ""
+"Do not hesitate to <a href=\"%1$s\" target=\"_blank\">rate this plugin and "
+"give me some feedbacks</a>."
+msgstr ""
+"Do not hesitate to <a href=\"%1$s\" target=\"_blank\">rate this plugin and "
+"give me some feedbacks</a>."
+
+#: cttm-settings.php:38 includes/admin/cttm-shortcode-helper.php:32
+msgid "Support this free plugin:"
+msgstr "Support this free plugin:"
+
+#: cttm-settings.php:40 includes/admin/cttm-shortcode-helper.php:34
+msgid "Donate"
+msgstr "Donér"
+
+#: cttm-settings.php:55
+msgid "Need some help setting up this plugin?"
+msgstr "Trenger du hjelp med å konfigurere  ?"
+
+#: cttm-settings.php:56
+#, php-format
+msgid ""
+"Please check the <a href=\"%1$s\" target=\"_blank\">\"Get Started\" "
+"tutorial</a> on my blog."
+msgstr ""
+"Vennligst sjekk <a href=\"%1$s\" target=\"_blank\">\"Get Started\" tutorial</"
+"a> på bloggen min."
+
+#: cttm-settings.php:66
+msgid "Save Changes"
+msgstr "Lagre endringer"
+
+#: cttm-settings.php:67
+msgid "Reset settings to default"
+msgstr "Tilbakestill innstillingene til standardinnstillinge"
+
+#: cttm-settings.php:67
+msgid ""
+"Are you sure you wish to reset settings to default? Current settings will be "
+"deleted."
+msgstr ""
+"Er du sikker på at du vil tilbakestille innstillingene til "
+"standardinnstillingen? Nåværende innstillinger blir slettet. "
+
+#: cttm-settings.php:77
+#, php-format
+msgid ""
+"Polylang - Synchronise markers from default language posts (%s) to other "
+"languages"
+msgstr ""
+"Polylang - Synkroniser markører fra standardspråkinnlegg (% s) til andre "
+"språk"
+
+#: cttm-settings.php:78 cttm-settings.php:88
+#, php-format
+msgid ""
+"Press the button below to copy every marker from default language posts (%s) "
+"to their translations:"
+msgstr ""
+"Trykk på knappen nedenfor for å kopiere alle markører fra "
+"standardspråkinnlegg (% s) til deres oversettelser:"
+
+#: cttm-settings.php:79 cttm-settings.php:89
+msgid "Synchronise markers"
+msgstr "Synkroniser markører "
+
+#: cttm-settings.php:79
+msgid ""
+"You are about to copy every marker from posts in the default language (set "
+"in Polylang settings) and set them to their translated posts in every other "
+"languages."
+msgstr ""
+"Du er i ferd med å kopiere alle markører fra innlegg på standardspråket "
+"(angitt i Polylang-innstillinger) og sette dem til deres oversatte innlegg "
+"på alle andre språk."
+
+#: cttm-settings.php:87
+#, php-format
+msgid ""
+"WPML - Synchronise markers from default language posts (%s) to other "
+"languages"
+msgstr ""
+"WPML - Synkroniser markører fra standard språkinnlegg (% s) til andre språk"
+
+#: cttm-settings.php:89
+msgid ""
+"You are about to copy every marker from posts in the default language (set "
+"in WPML settings) and set them to their translated posts in every other "
+"languages."
+msgstr ""
+"Du er i ferd med å kopiere alle markører fra innlegg på standardspråket "
+"(angitt i WPML-innstillinger) og sette dem til sine oversatte innlegg på "
+"alle andre språk."
+
+#: cttm-settings.php:95
+msgid "Clean database - Delete all geolocalisation data and markers"
+msgstr "Slett database - Slett alle geolokaliseringsdata og markører"
+
+#: cttm-settings.php:96
+msgid ""
+"This button cleans every geolocalisation meta-data added to your posts and "
+"every custom markers added."
+msgstr ""
+"Denne knappen fjerner alle metadata fra geolokalisering som legges til "
+"innleggene dine og alle tilpassede markører som legges til."
+
+#: cttm-settings.php:97
+msgid "Please understand this is irreversible."
+msgstr "Vennligst forstå at dette er irreversibelt og kan ikke angres."
+
+#: cttm-settings.php:98
+msgid "Delete all plugin data in database"
+msgstr "Slett alle plugin-data i databasen"
+
+#: cttm-settings.php:98
+msgid ""
+"Are you sure you wish to delete every geolocalisation data and custom "
+"markers in your database? This action is irreversible."
+msgstr ""
+"Er du sikker på at du vil slette alle geolokaliseringsdata og tilpassede "
+"markører i databasen din? Denne handlingen er irreversibel."
+
+#: cttm-settings.php:99
+msgid ""
+"To prevent unintentional loss of data, this is how Travelers' Map works:"
+msgstr "Slik fungerer Travellers 'Map for å forhindre utilsiktet tap av data: "
+
+#: cttm-settings.php:100
+msgid ""
+"Upon deactivation, every data (geolocalisation meta-data and settings) is "
+"kept. "
+msgstr ""
+"Ved deaktivering oppbevares alle data (geolokaliseringsmetadata og "
+"innstillinger). "
+
+#: cttm-settings.php:101
+msgid ""
+"When uninstalling, above settings are deleted from database while "
+"geolocalisation data are kept. "
+msgstr ""
+"Når du avinstallerer, blir nevnte innstillinger slettet fra databasen mens "
+"geolokaliseringsdata beholdes. "
+
+#: cttm-settings.php:119
+msgid "Plugin main settings"
+msgstr "Plugin hovedinnstillinger"
+
+#: cttm-settings.php:121
+msgid "Activate Travelers' Map on:"
+msgstr "Activeer Travelers' Map på:"
+
+#: cttm-settings.php:124
+msgid "Map settings"
+msgstr "Kartinnstillinger"
+
+#: cttm-settings.php:126 includes/admin/cttm-shortcode-helper.php:303
+msgid "Tiles Server URL"
+msgstr "Tiles Server URL"
+
+#: cttm-settings.php:127 includes/admin/cttm-shortcode-helper.php:308
+msgid "Tiles Server sub-domains"
+msgstr "Tiles Server sub-domains"
+
+#: cttm-settings.php:128 includes/admin/cttm-shortcode-helper.php:313
+msgid "Attribution"
+msgstr "Attribusjon"
+
+#: cttm-settings.php:129
+msgid "Enable search module in frontend"
+msgstr "Aktiver søkemodul  "
+
+#: cttm-settings.php:130
+msgid "Enable fullscreen button in frontend"
+msgstr "Aktiver fullskjermknapp "
+
+#: cttm-settings.php:131
+msgid "Disable one-finger touch event on touch devices (BETA)"
+msgstr " Deaktiver hendelse med en fingerberøring på berøringsenheter (BETA) "
+
+#: cttm-settings.php:134
+msgid "Popovers settings"
+msgstr "Popovers settings"
+
+#: cttm-settings.php:136
+msgid "Popovers' content"
+msgstr ""
+
+#: cttm-settings.php:137
+msgid "Disable popovers CSS"
+msgstr "Disable popovers CSS "
+
+#: cttm-settings.php:169
+msgid ""
+"By default, Travelers' Map is activated on posts only. You can also activate "
+"the plugin on pages and custom post types."
+msgstr ""
+"Travelers' Map er som standard bare aktivert på innlegg. Du kan også "
+"aktivere plugin-modulen på sider og tilpassede innleggstyper."
+
+#: cttm-settings.php:179
+#, php-format
+msgid ""
+" You can find a list of free tile providers <a href=\"%1$s\" target=\"_blank"
+"\">here</a>."
+msgstr ""
+" You can find a list of free tile providers <a href=\"%1$s\" target=\"_blank"
+"\">here</a>."
+
+#: cttm-settings.php:180
+msgid ""
+"If your tile provider require an API key, please insert it directly as "
+"explained on their website. "
+msgstr ""
+"If your tile provider require an API key, please insert it directly as "
+"explained on their website. "
+
+#: cttm-settings.php:182
+msgid "Exemple (thunderforest.com):"
+msgstr "Exempel (thunderforest.com):"
+
+#: cttm-settings.php:191
+msgid "In this plugin, default is <code>abcd</code> because we use CartoDB."
+msgstr ""
+"I dette pluginet er standard <code> abcd </code> fordi vi bruker CartoDB."
+
+#: cttm-settings.php:191
+msgid ""
+"However the most common subdomain is <code>abc</code>, you can find the "
+"information on your provider's website."
+msgstr ""
+"However the most common subdomain is <code>abc</code>, you can find the "
+"information on your provider's website."
+
+#: cttm-settings.php:193
+#, php-format
+msgid ""
+" If you use the <a href=\"%1$s\" target=\"_blank\">free tile providers list</"
+"a>, subdomains are displayed when different from \"abc\"."
+msgstr ""
+" If you use the <a href=\"%1$s\" target=\"_blank\">free tile providers list</"
+"a>, subdomains are displayed when different from \"abc\"."
+
+#: cttm-settings.php:210 cttm-settings.php:256
+msgid "Preview:"
+msgstr "Forhåndsvisning:"
+
+#: cttm-settings.php:211
+msgid ""
+"Attribution is shown to the lower right of the map. It is necessary to give "
+"credit to the Openstreetmap datas and your tile provider. "
+msgstr ""
+"Attribution is shown to the lower right of the map. It is necessary to give "
+"credit to the Openstreetmap datas and your tile provider.  "
+
+#: cttm-settings.php:213
+msgid "It is not necessary, but you can support this plugin by adding: "
+msgstr ""
+"64 / 5000OversettelsesresultaterDet er ikke nødvendig, men du kan støtte "
+"dette pluginet ved å legge til: "
+
+#: cttm-settings.php:223
+msgid "Check this box to add a search module on your dynamic maps."
+msgstr ""
+"Merk av i denne boksen for å legge til en søkemodul på dine dynamiske kart. "
+
+#: cttm-settings.php:223
+msgid "The search box will show up on the top left corner of each map. "
+msgstr "Søkeboksen vises øverst til venstre på hvert kart. "
+
+#: cttm-settings.php:231
+msgid "Check this box to add a fullscreen button to your dynamic maps."
+msgstr ""
+"Merk av i denne boksen for å legge til en fullskjermsknapp til de dynamiske "
+"kartene dine."
+
+#: cttm-settings.php:231
+msgid ""
+"The fullscreen button will show up on the top right corner of each map. "
+msgstr "Helskjermknappen vises øverst til høyre på hvert kart."
+
+#: cttm-settings.php:239
+msgid "Check this box to disable one-finger events on touch devices. "
+msgstr ""
+"Merk av i denne boksen for å deaktivere hendelser med en finger på "
+"berøringsenheter. "
+
+#: cttm-settings.php:239
+msgid "User needs to use two fingers to move or zoom the map. "
+msgstr "Brukeren må bruke to fingre for å flytte eller zoome kartet."
+
+#: cttm-settings.php:248
+msgid "Select the content that will be shown in popovers:"
+msgstr "Velg innholdet som skal vises i popovers:"
+
+#: cttm-settings.php:250
+msgid "Thumbnail "
+msgstr "Miniatyrbilde"
+
+#: cttm-settings.php:251
+msgid "Title "
+msgstr "Tittel"
+
+#: cttm-settings.php:252
+msgid "Excerpt "
+msgstr ""
+
+#: cttm-settings.php:253
+msgid "Date "
+msgstr "Dato"
+
+#: cttm-settings.php:268
+msgid "Check this box to disable Travelers' Map popovers CSS. "
+msgstr "Check this box to disable Travelers' Map popovers CSS. "
+
+#: cttm-settings.php:268
+msgid ""
+"Leaflet default CSS is still loaded. Please note that only the content "
+"chosen above is loaded. "
+msgstr ""
+"Leaflet default CSS is still loaded. Please note that only the content "
+"chosen above is loaded.  "
+
+#: cttm-activation.php:14
+msgid "Default - Black"
+msgstr "Standard - Svart "
+
+#: cttm-activation.php:15
+msgid "Default - Violet"
+msgstr "Standard - Filoett"
+
+#: cttm-activation.php:16
+msgid "Default - Red"
+msgstr "Standard - Rød"
+
+#: cttm-activation.php:17
+msgid "Default - Orange"
+msgstr "Standard - Oransje"
+
+#: cttm-activation.php:18
+msgid "Default - Green"
+msgstr "Standard - Grønn"
+
+#: cttm-activation.php:19
+msgid "Default - Blue"
+msgstr "Standard - Bllå"
+
+#: includes/admin/cttm-admin.php:93
+msgid "Travelers' Map - Add / edit your post marker"
+msgstr "Travelers' Map - Legg til / rediger innleggsmarkøren din"
+
+#: includes/admin/cttm-admin.php:128
+msgid "Locate your marker on the map:"
+msgstr "Finn markøren din på kartet:"
+
+#: includes/admin/cttm-admin.php:133
+msgid "Current marker informations:"
+msgstr "Nåværende markørinformasjon:"
+
+#: includes/admin/cttm-admin.php:135
+msgid "Choose a marker:"
+msgstr "Velg en markør"
+
+#: includes/admin/cttm-admin.php:177
+msgid "Advanced marker settings:"
+msgstr "Avanserte innstillinger "
+
+#: includes/admin/cttm-admin.php:179
+msgid "Custom marker title:"
+msgstr "Custom marker title:"
+
+#: includes/admin/cttm-admin.php:183
+msgid "Custom marker excerpt:"
+msgstr "Tilpass markør-ingress"
+
+#: includes/admin/cttm-admin.php:187
+msgid "Custom marker thumbnail:"
+msgstr "Tilpass markør (bilde)"
+
+#: includes/admin/cttm-admin.php:208 includes/admin/cttm-admin.php:221
+msgid "Remove this marker thumbnail"
+msgstr ""
+
+#: includes/admin/cttm-admin.php:214 includes/admin/cttm-admin.php:227
+msgid "Set custom marker thumbnail"
+msgstr ""
+
+#: includes/admin/cttm-admin.php:243
+msgid "Latitude"
+msgstr "Breedtegrad"
+
+#: includes/admin/cttm-admin.php:247
+msgid "Longitude"
+msgstr "Lengdegrad (longitude)"
+
+#: includes/admin/cttm-admin.php:251
+msgid "Delete current marker"
+msgstr "Slett nåværende markør "
+
+#: includes/admin/cttm-shortcode-helper.php:15
+msgid "Travelers' Map - Shortcode Helper"
+msgstr "Travelers' Map - Shortcode Hjelper"
+
+#: includes/admin/cttm-shortcode-helper.php:15
+#: includes/admin/cttm-shortcode-helper.php:23
+msgid "Shortcode Helper"
+msgstr "Shortcode Hjelper"
+
+#: includes/admin/cttm-shortcode-helper.php:51
+msgid "Your shortcode"
+msgstr "Your shortcode"
+
+#: includes/admin/cttm-shortcode-helper.php:52
+msgid ""
+"Copy and paste this shortcode into the content of a Post or a Page to add a "
+"dynamic map:"
+msgstr ""
+"Kopier og lim inn denne kortkoden i innholdet i et innlegg eller en side for "
+"å legge til et dynamisk kart:"
+
+#: includes/admin/cttm-shortcode-helper.php:58
+msgid "Shortcode settings"
+msgstr "Shortcode-innstillinger"
+
+#: includes/admin/cttm-shortcode-helper.php:59
+msgid ""
+"The above shortcode is automatically updated when you modify the settings "
+"below :"
+msgstr ""
+"Ovennevnte kortkode oppdateres automatisk når du endrer innstillingene "
+"nedenfor:"
+
+#: includes/admin/cttm-shortcode-helper.php:63
+msgid "Map dimensions"
+msgstr "Kartdimensjon"
+
+#: includes/admin/cttm-shortcode-helper.php:66
+msgid "Width:"
+msgstr "Bredde: "
+
+#: includes/admin/cttm-shortcode-helper.php:68
+#, php-format
+msgid ""
+" Any <a href=\"%1$s\" target=\"_blank\">valid CSS unit</a> is accepted. "
+"Exemple: <code>780px</code> or <code>50%%</code> "
+msgstr ""
+" Any <a href=\"%1$s\" target=\"_blank\">valid CSS unit</a> is accepted. "
+"Exemple: <code>780px</code> or <code>50%%</code> "
+
+#: includes/admin/cttm-shortcode-helper.php:73
+msgid "Height:"
+msgstr "Høyde"
+
+#: includes/admin/cttm-shortcode-helper.php:75
+#, php-format
+msgid ""
+" Any <a href=\"%1$s\" target=\"_blank\">valid CSS unit</a> is accepted, "
+"although <code>px</code> and <code>vh</code> are recommended. Exemple: "
+"<code>500px</code> or <code>25vh</code>"
+msgstr ""
+" Any <a href=\"%1$s\" target=\"_blank\">valid CSS unit</a> is accepted, "
+"although <code>px</code> and <code>vh</code> are recommended. Exemple: "
+"<code>500px</code> or <code>25vh</code>"
+
+#: includes/admin/cttm-shortcode-helper.php:79
+msgid "Max width:"
+msgstr "Maks bredde:"
+
+#: includes/admin/cttm-shortcode-helper.php:82
+#: includes/admin/cttm-shortcode-helper.php:88
+msgid "Exemple:"
+msgstr "Eksempel: "
+
+#: includes/admin/cttm-shortcode-helper.php:86
+msgid "Max height:"
+msgstr "Maks høyde:"
+
+#: includes/admin/cttm-shortcode-helper.php:93
+msgid "Zoom settings"
+msgstr "Zoom-innstillinger"
+
+#: includes/admin/cttm-shortcode-helper.php:95
+msgid "Initially zoom on current post's marker"
+msgstr "Først zoomer du på det aktuelle innleggets markør"
+
+#: includes/admin/cttm-shortcode-helper.php:96
+msgid ""
+"Check this box to show a map zoomed on the current post's marker, moreover "
+"other posts are also displayed on the map."
+msgstr ""
+"Merk av i denne boksen for å vise et kart som er zoomet inn på det aktuelle "
+"innleggets markør. Dessuten vises også andre innlegg på kartet. "
+
+#: includes/admin/cttm-shortcode-helper.php:102
+msgid "Min zoom:"
+msgstr "Minimum zoom:"
+
+#: includes/admin/cttm-shortcode-helper.php:104
+msgid "The minimum zoom level of the map. Default: <code>0</code>"
+msgstr "Det minste zoomnivået på kartet. Standard: <code> 0 </code>"
+
+#: includes/admin/cttm-shortcode-helper.php:108
+msgid "Max zoom:"
+msgstr "Maksimal zoom:"
+
+#: includes/admin/cttm-shortcode-helper.php:110
+msgid "The maximum zoom level of the map. Default: <code>18</code>"
+msgstr "Det maksimale zoomnivået på kartet. Standard: <code> 18 </code> "
+
+#: includes/admin/cttm-shortcode-helper.php:115
+msgid "Initialization max zoom:"
+msgstr "Initialisering maks zoom: "
+
+#: includes/admin/cttm-shortcode-helper.php:117
+msgid ""
+"On initialization, the map is zoomed to fit all the markers inside it. "
+"<br>This setting is useful to unzoom when only one marker is displayed. "
+"<code>18</code> is zoomed at the maximum, <code>1</code> is a world view."
+msgstr ""
+"Ved initialisering zoomes kartet inn for å passe til alle markørene inne i "
+"det. <br> Denne innstillingen er nyttig for å zoome ut når bare en markør "
+"vises. <code> 18 </code> er zoomet maksimalt, <code> 1 </code> er et "
+"verdensbilde."
+
+#: includes/admin/cttm-shortcode-helper.php:126
+msgid "Filter markers"
+msgstr "Filtér markører"
+
+#: includes/admin/cttm-shortcode-helper.php:132
+msgid "Show current post's marker only"
+msgstr "Vis kun det aktuelle innleggets markør"
+
+#: includes/admin/cttm-shortcode-helper.php:133
+msgid "Check this box to show a map with the current post's marker only."
+msgstr ""
+"Merk av i denne boksen for å vise et kart med bare det aktuelle innleggets "
+"markør."
+
+#: includes/admin/cttm-shortcode-helper.php:141
+msgid "Show only this post (ID):"
+msgstr "Vis bare dette innlegget (ID):"
+
+#: includes/admin/cttm-shortcode-helper.php:143
+msgid ""
+"Show a map with this ID's marker only. This can be combined with \"Initially "
+"zoom on current post's marker\" setting to zoom on this ID's marker but keep "
+"the others showing."
+msgstr ""
+"Vis bare et kart med denne ID-markøren. Dette kan kombineres med "
+"\"Innledningsvis zoome på det aktuelle innleggets markør \" for å zoome inn "
+"på denne ID-en, men holde de andre vist."
+
+#: includes/admin/cttm-shortcode-helper.php:148
+msgid "Filter by Wordpress taxonomies:"
+msgstr "Filtrer etter Wordpress-taksonomier:"
+
+#: includes/admin/cttm-shortcode-helper.php:151
+msgid "Categories:"
+msgstr "Kategorier:"
+
+#: includes/admin/cttm-shortcode-helper.php:152
+msgid ""
+"Select the categories you want to show on the map. Default: All categories."
+msgstr "Velg kategoriene du vil vise på kartet. Standard: Alle kategorier."
+
+#: includes/admin/cttm-shortcode-helper.php:171
+msgid "Tags:"
+msgstr "Tags: "
+
+#: includes/admin/cttm-shortcode-helper.php:172
+msgid "Select the tags you want to show on the map. Default: All tags."
+msgstr "Velg tagger du vil vise på kartet. Standard: Alle tagger."
+
+#: includes/admin/cttm-shortcode-helper.php:192
+msgid "Post types:"
+msgstr "Innleggstyper:"
+
+#: includes/admin/cttm-shortcode-helper.php:193
+msgid ""
+"Select the post types you want to show on the map. Default: All post types "
+"selected in the plugin settings page."
+msgstr ""
+"Velg innleggstypene du vil vise på kartet. Standard: Alle innleggstyper som "
+"er valgt på siden med plugin-alternativer.  "
+
+#: includes/admin/cttm-shortcode-helper.php:212
+msgid "Filter by custom taxonomies:"
+msgstr "Filtrer etter tilpassede taksonomier: "
+
+#: includes/admin/cttm-shortcode-helper.php:237
+msgid "Select the terms you want to show on the map. Default: All terms."
+msgstr "Select the terms you want to show on the map. Default: All terms. "
+
+#: includes/admin/cttm-shortcode-helper.php:260
+msgid ""
+"No custom taxonomy found, if you have one, make sure at least one term is set"
+msgstr ""
+
+#: includes/admin/cttm-shortcode-helper.php:270
+msgid "Advanced settings"
+msgstr "Avanserte innstillinger "
+
+#: includes/admin/cttm-shortcode-helper.php:271
+msgid ""
+"These settings are meant for experienced users only. Please read carefully "
+"the descriptions as these settings can cause performance issues and other "
+"problems."
+msgstr ""
+"Disse innstillingene er kun ment for erfarne brukere. Les nøye hver "
+"beskrivelse før du bruker dem, da de kan forårsake forestillingsproblemer og "
+"forskjellige problemer. "
+
+#: includes/admin/cttm-shortcode-helper.php:275
+msgid "Max cluster radius:"
+msgstr ""
+
+#: includes/admin/cttm-shortcode-helper.php:277
+msgid ""
+"Define the maximum radius that a cluster will cover from the central marker "
+"(in pixels). Default is 45. Decreasing will make more, smaller clusters."
+msgstr ""
+
+#: includes/admin/cttm-shortcode-helper.php:281
+msgid "Disable marker clustering"
+msgstr "Deaktiver gruppering av markører"
+
+#: includes/admin/cttm-shortcode-helper.php:282
+msgid ""
+"Prevent the markers from regrouping when too close to each other. Warning: "
+"Don't use on a map with a lot of markers as it can cause performance issues."
+msgstr ""
+"Merk av i denne boksen for å forhindre at markørene grupperes på nytt når de "
+"er for nær hverandre. Advarsel: Ikke bruk dette på et kart med mange "
+"markører, da det kan forårsake ytelsesproblemer. "
+
+#: includes/admin/cttm-shortcode-helper.php:288
+msgid "Open links in a new tab"
+msgstr "Åpne lenker i en ny fane  "
+
+#: includes/admin/cttm-shortcode-helper.php:289
+msgid ""
+"Force popover links to open in a new tab. Warning: This is not recommended "
+"as it changes the default browser behaviour. You should let the users decide "
+"how they want to open links."
+msgstr ""
+"Tving brukeren til å åpne lenker i en ny fane ved popup-klikk. Advarsel: "
+"Dette anbefales ikke, da det endrer standardoppførselen til lenker. Du bør "
+"la brukerne bestemme hvordan de vil åpne lenker. "
+
+#: includes/admin/cttm-shortcode-helper.php:293
+msgid "Show current page query markers only"
+msgstr "Vis bare aktuelle markeringsmarkører"
+
+#: includes/admin/cttm-shortcode-helper.php:294
+msgid ""
+"Ideal to put on a search results page. This will override every other "
+"filtering parameters. Please note this is not working with ajax loaded "
+"search results. On a single post or page, please use \"this_post=true\" "
+"instead."
+msgstr ""
+
+#: includes/admin/cttm-shortcode-helper.php:299
+msgid "Tile provider settings"
+msgstr "Innstillinger for 'Tile provider'"
+
+#: includes/admin/cttm-shortcode-helper.php:300
+msgid ""
+"If you change your tile provider, you must fill all the fields below in "
+"order to avoid your map from not showing or having some tiles missing."
+msgstr ""
+"Hvis du bestemmer deg for å bytte tileleverandør, må du fylle ut alle "
+"feltene nedenfor for å unngå at kartet ditt ikke viser eller mangler noen "
+"'tiles'  "
+
+#: includes/admin/cttm-shortcode-helper.php:301
+msgid ""
+"By default, the map will use the tile provider set in Travelers' Map "
+"settings."
+msgstr ""
+"Som standard vil kartet bruke tilleverandøren som er satt i Travellers 'Map-"
+"innstillinger. "
+
+#~ msgid "Popup style"
+#~ msgstr "Pop-upstijl"
+
+#~ msgid "Choose the content shown in popups and their style: "
+#~ msgstr "Kies de inhoud die wordt weergegeven in pop-ups en hun stijl;"
+
+#~ msgid "Title and thumbnail (default)"
+#~ msgstr "Titel en miniatuur (standaard)"
+
+#~ msgid "Title, thumbnail and excerpt"
+#~ msgstr "Titel, miniatuur en samenvatting"
+
+#~ msgid "Title and excerpt"
+#~ msgstr "Titel en samenvatting"
