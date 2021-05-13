@@ -159,11 +159,39 @@ document.addEventListener('DOMContentLoaded', function (event) {
         autoType: true,
         minLength: 1,
         zoom: 13,
+        marker: false,
         firstTipSubmit: true,
         hideMarkerOnCollapse: true,
+      }).on("search:locationfound", function(e) {
+        if (cttm_map.hasLayer(marker)) {
+          updateMarkerLatLngAfterSearch(e.latlng)
+        }
+        else{
+          // If no marker exist, create one and add it the map
+          marker = L.marker(e.latlng, {
+            draggable: true,
+            icon: myIcon,
+          }).addTo(cttm_map);
+  
+          
+        }
+        //Change the form latitude and longitude, keeping only 5 decimals
+        latinput.value = e.latlng.lat.toFixed(5);
+        lnginput.value = e.latlng.lng.toFixed(5);
+        
       })
     );
+    function updateMarkerLatLngAfterSearch(latlng) {
+      //add transition style only on click, we don't want the transition if the user drag&drop the marker.
+      marker._icon.style.transition = 'transform 0.3s ease-out';
 
+      marker.setLatLng(latlng);
+
+      //remove transform style after the transition timeout
+      setTimeout(function () {
+        marker._icon.style.transition = null;
+      }, 300);
+    }
     //When using the search input of Leaflet.search, "Enter" key was publishing/updating the Wordpress post.
     //This function disable this behaviour when typing in the search input.
     searchinput = document.querySelector('#searchtext9');
