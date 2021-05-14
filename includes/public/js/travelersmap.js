@@ -37,6 +37,10 @@ function initTravelersMap() {
   cttm_shortcode_vars_arr.forEach(cttmMapLoop);
 
   function cttmMapLoop(cttm_shortcode_vars) {
+    //If no markers are loaded, return without initiating leaflet
+    if(cttm_shortcode_vars.cttm_metas == "0"){
+      return;
+    }
     //Get shortcode options
     let json_cttm_shortcode = cttm_shortcode_vars.cttm_shortcode_options;
 
