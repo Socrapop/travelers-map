@@ -3,54 +3,30 @@ function initTravelersMap() {
    * Get plugin options from database
    */
 
-  //Get plugin options from the database, set in the setting page.
-  let json_cttm_options = cttm_options_params.cttm_options;
+    //Get plugin options from the database, set in the setting page.
+  const cttm_options = cttm_options_params.cttm_options;
+  const cttm_shortcodes = cttm_options_params.cttm_shortcodes;
 
-  //Retrieve and store all shortcodes data arrays sent by php in "cttm_shortcode_vars_arr"
-  let cttm_shortcode_vars_arr = new Array();
+  // If no shortcode config is defined then we return early
+  if (!cttm_shortcodes) return;
 
-  //Search for every js variable beginning with "cttm_shortcode_"
-  let cttm_varname_pattern = /^cttm_shortcode_/;
-  for (let cttm_varName in window) {
-    if (cttm_varname_pattern.test(cttm_varName)) {
-      cttm_shortcode_vars_arr.push(window[cttm_varName]);
-    }
-  }
-  /**
-   * Loop : Create a new map for each shortcode in the page
-   * Before the loop, initialize global array of map objects and index number
-   */
+  cttm_shortcodes.forEach(cttmMapLoop);
 
-  //Index of map objects in array
-  let mapindex = 0;
-  //Create cttm_map public array of object if not already created
-  if (typeof cttm_map === "undefined") {
-    window.cttm_map = new Array();
-  } else {
-    //if our maps are already initialized, this removes them nicely before initializing them again. Can be used to refresh the maps.
-    for (let i = cttm_map.length - 1; i >= 0; i--) {
-      cttm_map[i].remove();
-      cttm_map.splice(i, 1);
-    }
-  }
-
-  cttm_shortcode_vars_arr.forEach(cttmMapLoop);
-
-  function cttmMapLoop(cttm_shortcode_vars) {
-    //If no markers are loaded, return without initiating leaflet
-    if(cttm_shortcode_vars.cttm_metas == "0"){
+  function cttmMapLoop(shortcode) {
+    if (!shortcode) {
       return;
     }
-    //Get shortcode options
-    let json_cttm_shortcode = cttm_shortcode_vars.cttm_shortcode_options;
+    const cttm_metas = shortcode.cttm_metas
+    const cttm_shortcode_options = shortcode.cttm_shortcode_options
 
-    //Clean json string to be usable
-    json_cttm_options = json_cttm_options.replace(/&quot;/g, '\\"');
-    json_cttm_shortcode = json_cttm_shortcode.replace(/&quot;/g, '\\"');
+    //If no markers are loaded, return without initiating leaflet
+    if (!cttm_metas || cttm_metas.length === 0) {
+      return;
+    }
 
-    //Get arrays of all the options and shortcode options
-    let cttm_options = JSON.parse(json_cttm_options);
-    var cttm_shortcode_options = JSON.parse(json_cttm_shortcode);
+    if (!cttm_shortcode_options) {
+      return;
+    }
 
     /**
      * Create leaflet map options object. This object is then passed as argument when the map initialized.
@@ -64,7 +40,7 @@ function initTravelersMap() {
     ];
 
     // If one-finger touch event is disabled on mobile
-    if (cttm_options["onefinger"]) {
+    if (cttm_options && cttm_options["onefinger"]) {
       cttm_map_options.dragging = !L.Browser.mobile;
       cttm_map_options.tap = !L.Browser.mobile;
     }
@@ -95,46 +71,52 @@ function initTravelersMap() {
      * Create leaflet map object "cttm_map"
      */
 
-    //Get cttm_map container id
+      //Get cttm_map container id
     let containerid = cttm_shortcode_options.id;
     let container = document.getElementById(
       "travelersmap-container-" + containerid
     );
+
+    // Return early if we don't find the element.
+    if (!container) {
+      console.error('Unable to find cttm container on page: ' + containerid);
+      return;
+    }
 
     //Set Tiles Server URL + API key + Attribution
     //If a shortcode tile server is set, override global settings' tile server
     let tileurl, subdomains, attribution;
     if (cttm_shortcode_options.tileurl !== "") {
       tileurl = cttm_shortcode_options.tileurl;
-    } else {
+    } else if (cttm_options) {
       tileurl = cttm_options["tileurl"];
     }
     if (cttm_shortcode_options.subdomains !== "") {
       subdomains = cttm_shortcode_options.subdomains;
-    } else {
+    } else if (cttm_options) {
       subdomains = cttm_options["subdomains"];
     }
     if (cttm_shortcode_options.attribution !== "") {
       attribution = cttm_shortcode_options.attribution;
-    } else {
+    } else if (cttm_options) {
       attribution = cttm_options["attribution"];
     }
 
     //Push current map object to array
-    cttm_map.push(L.map(container, cttm_map_options));
+    let this_cttm_map = L.map(container, cttm_map_options);
     //Get Tiles server URL + API key + Attribution
     L.tileLayer(tileurl, {
       subdomains: subdomains,
       attribution: attribution,
-    }).addTo(cttm_map[mapindex]);
+    }).addTo(this_cttm_map);
 
 
     /**
      * Disable Scrollwheel zoom when map is not in focus
      */
-    cttm_map[mapindex].scrollWheelZoom.disable();
+    this_cttm_map.scrollWheelZoom.disable();
     //Enable Scrollwheel Zoom on focus
-    cttm_map[mapindex].on("focus", function (e) {
+    this_cttm_map.on("focus", function (e) {
       this.scrollWheelZoom.enable();
     });
 
@@ -174,160 +156,146 @@ function initTravelersMap() {
       cttm_options
     );
 
-    //Get markers metas and linked posts datas from shortcode
-    let json_cttm_metas = cttm_shortcode_vars.cttm_metas;
+    //Loop through cttm_metas array, create all the markers and popovers.
+    for (let i = 0; i < cttm_metas.length; i++) {
+      //If current markerdata is not falsy:
+      //Prevent bug with multilingual plugins, where metadatas are synced but not taxonomy:
+      //If one remove a marker from a post, the other languages of this post will still appear in the query...
+      if (cttm_metas[i].markerdatas) {
+        //Get markerdatas object
+        var markerdatas = cttm_metas[i].markerdatas;
 
-    //If posts with markers exist
-    if (json_cttm_metas != 0) {
-      //Clean json string to be usable
-      json_cttm_metas = json_cttm_metas.replace(/&quot;/g, '\\"');
+        //Initialize all markers variables
+        let markerlatitude = markerdatas.latitude;
+        let markerlongitude = markerdatas.longitude;
+        let markerURL = markerdatas.markerdata[0];
+        let markerwidth = markerdatas.markerdata[1];
+        let markerheight = markerdatas.markerdata[2];
 
-      //Get an array of objects containing markerdatas and postdatas
-      cttm_metas = JSON.parse(json_cttm_metas);
+        //Get linked postdatas object
+        let postdatas = cttm_metas[i].postdatas;
 
-      //Loop through cttm_metas array, create all the markers and popovers.
-      for (let i = 0; i < cttm_metas.length; i++) {
-        //If current markerdata is not falsy:
-        //Prevent bug with multilingual plugins, where metadatas are synced but not taxonomy:
-        //If one remove a marker from a post, the other languages of this post will still appear in the query...
-        if (cttm_metas[i].markerdatas) {
-          //Get markerdatas object
-          var markerdatas = JSON.parse(cttm_metas[i].markerdatas);
+        //////////// Use this for V2.
+        //////////// if (markerdatas.multiplemarkers) { }
 
-          //Initialize all markers variables
-          let markerlatitude = markerdatas.latitude;
-          let markerlongitude = markerdatas.longitude;
-          let markerURL = markerdatas.markerdata[0];
-          let markerwidth = markerdatas.markerdata[1];
-          let markerheight = markerdatas.markerdata[2];
+        //Alter postdatas array in case we have custom data set
+        if (markerdatas.customtitle) {
+          postdatas.thetitle = markerdatas.customtitle;
+        }
+        if (markerdatas.customexcerpt) {
+          postdatas.excerpt = markerdatas.customexcerpt;
+        }
+        if (markerdatas.customthumbnail) {
+          postdatas.thumb = markerdatas.customthumbnail;
+        }
 
-          //Get linked postdatas object
-          let postdatas = cttm_metas[i].postdatas;
+        // Create a leaflet icon object and add it to the map, if not set, use default
+        //"d" is returned when no icon is set
+        if (markerURL != "d") {
+          //Create custom icon
+          let myIcon = L.icon({
+            iconUrl: markerURL,
+            iconSize: [markerwidth, markerheight],
+            iconAnchor: [markerwidth / 2, markerheight],
+            popupAnchor: [0, -markerheight + 3],
+          });
+          //Create marker object wih our icon
+          var marker = L.marker([markerlatitude, markerlongitude], {
+            icon: myIcon,
+          });
+        } else {
+          //Create marker object with default icon
+          var marker = L.marker([markerlatitude, markerlongitude]);
+        }
 
-          //////////// Use this for V2.
-          //////////// if (markerdatas.multiplemarkers) { }
+        let postPopoverOutput = cttmPopulatePopoversHTMLOutput(
+          postdatas,
+          popoverOutput,
+          cttm_options
+        );
 
-          //Alter postdatas array in case we have custom data set
-          if (markerdatas.customtitle) {
-            postdatas.thetitle = markerdatas.customtitle;
-          }
-          if (markerdatas.customexcerpt) {
-            postdatas.excerpt = markerdatas.customexcerpt;
-          }
-          if (markerdatas.customthumbnail) {
-            postdatas.thumb = markerdatas.customthumbnail;
-          }
-
-          // Create a leaflet icon object and add it to the map, if not set, use default
-          //"d" is returned when no icon is set
-          if (markerURL != "d") {
-            //Create custom icon
-            let myIcon = L.icon({
-              iconUrl: markerURL,
-              iconSize: [markerwidth, markerheight],
-              iconAnchor: [markerwidth / 2, markerheight],
-              popupAnchor: [0, -markerheight + 3],
-            });
-            //Create marker object wih our icon
-            var marker = L.marker([markerlatitude, markerlongitude], {
-              icon: myIcon,
-            });
-          } else {
-            //Create marker object with default icon
-            var marker = L.marker([markerlatitude, markerlongitude]);
-          }
-
-          let postPopoverOutput = cttmPopulatePopoversHTMLOutput(
-            postdatas,
-            popoverOutput,
-            cttm_options
+        //If "this_post" option is set
+        //Add the marker in our cluster group layer without popover
+        //Else add it with its popover
+        if (cttm_shortcode_options.this_post == "true") {
+          markersGroup.addLayer(marker);
+        } else {
+          markersGroup.addLayer(
+            marker.bindPopup(postPopoverOutput, popoverOptions)
           );
+        }
+      } //END if(markerdatas)
 
-          //If "this_post" option is set
-          //Add the marker in our cluster group layer without popover
-          //Else add it with its popover
-          if (cttm_shortcode_options.this_post == "true") {
-            markersGroup.addLayer(marker);
-          } else {
-            markersGroup.addLayer(
-              marker.bindPopup(postPopoverOutput, popoverOptions)
-            );
-          }
-        } //END if(markerdatas)
-      } //END For Loop through cttm_metas
+    } //END loop on cttm_metas
 
-      //add Leaflet.search to the map when option is checked
-      if (cttm_options["search_field"] == 1) {
-        cttm_map[mapindex].addControl(
-          new L.Control.Search({
-            url:
-              "https://nominatim.openstreetmap.org/search?format=json&q={s}",
-            jsonpParam: "json_callback",
-            propertyName: "display_name",
-            propertyLoc: ["lat", "lon"],
-            autoCollapse: false,
-            collapsed: false,
-            autoType: true,
-            minLength: 2,
-            zoom: 13,
-            firstTipSubmit: true,
-            hideMarkerOnCollapse: true,
-          })
-        );
+    //add Leaflet.search to the map when option is checked
+    if (cttm_options && cttm_options["search_field"] == 1) {
+      this_cttm_map.addControl(
+        new L.Control.Search({
+          url:
+            "https://nominatim.openstreetmap.org/search?format=json&q={s}",
+          jsonpParam: "json_callback",
+          propertyName: "display_name",
+          propertyLoc: ["lat", "lon"],
+          autoCollapse: false,
+          collapsed: false,
+          autoType: true,
+          minLength: 2,
+          zoom: 13,
+          firstTipSubmit: true,
+          hideMarkerOnCollapse: true,
+        })
+      );
 
-        //On focus, enable zoom with mousewheel on map.
-        document.querySelector("#searchtext9").addEventListener(
-          "focus",
-          function () {
-            cttm_map[mapindex].scrollWheelZoom.enable();
-          },
-          true
-        );
-      }
+      //On focus, enable zoom with mousewheel on map.
+      document.querySelector("#searchtext9").addEventListener(
+        "focus",
+        function () {
+          this_cttm_map.scrollWheelZoom.enable();
+        },
+        true
+      );
+    }
 
-      //add Leaflet.fullscreen to the map when option is checked
-      if (cttm_options["fullscreen_button"] == 1) {
-        cttm_map[mapindex].addControl(
-          new L.Control.Fullscreen({
-            position: "topright",
-          })
-        );
-      }
+    //add Leaflet.fullscreen to the map when option is checked
+    if (cttm_options && cttm_options["fullscreen_button"] == 1) {
+      this_cttm_map.addControl(
+        new L.Control.Fullscreen({
+          position: "topright",
+        })
+      );
+    }
 
-      //add markercluster layer to the map
-      cttm_map[mapindex].addLayer(markersGroup);
+    //add markercluster layer to the map
+    this_cttm_map.addLayer(markersGroup);
 
-      //Set the initial view
-      //If centered_on_this is set, set view on this post
-      if (cttm_shortcode_options.centered_on_this == "true") {
-        //get the marker latitude and longitude, the first of our query.
-        let centered_on_marker = JSON.parse(cttm_metas[0].markerdatas);
-        let centerlatitude = centered_on_marker.latitude;
-        let centerlongitude = centered_on_marker.longitude;
+    //Set the initial view
+    //If centered_on_this is set, set view on this post
+    if (cttm_shortcode_options.centered_on_this == "true") {
+      //get the marker latitude and longitude, the first of our query.
+      let centered_on_marker = cttm_metas[0].markerdatas;
+      let centerlatitude = centered_on_marker.latitude;
+      let centerlongitude = centered_on_marker.longitude;
 
-        cttm_map[mapindex].setView(
-          [centerlatitude, centerlongitude],
-          init_maxzoom
-        );
-      } else {
-        //If centered_on_this is not set, fit the view to see every maker on the map
-        cttm_map[mapindex].fitBounds(markersGroup.getBounds(), {
-          padding: [60, 60],
-          maxZoom: init_maxzoom,
-        });
-      }
-
-    } //END if (!json_cttm_metas)
+      this_cttm_map.setView(
+        [centerlatitude, centerlongitude],
+        init_maxzoom
+      );
+    } else {
+      //If centered_on_this is not set, fit the view to see every maker on the map
+      this_cttm_map.fitBounds(markersGroup.getBounds(), {
+        padding: [60, 60],
+        maxZoom: init_maxzoom,
+      });
+    }
 
     //Recalculate map size after 100ms to avoid problems with page builders changing element size on document load.
     //Avoid problem with tiles not loading inside the whole container.
 
-    const mapindexcopy = mapindex;
     setTimeout(() => {
-      cttm_map[mapindexcopy].invalidateSize()
+      this_cttm_map.invalidateSize()
     }, 1000);
 
-    mapindex++;
   } // END FUNCTION cttmMapLoop()
 
   // Create event to listen to know when the maps are loaded and cttm_map array is created
@@ -346,6 +314,7 @@ document.addEventListener("DOMContentLoaded", function () {
     initTravelersMap();
   }
 });
+
 /**
  * Generate unpopulated markers popovers HTML from the options set by the user.
  * The user can choose what to show inside every popover in Travelers' Map setting page.
@@ -366,12 +335,12 @@ function cttmGeneratePopoverHTMLOutput(cttm_shortcode_options, cttm_options) {
     popoverTarget = "_self";
   }
   //Then we create HMTL output for popovers depending of style set in plugin settings
-  let popoverStyles = cttm_options["popup_style"].split(",");
+  let popoverStyles = cttm_options ? cttm_options["popup_style"].split(",") : "";
 
   if (popoverStyles.indexOf("thumbnail") != -1) {
     if (popoverStyles.indexOf("excerpt") != -1) {
       //Detailed Popup : Thumbnail and excerpt, with (title) and (date). () = optionnal
-      popoverOptions = { className: "detailed-popup" };
+      popoverOptions = {className: "detailed-popup"};
       popoverOutput =
         '<a class="tooltip-link" href="%s_url" target="' + popoverTarget + '">';
       popoverOutput += '<div class="nothumbplaceholder"></div>';
@@ -380,7 +349,7 @@ function cttmGeneratePopoverHTMLOutput(cttm_shortcode_options, cttm_options) {
       popoverOutput += '<div class="excerpt">%s_excerpt</div>';
     } else {
       //Default Popup : Thumbnail with (title) and (date). () = optionnal
-      popoverOptions = { className: "default-popup" };
+      popoverOptions = {className: "default-popup"};
 
       popoverOutput = '<div class="img-mask">';
       popoverOutput += '<div class="nothumbplaceholder"></div>';
@@ -395,7 +364,7 @@ function cttmGeneratePopoverHTMLOutput(cttm_shortcode_options, cttm_options) {
     }
   } else {
     //Textual Popup : excerpt, title and date. At least one or more of those.
-    popoverOptions = { className: "textual-popup" };
+    popoverOptions = {className: "textual-popup"};
 
     popoverOutput =
       '<a class="tooltip-link" href="%s_url" target="' + popoverTarget + '">';
@@ -405,11 +374,12 @@ function cttmGeneratePopoverHTMLOutput(cttm_shortcode_options, cttm_options) {
   }
 
   //If css is disabled, change popover class
-  if (cttm_options["popup_css"]) {
-    popoverOptions = { className: "custom-popup" };
+  if (cttm_options && cttm_options["popup_css"]) {
+    popoverOptions = {className: "custom-popup"};
   }
   return [popoverOutput, popoverOptions];
 }
+
 /**
  *
  * Populate markers' popovers HTML output with data sent.
@@ -433,7 +403,7 @@ function cttmPopulatePopoversHTMLOutput(
     month: "long",
     day: "numeric",
   });
-  let popoverStyles = cttm_options["popup_style"].split(",");
+  let popoverStyles = cttm_options ? cttm_options["popup_style"].split(",") : "";
   let postPopoverOutput = popoverOutput;
 
   if (postThumb) {
