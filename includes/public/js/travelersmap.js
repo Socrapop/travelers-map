@@ -3,7 +3,7 @@ function initTravelersMap() {
    * Get plugin options from database
    */
 
-  //Get plugin options from the database, set in the setting page.
+    //Get plugin options from the database, set in the setting page.
   const cttm_options = cttm_options_params.cttm_options;
   const cttm_shortcodes = cttm_options_params.cttm_shortcodes;
 
@@ -226,68 +226,68 @@ function initTravelersMap() {
         }
       } //END if(markerdatas)
 
-      //add Leaflet.search to the map when option is checked
-      if (cttm_options && cttm_options["search_field"] == 1) {
-        this_cttm_map.addControl(
-          new L.Control.Search({
-            url:
-              "https://nominatim.openstreetmap.org/search?format=json&q={s}",
-            jsonpParam: "json_callback",
-            propertyName: "display_name",
-            propertyLoc: ["lat", "lon"],
-            autoCollapse: false,
-            collapsed: false,
-            autoType: true,
-            minLength: 2,
-            zoom: 13,
-            firstTipSubmit: true,
-            hideMarkerOnCollapse: true,
-          })
-        );
-
-        //On focus, enable zoom with mousewheel on map.
-        document.querySelector("#searchtext9").addEventListener(
-          "focus",
-          function () {
-            this_cttm_map.scrollWheelZoom.enable();
-          },
-          true
-        );
-      }
-
-      //add Leaflet.fullscreen to the map when option is checked
-      if (cttm_options && cttm_options["fullscreen_button"] == 1) {
-        this_cttm_map.addControl(
-          new L.Control.Fullscreen({
-            position: "topright",
-          })
-        );
-      }
-
-      //add markercluster layer to the map
-      this_cttm_map.addLayer(markersGroup);
-
-      //Set the initial view
-      //If centered_on_this is set, set view on this post
-      if (cttm_shortcode_options.centered_on_this == "true") {
-        //get the marker latitude and longitude, the first of our query.
-        let centered_on_marker = cttm_metas[0].markerdatas;
-        let centerlatitude = centered_on_marker.latitude;
-        let centerlongitude = centered_on_marker.longitude;
-
-        this_cttm_map.setView(
-          [centerlatitude, centerlongitude],
-          init_maxzoom
-        );
-      } else {
-        //If centered_on_this is not set, fit the view to see every maker on the map
-        this_cttm_map.fitBounds(markersGroup.getBounds(), {
-          padding: [60, 60],
-          maxZoom: init_maxzoom,
-        });
-      }
-
     } //END loop on cttm_metas
+
+    //add Leaflet.search to the map when option is checked
+    if (cttm_options && cttm_options["search_field"] == 1) {
+      this_cttm_map.addControl(
+        new L.Control.Search({
+          url:
+            "https://nominatim.openstreetmap.org/search?format=json&q={s}",
+          jsonpParam: "json_callback",
+          propertyName: "display_name",
+          propertyLoc: ["lat", "lon"],
+          autoCollapse: false,
+          collapsed: false,
+          autoType: true,
+          minLength: 2,
+          zoom: 13,
+          firstTipSubmit: true,
+          hideMarkerOnCollapse: true,
+        })
+      );
+
+      //On focus, enable zoom with mousewheel on map.
+      document.querySelector("#searchtext9").addEventListener(
+        "focus",
+        function () {
+          this_cttm_map.scrollWheelZoom.enable();
+        },
+        true
+      );
+    }
+
+    //add Leaflet.fullscreen to the map when option is checked
+    if (cttm_options && cttm_options["fullscreen_button"] == 1) {
+      this_cttm_map.addControl(
+        new L.Control.Fullscreen({
+          position: "topright",
+        })
+      );
+    }
+
+    //add markercluster layer to the map
+    this_cttm_map.addLayer(markersGroup);
+
+    //Set the initial view
+    //If centered_on_this is set, set view on this post
+    if (cttm_shortcode_options.centered_on_this == "true") {
+      //get the marker latitude and longitude, the first of our query.
+      let centered_on_marker = cttm_metas[0].markerdatas;
+      let centerlatitude = centered_on_marker.latitude;
+      let centerlongitude = centered_on_marker.longitude;
+
+      this_cttm_map.setView(
+        [centerlatitude, centerlongitude],
+        init_maxzoom
+      );
+    } else {
+      //If centered_on_this is not set, fit the view to see every maker on the map
+      this_cttm_map.fitBounds(markersGroup.getBounds(), {
+        padding: [60, 60],
+        maxZoom: init_maxzoom,
+      });
+    }
 
     //Recalculate map size after 100ms to avoid problems with page builders changing element size on document load.
     //Avoid problem with tiles not loading inside the whole container.
