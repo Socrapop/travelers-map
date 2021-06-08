@@ -2,85 +2,213 @@ document.addEventListener('DOMContentLoaded', function (event) {
   //IF it's a post edit page with the plugin initialized.
 
   if (document.getElementById('LatLngMarker') != null) {
-    // Set needed variables
-    var iconurl;
-    var latinput = document.getElementById('cttm-latfield');
-    var lnginput = document.getElementById('cttm-lngfield');
-    var deletemarkerbtn = document.getElementById('btn-delete-current-marker');
-    var activateMultiMarkerButton = document.getElementById(
-      'btn-activate-multiple-markers'
+    var popoverCustomizerOpeners = document.querySelectorAll(
+      '.customize-popover-title'
     );
+    popoverCustomizerOpeners.forEach((element) => {
+      element.onclick = (e) => {
+        //récupère le bloc à afficher
+        let customizerContainer = e.target.parentElement;
+        //Toggle class .is-open
+        if (customizerContainer.classList.contains('is-open')) {
+          customizerContainer.classList.remove('is-open');
+        } else {
+          customizerContainer.classList.add('is-open');
+        }
+      };
+    });
+    /**
+     * Get options from database to assign a tile layer to the cttm_map
+     */
+
+    //Get plugin options from the database, set in the setting page.
+    var json_cttm_options = php_params.cttm_options;
+
+    //Clean json string to be usable
+    json_cttm_options = json_cttm_options.replace(/&quot;/g, '"');
+
+    //Get an array of all the options
+    cttm_options = JSON.parse(json_cttm_options);
+
+    /**
+     * Init leaflet
+     */
+    var cttm_map = L.map('travelersmap-container').setView(
+      [45.280712, 5.89],
+      3 //Zoom 3
+    );
+    //Get Tiles server URL + API key + Attribution
+    L.tileLayer(cttm_options['tileurl'], {
+      subdomains: cttm_options['subdomains'],
+      attribution: cttm_options['attribution'],
+      noWrap: true,
+      bounds: [
+        [-90, -180],
+        [90, 180],
+      ],
+    }).addTo(cttm_map);
+
+    /**
+     * Set global variables
+     */
+
+    //interface elements variables
+    var deletemarkerbtn = document.querySelectorAll('.cttm-delete-marker');
+
     var addAnotherMarkerButton = document.getElementById(
       'btn-add-another-marker'
     );
-    var multiMarkerActivatedDiv = document.getElementById(
-      'multimarkers-activated'
-    );
-    var multiMarkerNotActivatedDiv = document.getElementById(
-      'multimarkers-not-activated'
-    );
-    //Current Marker Object
-    var currentSelectedMarkerID = 0;
-    var currentSelectedMarker = getCurrentSelectedMarker(currentSelectedMarkerID);
-    var numberOfMarkers = 1;
 
-    activateMultiMarkerButton.onclick = function (e) {
-      multiMarkerNotActivatedDiv.setAttribute('class', 'cttm-hidden');
-      multiMarkerActivatedDiv.removeAttribute('class', 'cttm-hidden');
+    //Get all markers containers at load time
+    var markerContainers;
+    var numberOfMarkers;
+    updateNumberOfMarkers();
+
+    //handle selected marker behavior (click on the map)
+    var currentSelectedMarkerID;
+    var currentSelectedMarkerContainer;
+
+    // set icons and markers array
+    var iconsList = [];
+    var markersList = [];
+
+    addAnotherMarkerButton.onclick = function (e) {
+      const lastContainer = markerContainers[numberOfMarkers - 1];
+      const newId = numberOfMarkers;
+      const containerToClone = document.querySelector("#form-copy-multimarker .col-markers-container");
+      let clonedContainerHTML = containerToClone.innerHTML;
+      clonedContainerHTML.replace("ReplaceWithID",newId);
+      const newContainer = document.createElement("div");
+      newContainer.className = 'col-markers-container';
+      newContainer.dataset.markerNumber =newId;
+      newContainer.innerHTML = clonedContainerHTML;
+      lastContainer.insertAdjacentElement("afterend",newContainer);
+      console.log('newContainer :>> ', newContainer);
+      //Update all data attributes and values
+      const newRadios = newContainer.querySelectorAll(
+        '.cttm-markers input'
+      );
+
+      //Bind all events on the new container
+      initJqueryCustomMediaUpload();
+
+      newRadios.forEach((radio) => {
+        radio.onchange = function (e) {
+          if (this.checked == true) {
+            let iconurl = this.nextElementSibling.currentSrc;
+            let imgwidth = this.nextElementSibling.width;
+            let imgheight = this.nextElementSibling.height;
+            let iconAnchor = [parseInt(imgwidth / 2), imgheight];
+            let myIcon = L.icon({
+              iconUrl: iconurl,
+              iconAnchor: iconAnchor,
+            });
+
+            //if marker is already displayed on the map, change marker icon
+            if (markersList[index]) {
+              markersList[index].setIcon(myIcon);
+              refreshSelectedMarker(index);
+            }
+          }
+        };
+      });
+
+      newContainer.addEventListener('click', function () {
+        refreshSelectedMarker(this.dataset.markerNumber);
+      });
+
+      // Select current marker container
+      refreshSelectedMarker("'" + newId + "'");
+
+      updateNumberOfMarkers();
     };
 
     //LOOP through each markers at load time
     // >> Create a marker layer for each in an array
     // >> Get radios inputs  and create icon Object
     // >> Bind these radios input the onchange to change current marker layer
+    for (let index = 0; index < numberOfMarkers; index++) {
+      // Get selected marker radio element
+      // create myIcon object for leaflet
+      // Add it to iconsList array.
+      let checkedRadio = document.querySelector(
+        "input[name='marker[" + index + "]']:checked"
+      );
 
+      let iconurl = checkedRadio.nextElementSibling.currentSrc;
+      let imgwidth = checkedRadio.nextElementSibling.width;
+      let imgheight = checkedRadio.nextElementSibling.height;
+      let iconAnchor = [parseInt(imgwidth / 2), imgheight];
+      let myIcon = L.icon({
+        iconUrl: iconurl,
+        iconAnchor: iconAnchor,
+      });
 
-    // Get all markers input, and loop through each
-    var radios = currentSelectedMarker.querySelectorAll("input[name='marker[" + currentSelectedMarkerID + "]']");
+      iconsList.push(myIcon);
 
-    for (var i = 0, max = radios.length; i < max; i++) {
-      //Get current selected marker icon and
-      //create myIcon object for leaflet
-      if (radios[i].checked == true) {
-        iconurl = radios[i].nextElementSibling.currentSrc;
-        var imgwidth = radios[i].nextElementSibling.width;
-        var imgheight = radios[i].nextElementSibling.height;
-        var iconAnchor = [parseInt(imgwidth / 2), imgheight];
+      // Get all markers inputs of current index marker
+      let radios = document.querySelectorAll(
+        "input[name='marker[" + index + "]']"
+      );
 
-        var myIcon = L.icon({
-          iconUrl: iconurl,
-          iconAnchor: iconAnchor,
-        });
-      }
+      //Bind onchange event on all radio buttons:
+      // - Get new marker icon and change myIcon object.
+      // - Set currentSelectedMarker to the current input ID.
+      radios.forEach((radio) => {
+        radio.onchange = function (e) {
+          if (this.checked == true) {
+            let iconurl = this.nextElementSibling.currentSrc;
+            let imgwidth = this.nextElementSibling.width;
+            let imgheight = this.nextElementSibling.height;
+            let iconAnchor = [parseInt(imgwidth / 2), imgheight];
+            let myIcon = L.icon({
+              iconUrl: iconurl,
+              iconAnchor: iconAnchor,
+            });
 
-      //Bind onchange event on radio button
-      //Onchange, get new marker icon and
-      //change myIcon object
-      radios[i].onchange = function () {
-        let tart = currentSelectedMarkerID;
-        /////GET "this" markernumber in ID
-        if (this.checked == true) {
-          iconurl = this.nextElementSibling.currentSrc;
-          imgwidth = this.nextElementSibling.width;
-          imgheight = this.nextElementSibling.height;
-          iconAnchor = [parseInt(imgwidth / 2), imgheight];
-          myIcon = L.icon({
-            iconUrl: iconurl,
-            iconAnchor: iconAnchor,
-          });
-          //if marker is already displayed on the map, change marker icon
-          if (marker) {
-            marker.setIcon(myIcon);
+            //if marker is already displayed on the map, change marker icon
+            if (markersList[index]) {
+              markersList[index].setIcon(myIcon);
+              refreshSelectedMarker(index);
+            }
           }
-        }
-      };
-    }
+        };
+      });
 
-    // Init Leaflet
-    var cttm_map = L.map('travelersmap-container').setView(
-      [45.280712, 5.89],
-      3
-    ); //Zoom 3
+      // If already set on init, add marker to the map
+      // then add on drag event,
+      // then push to markersList array so we can access it easily after with index number
+      let newMarker;
+      let currentLatInput = document.querySelector(
+        'input#cttm-latfield-' + index
+      );
+      let currentLongInput = document.querySelector(
+        'input#cttm-longitude-' + index
+      );
+      if (currentLatInput.value != '' && currentLongInput.value != '') {
+        newMarker = L.marker([currentLatInput.value, currentLongInput.value], {
+          draggable: true,
+          icon: myIcon,
+        }).addTo(cttm_map);
+        cttm_map.setView([currentLatInput.value, currentLongInput.value]);
+
+        //If marker is drag&dropped, change the form latitude and longitude, keeping only 5 decimals
+        newMarker.on('dragend', function (e) {
+          refreshSelectedMarker(index);
+          currentLatInput.value = e.target._latlng.lat.toFixed(5);
+          currentLongInput.value = e.target._latlng.lng.toFixed(5);
+        });
+        markersList.push(newMarker);
+      }
+    } // END LOOP MARKERS
+
+    //Set selectedMarker on init
+    refreshSelectedMarker('0'); // by default, set the first marker as selected.
+    markerContainers.forEach((container) => {
+      container.addEventListener('click', function () {
+        refreshSelectedMarker(this.dataset.markerNumber);
+      });
+    });
 
     //InvalidateSize after 100ms for map resize issue in gutenberg
     setTimeout(function () {
@@ -95,83 +223,83 @@ document.addEventListener('DOMContentLoaded', function (event) {
       cttm_map.scrollWheelZoom.enable();
     });
 
-    /**
-     * Get options from database to assign a tile layer to the cttm_map
-     */
-
-    //Get plugin options from the database, set in the setting page.
-    var json_cttm_options = php_params.cttm_options;
-
-    //Clean json string to be usable
-    json_cttm_options = json_cttm_options.replace(/&quot;/g, '"');
-
-    //Get an array of all the options
-    cttm_options = JSON.parse(json_cttm_options);
-
-    //Get Tiles server URL + API key + Attribution
-    L.tileLayer(cttm_options['tileurl'], {
-      subdomains: cttm_options['subdomains'],
-      attribution: cttm_options['attribution'],
-      noWrap: true,
-      bounds: [
-        [-90, -180],
-        [90, 180],
-      ],
-    }).addTo(cttm_map);
-
-    //Set marker on map if already chosen
-    // foreach
-    var marker;
-
-    if (latinput.value != '' && lnginput.value != '') {
-      marker = L.marker([latinput.value, lnginput.value], {
-        draggable: true,
-        icon: myIcon,
-      }).addTo(cttm_map);
-      cttm_map.setView([latinput.value, lnginput.value]);
-
-      //If marker is drag&dropped, change the form latitude and longitude, keeping only 5 decimals
-      marker.on('dragend', function (e) {
-        latinput.value = e.target._latlng.lat.toFixed(5);
-        lnginput.value = e.target._latlng.lng.toFixed(5);
-      });
-    }
-
     //On map click, add a marker or move the existing one to the click location
     cttm_map.on('click', function (e) {
-      // If a marker already exist
-      if (cttm_map.hasLayer(marker)) {
-        //add transition style only on click, we don't want the transition if the user drag&drop the marker.
-        marker._icon.style.transition = 'transform 0.3s ease-out';
+      let hasChangedSelectedMarker = false;
+      markersList.forEach((marker, index) => {
+        if (
+          e.originalEvent.target == marker._icon &&
+          currentSelectedMarkerID != index
+        ) {
+          refreshSelectedMarker(index);
+          hasChangedSelectedMarker = true;
+        }
+      });
+      if (hasChangedSelectedMarker == false) {
+        // If a marker already exist
+        if (markersList[currentSelectedMarkerID]) {
+          //
+          //add transition style only on click, we don't want the transition if the user drag&drop the marker.
+          markersList[currentSelectedMarkerID]._icon.style.transition =
+            'transform 0.3s ease-out';
 
-        // set new latitude and longitude
-        marker.setLatLng(e.latlng);
+          // set new latitude and longitude
+          markersList[currentSelectedMarkerID].setLatLng(e.latlng);
 
-        //remove transform style after the transition timeout
-        setTimeout(function () {
-          marker._icon.style.transition = null;
-        }, 300);
-        //Change the form latitude and longitude, keeping only 5 decimals
-        latinput.value = e.latlng.lat.toFixed(5);
-        lnginput.value = e.latlng.lng.toFixed(5);
+          //remove transform style after the transition timeout
+          setTimeout(function () {
+            markersList[currentSelectedMarkerID]._icon.style.transition = null;
+          }, 300);
+          //Change the form latitude and longitude, keeping only 5 decimals
+
+          let currentLatInput = document.querySelector(
+            'input#cttm-latfield-' + currentSelectedMarkerID
+          );
+          let currentLongInput = document.querySelector(
+            'input#cttm-longitude-' + currentSelectedMarkerID
+          );
+          currentLatInput.value = e.latlng.lat.toFixed(5);
+          currentLongInput.value = e.latlng.lng.toFixed(5);
+        }
+        // If no marker exist, create one and add it the map
+        else {
+          markersList[currentSelectedMarkerID] = L.marker(e.latlng, {
+            draggable: true,
+            icon: iconsList[currentSelectedMarkerID],
+          }).addTo(cttm_map);
+
+          //Change the form latitude and longitude, keeping only 5 decimals
+          let currentLatInput = document.querySelector(
+            'input#cttm-latfield-' + currentSelectedMarkerID
+          );
+          let currentLongInput = document.querySelector(
+            'input#cttm-longitude-' + currentSelectedMarkerID
+          );
+          currentLatInput.value = e.latlng.lat.toFixed(5);
+          currentLongInput.value = e.latlng.lng.toFixed(5);
+
+          //If marker is drag&dropped, change the form latitude and longitude, keeping only 5 decimals
+          markersList[currentSelectedMarkerID].on('dragend', function (e) {
+            markersList.forEach((marker, index) => {
+              if (
+                e.sourceTarget._element == marker._icon &&
+                currentSelectedMarkerID != index
+              ) {
+                refreshSelectedMarker(index);
+              }
+            });
+            let currentLatInput = document.querySelector(
+              'input#cttm-latfield-' + currentSelectedMarkerID
+            );
+            let currentLongInput = document.querySelector(
+              'input#cttm-longitude-' + currentSelectedMarkerID
+            );
+            currentLatInput.value = e.latlng.lat.toFixed(5);
+            currentLongInput.value = e.latlng.lng.toFixed(5);
+          });
+        }
       }
-      // If no marker exist, create one and add it the map
-      else {
-        marker = L.marker(e.latlng, {
-          draggable: true,
-          icon: myIcon,
-        }).addTo(cttm_map);
 
-        //Change the form latitude and longitude, keeping only 5 decimals
-        latinput.value = e.latlng.lat.toFixed(5);
-        lnginput.value = e.latlng.lng.toFixed(5);
-
-        //If marker is drag&dropped, change the form latitude and longitude, keeping only 5 decimals
-        marker.on('dragend', function (e) {
-          latinput.value = e.target._latlng.lat.toFixed(5);
-          lnginput.value = e.target._latlng.lng.toFixed(5);
-        });
-      }
       return;
     });
 
@@ -188,10 +316,44 @@ document.addEventListener('DOMContentLoaded', function (event) {
         autoType: true,
         minLength: 1,
         zoom: 13,
+        marker: false,
         firstTipSubmit: true,
         hideMarkerOnCollapse: true,
+      }).on('search:locationfound', function (e) {
+        if (cttm_map.hasLayer(markersList[currentSelectedMarkerID])) {
+          updateMarkerLatLngAfterSearch(
+            markersList[currentSelectedMarkerID],
+            e.latlng
+          );
+        } else {
+          // If no marker exist, create one and add it the map
+          markersList[currentSelectedMarkerID] = L.marker(e.latlng, {
+            draggable: true,
+            icon: iconsList[currentSelectedMarkerID],
+          }).addTo(cttm_map);
+        }
+        //Change the form latitude and longitude, keeping only 5 decimals
+        let currentLatInput = document.querySelector(
+          'input#cttm-latfield-' + currentSelectedMarkerID
+        );
+        let currentLongInput = document.querySelector(
+          'input#cttm-longitude-' + currentSelectedMarkerID
+        );
+        currentLatInput.value = e.latlng.lat.toFixed(5);
+        currentLongInput.value = e.latlng.lng.toFixed(5);
       })
     );
+    function updateMarkerLatLngAfterSearch(marker, latlng) {
+      //add transition style only on click, we don't want the transition if the user drag&drop the marker.
+      marker._icon.style.transition = 'transform 0.3s ease-out';
+
+      marker.setLatLng(latlng);
+
+      //remove transform style after the transition timeout
+      setTimeout(function () {
+        marker._icon.style.transition = null;
+      }, 300);
+    }
 
     //When using the search input of Leaflet.search, "Enter" key was publishing/updating the Wordpress post.
     //This function disable this behaviour when typing in the search input.
@@ -207,8 +369,15 @@ document.addEventListener('DOMContentLoaded', function (event) {
     );
 
     // Disable enter key on latitude and Longitude input field too, to avoid activating "delete current marker" button
-    latinput.addEventListener('keydown', disableEnterKey);
-    lnginput.addEventListener('keydown', disableEnterKey);
+    let allLatInputs = document.querySelectorAll('input[name="latitude[]"]');
+    let allLongInput = document.querySelectorAll('input[name="longitude[]"]');
+    allLatInputs.forEach((input) => {
+      input.addEventListener('keydown', disableEnterKey);
+    });
+
+    allLongInput.forEach((input) => {
+      input.addEventListener('keydown', disableEnterKey);
+    });
 
     function disableEnterKey(e) {
       if (e.keyCode === 13) {
@@ -221,128 +390,176 @@ document.addEventListener('DOMContentLoaded', function (event) {
       }
     }
 
-    latinput.addEventListener('change', updateMarkerLatLng);
-    lnginput.addEventListener('change', updateMarkerLatLng);
+    allLatInputs.forEach((input) => {
+      input.addEventListener('change', updateMarkerLatLng);
+    });
+    allLongInput.forEach((input) => {
+      input.addEventListener('change', updateMarkerLatLng);
+    });
 
     function updateMarkerLatLng(e) {
+      let inputID = e.target.id.charAt(e.target.id.length - 1);
       //add transition style only on click, we don't want the transition if the user drag&drop the marker.
-      marker._icon.style.transition = 'transform 0.3s ease-out';
+      refreshSelectedMarker(inputID);
+      markersList[currentSelectedMarkerID]._icon.style.transition =
+        'transform 0.3s ease-out';
 
-      inputlatlng = { lat: latinput.value, lng: lnginput.value };
-      marker.setLatLng(inputlatlng);
+      let currentLatInput = document.querySelector(
+        'input#cttm-latfield-' + currentSelectedMarkerID
+      );
+      let currentLongInput = document.querySelector(
+        'input#cttm-longitude-' + currentSelectedMarkerID
+      );
+
+      inputlatlng = { lat: currentLatInput.value, lng: currentLongInput.value };
+      markersList[currentSelectedMarkerID].setLatLng(inputlatlng);
 
       //remove transform style after the transition timeout
       setTimeout(function () {
-        marker._icon.style.transition = null;
+        markersList[currentSelectedMarkerID]._icon.style.transition = null;
       }, 300);
     }
 
     /*
         Delete current marker information on "delete current marker" button click.
        */
-    deletemarkerbtn.addEventListener('click', function () {
-      latinput.value = '';
-      lnginput.value = '';
-      if (cttm_map.hasLayer(marker)) {
-        cttm_map.removeLayer(marker);
-      }
+
+    deletemarkerbtn.forEach((button) => {
+      button.addEventListener('click', function (e) {
+        let buttonID = e.target.id.charAt(e.target.id.length - 1);
+        let LatInput = document.querySelector(
+          'input#cttm-latfield-' + buttonID
+        );
+        let LongInput = document.querySelector(
+          'input#cttm-longitude-' + buttonID
+        );
+        LatInput.value = '';
+        LongInput.value = '';
+        if (cttm_map.hasLayer(markersList[buttonID])) {
+          cttm_map.removeLayer(markersList[buttonID]);
+        }
+      });
     });
-    /* 
+
+    initJqueryCustomMediaUpload();
+
+    function initJqueryCustomMediaUpload() {
+      /* 
       Custom media upload, must use jQuery.
     */
 
-    jQuery(function ($) {
-      // Set all variables to be used in scope
-      var metaboxes = $('.col-markers-container');
+      jQuery(function ($) {
+        // Set all variables to be used in scope
+        var metaboxes = $('.col-markers-container');
 
-      metaboxes.each(function () {
-        var frame,
-          addImgLink = $(this).find('.upload-custom-img'),
-          delImgLink = $(this).find('.delete-custom-img'),
-          addImgLinkContainer = $(this).find(
-            '.cttm-custom-thumb-link-container'
-          ),
-          imgContainer = $(this).find('.cttm-custom-thumb-container'),
-          imgIdInput = $(this).find('.custom-img-id');
+        metaboxes.each(function () {
+          var frame,
+            addImgLink = $(this).find('.upload-custom-img'),
+            delImgLink = $(this).find('.delete-custom-img'),
+            addImgLinkContainer = $(this).find(
+              '.cttm-custom-thumb-link-container'
+            ),
+            imgContainer = $(this).find('.cttm-custom-thumb-container'),
+            imgIdInput = $(this).find('.custom-img-id');
 
-        // ADD IMAGE LINK
-        addImgLink.on('click', function (event) {
-          event.preventDefault();
-          // If the media frame already exists, reopen it.
-          if (frame) {
+          // ADD IMAGE LINK
+          addImgLink.on('click', function (event) {
+            event.preventDefault();
+            // If the media frame already exists, reopen it.
+            if (frame) {
+              frame.open();
+              return;
+            }
+
+            // Create a new media frame
+            frame = wp.media({
+              multiple: false, // Set to true to allow multiple files to be selected
+            });
+
+            // When an image is selected in the media frame...
+            frame.on('select', function () {
+              // Get media attachment details from the frame state
+              var attachment = frame.state().get('selection').first().toJSON();
+
+              // Send the attachment URL to our custom image input field.
+              imgContainer.prepend(
+                '<img src="' +
+                  attachment.url +
+                  '" alt="" style="max-width:300px; width:100%;" class="cttm-custom-thumb-el"/>'
+              );
+              imgContainer.removeClass('hidden');
+              // Send the attachment id to our hidden input
+              imgIdInput.val(attachment.id);
+
+              // Hide the add image link
+              addImgLinkContainer.addClass('hidden');
+
+              // Unhide the remove image link
+              delImgLink.removeClass('hidden');
+            });
+
+            // Finally, open the modal on click
             frame.open();
-            return;
-          }
-
-          // Create a new media frame
-          frame = wp.media({
-            multiple: false, // Set to true to allow multiple files to be selected
           });
 
-          // When an image is selected in the media frame...
-          frame.on('select', function () {
-            // Get media attachment details from the frame state
-            var attachment = frame.state().get('selection').first().toJSON();
+          // DELETE IMAGE LINK
+          delImgLink.on('click', function (event) {
+            event.preventDefault();
 
-            // Send the attachment URL to our custom image input field.
-            imgContainer.prepend(
-              '<img src="' +
-              attachment.url +
-              '" alt="" style="max-width:300px; width:100%;" class="cttm-custom-thumb-el"/>'
-            );
-            imgContainer.removeClass('hidden');
-            // Send the attachment id to our hidden input
-            imgIdInput.val(attachment.id);
+            // Clear out the preview image
+            imgContainer.find('.cttm-custom-thumb-el').remove();
+            imgContainer.addClass('hidden');
+            // Un-hide the add image link
+            addImgLinkContainer.removeClass('hidden');
 
-            // Hide the add image link
-            addImgLinkContainer.addClass('hidden');
+            // Hide the delete image link
+            delImgLink.addClass('hidden');
 
-            // Unhide the remove image link
-            delImgLink.removeClass('hidden');
+            // Delete the image id from the hidden input
+            imgIdInput.val('');
           });
-
-          // Finally, open the modal on click
-          frame.open();
         });
-
-        // DELETE IMAGE LINK
-        delImgLink.on('click', function (event) {
-          event.preventDefault();
-
-          // Clear out the preview image
-          imgContainer.find('.cttm-custom-thumb-el').remove();
-          imgContainer.addClass('hidden');
-          // Un-hide the add image link
-          addImgLinkContainer.removeClass('hidden');
-
-          // Hide the delete image link
-          delImgLink.addClass('hidden');
-
-          // Delete the image id from the hidden input
-          imgIdInput.val('');
-        });
-      });
-    }); //Custom media upload
-    function getCurrentSelectedMarker(currentSelectedMarkerID) {
-      return document.querySelector('.col-markers-container[data-marker-number="' + currentSelectedMarkerID + '"]')
+      }); //Custom media upload
+    }
+    function updateNumberOfMarkers() {
+      markerContainers = document.querySelectorAll(
+        '.row-markers-edit .col-markers-container[data-marker-number]'
+      );
+      numberOfMarkers = markerContainers.length;
+      
     }
 
+    function refreshSelectedMarker(ID) {
+      //Remove/add "active" class  on container
+      markerContainers.forEach((markerContainer, index) => {
+        if (index == ID) {
+          markerContainer.classList.add('active');
+        } else {
+          markerContainer.classList.remove('active');
+        }
+      });
+      currentSelectedMarkerID = ID;
+      currentSelectedMarkerContainer = getMarkerContainer(
+        currentSelectedMarkerID
+      );
+      if (markersList.length > 1) {
+        markersList.forEach((marker, index) => {
+          if (index == ID) {
+            marker._icon.classList.remove('inactive');
+            marker._icon.classList.add('active');
+          } else {
+            marker._icon.classList.add('inactive');
+            marker._icon.classList.remove('active');
+          }
+        });
+      }
+    }
+    function getMarkerContainer(ID) {
+      return document.querySelector(
+        '.col-markers-container[data-marker-number="' + ID + '"]'
+      );
+    }
   } //END IF document.getElementById("cttm-latfield")!=null
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   //If Shortcode Helper page
   if (document.getElementsByClassName('wrap-shortcode-helper').length != 0) {
@@ -597,15 +814,13 @@ document.addEventListener('DOMContentLoaded', function (event) {
      */
 
     // Get all Custom Taxonomies HTML containers
-    var customTaxonomiesContainers = document.getElementsByClassName(
-      'customtaxonomy'
-    );
+    var customTaxonomiesContainers =
+      document.getElementsByClassName('customtaxonomy');
     var customTaxonomyStrings = {}; // This object will store every custom taxonomy strings
     for (var index = 0; index < customTaxonomiesContainers.length; index++) {
       // Get all Custom Taxonomies names from data-taxonomy-name attribute
-      let customTaxonomyName = customTaxonomiesContainers[index].getAttribute(
-        'data-taxonomy-name'
-      );
+      let customTaxonomyName =
+        customTaxonomiesContainers[index].getAttribute('data-taxonomy-name');
 
       //Get all checkboxes from this taxonomy
       let customTaxonomyCheckboxes = document.getElementsByClassName(

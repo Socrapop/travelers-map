@@ -4108,15 +4108,37 @@ html {
   display: inline-block;
   display: inline-flex;
   align-items: center;
-  margin: 0 30px 20px 0;
+  margin: 0;
+  margin-bottom: 5px;
+}
+.cttm-markers input {
+  opacity: 0;
+  position: absolute;
+  left: -9999px;
+}
+.cttm-markers img {
+  border: transparent 2px solid;
+  padding: 9px;
+  opacity: 0.8;
+}
+.cttm-markers img:hover {
+  border: #a7a7a7 2px solid;
+  padding: 9px;
+  opacity: 1;
+}
+.cttm-markers input:checked + img {
+  border: #646464 2px solid;
+  background: white;
+  opacity: 1;
 }
 .row-markers-edit {
   box-sizing: border-box;
   margin: 0 !important;
+  justify-content: space-between;
 }
 .col-map-container {
   min-width: 450px;
-  padding: 0 15px 15px;
+  padding: 0 1% 15px 0;
   flex-grow: 1;
   flex-basis: 50%;
   flex-shrink: 0;
@@ -4127,9 +4149,27 @@ html {
 .col-markers-container {
   background: #f4f4f4;
   padding: 0 15px 15px;
-  flex-grow: 1;
-  flex-basis: 50%;
+  flex-grow: 0;
+  flex-basis: 49.5%;
   flex-shrink: 0;
+  margin-bottom: 10px;
+  border: 3px solid #d7d7d7;
+  position: relative;
+}
+
+.col-markers-container.active {
+  border: 3px solid #006ba1;
+  border: 3px solid var(--wp-admin-theme-color-darker-10);
+ 
+}
+.cttm-delete-marker {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.col-markers-container.is-active {
+  background: #fdfdfd;
+  border: 3px solid #5497ee;
 }
 
 .col-markers-container .cttm-input {
@@ -4141,7 +4181,21 @@ html {
 .col-markers-container .cttm-label {
   font-weight: 500;
 }
+.customize-popover-container {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
 
+
+.customize-popover-content {
+  background: #f4f4f4;
+  padding: 10px 10px 5px;
+  margin-bottom: 20px;
+  display: none;
+}
+.is-open .customize-popover-content {
+  display: block;
+}
 .col-markers-container .cttm-custom-flexcontainer {
   display: flex;
   flex-wrap: nowrap;
@@ -4225,4 +4279,14 @@ html {
 }
 .cttm-hidden {
   display: none;
+}
+
+.leaflet-marker-icon.inactive{
+  filter: grayscale(15%);
+
+  opacity: 0.8;
+}
+.leaflet-marker-icon.active{
+  filter: drop-shadow(1px 1px 0px #006ba1) drop-shadow(-1px -1px 0px #006ba1) drop-shadow(-1px 1px 0px #006ba1) drop-shadow(1px -1px 0px #006ba1);
+opacity: 1;
 }
