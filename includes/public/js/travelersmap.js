@@ -433,7 +433,7 @@ function cttmPopulatePopoversHTMLOutput(
   let posturl = postdatas.url;
   let postTitle = postdatas.thetitle;
   let postExcerpt = postdatas.excerpt;
-  let postDate = new Date(postdatas.date);
+  let postDate = new Date(postdatas.date.replace(/ /g,"T")+"Z");
   postDate = postDate.toLocaleDateString(undefined, {
     year: 'numeric',
     month: 'long',
