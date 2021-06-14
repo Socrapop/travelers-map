@@ -101,6 +101,15 @@ function initTravelersMap() {
       'travelersmap-container-' + containerid
     );
 
+     //Prevent some plugins incompatibilities where the shortcode is executed multiple times, sending additionnal cttm_shortcode_... variables in the front-end.
+    // This way, we prevent an error where the container was not found, by stopping the script if the container is not found.
+    if (!container) {
+      console.warn(
+        "Travelers' Map container with id: " + containerid + ' was not found.'
+      );
+      return;
+    }
+
     //Set Tiles Server URL + API key + Attribution
     //If a shortcode tile server is set, override global settings' tile server
     let tileurl, subdomains, attribution;
@@ -423,7 +432,7 @@ function cttmPopulatePopoversHTMLOutput(
   let posturl = postdatas.url;
   let postTitle = postdatas.thetitle;
   let postExcerpt = postdatas.excerpt;
-  let postDate = new Date(postdatas.date);
+  let postDate = new Date(postdatas.date.replace(/ /g,"T")+"Z");
   postDate = postDate.toLocaleDateString(undefined, {
     year: 'numeric',
     month: 'long',
