@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
       const containerToClone = document.querySelector("#form-copy-multimarker .col-markers-container");
       let clonedContainerHTML = containerToClone.innerHTML;
       clonedContainerHTML = clonedContainerHTML.replace(/ReplaceWithID/g,newId);
+      clonedContainerHTML = clonedContainerHTML.replace(/RemoveWhenCopied/g,"");
       const newContainer = document.createElement("div");
       newContainer.className = 'col-markers-container';
       newContainer.dataset.markerNumber = newId;

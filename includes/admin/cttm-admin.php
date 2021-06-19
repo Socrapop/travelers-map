@@ -116,10 +116,10 @@ function cttm_meta_callback($post)
 
 ?>
     <div id="form-copy-multimarker" style="display:none; visibility:hidden">
-    <?php
+        <?php
         //Generate first marker form
         cttm_generate_marker_form_HTML("ReplaceWithID", $the_markers_query, null); ?>
-        
+
     </div>
     <div class="row row-markers-edit">
         <div class="col-map-container">
@@ -166,6 +166,7 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
     $customthumbnail = $marker_data_array['customthumbnail'];
 
     $marker_url_cleaned = esc_url($markerdata[0]);
+    $isContainerToCopy = $marker_number === "ReplaceWithID" ? true : false;
 ?>
     <div class="col-markers-container" data-marker-number="<?php echo $marker_number; ?>">
         <h3><strong><?php _e('Edit marker information', 'travelers-map'); ?></strong></h3>
@@ -184,9 +185,19 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
                 if (isset($marker_url_cleaned) && $marker_url_cleaned == get_the_post_thumbnail_url($marker_post)) {
 
                     $markerchecked = true;
-                    echo '<label><input type="radio" name="marker[' . $marker_number . ']" value="' . $marker_post->ID . '" checked="checked">';
+                    if ($isContainerToCopy) {
+
+                        echo '<label><input type="radio" name="RemoveWhenCopiedmarker[' . $marker_number . ']" value="' . $marker_post->ID . '" checked="checked">';
+                    } else {
+                        echo '<label><input type="radio" name="marker[' . $marker_number . ']" value="' . $marker_post->ID . '" checked="checked">';
+                    }
                 } else {
-                    echo '<label><input type="radio" name="marker[' . $marker_number . ']" value="' . $marker_post->ID . '" >';
+                    if ($isContainerToCopy) {
+
+                        echo '<label><input type="radio" name="RemoveWhenCopiedmarker[' . $marker_number . ']" value="' . $marker_post->ID . '" >';
+                    } else {
+                        echo '<label><input type="radio" name="marker[' . $marker_number . ']" value="' . $marker_post->ID . '" >';
+                    }
                 }
                 echo '<img src="' . get_the_post_thumbnail_url($marker_post) . '"></label>';
             }
@@ -195,9 +206,19 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
                 <?php
                 // If no marker was selected already, check default marker by default
                 if ($markerchecked == false) {
-                    echo '<input type="radio" name="marker[' . $marker_number . ']" value="default" checked="checked">';
+                    if ($isContainerToCopy) {
+
+                        echo '<input type="radio" name="RemoveWhenCopiedmarker[' . $marker_number . ']" value="default" checked="checked">';
+                    } else {
+                        echo '<input type="radio" name="marker[' . $marker_number . ']" value="default" checked="checked">';
+                    }
                 } else {
-                    echo '<input type="radio" name="marker[' . $marker_number . ']" value="default">';
+                    if ($isContainerToCopy) {
+
+                        echo '<input type="radio" name="RemoveWhenCopiedmarker[' . $marker_number . ']" value="default">';
+                    } else {
+                        echo '<input type="radio" name="marker[' . $marker_number . ']" value="default">';
+                    }
                 } ?>
                 <img src="<?php echo (plugins_url('images/marker-icon.png', __FILE__)) ?>">
             </label>
@@ -206,17 +227,27 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
         </div>
         <div class="cttm-custom-flexcontainer">
             <label for="<?php echo ('cttm-latfield-' . $marker_number); ?>" class="cttm-label"><?php _e('Latitude', 'travelers-map'); ?></label>
-            <input id="<?php echo ('cttm-latfield-' . $marker_number); ?>" type="number" name="latitude[]" step="0.00001" max="90" min="-90" value="<?php if (isset($latitude)) {
-                                                                                                                                                        echo $latitude;
-                                                                                                                                                    }
-                                                                                                                                                    ?>" />
+            <input id="<?php echo ('cttm-latfield-' . $marker_number); ?>" type="number" name="<?php if ($isContainerToCopy) {
+
+                                                                                                    echo 'RemoveWhenCopiedlatitude[]';
+                                                                                                } else {
+                                                                                                    echo 'latitude[]';
+                                                                                                } ?> " step="0.00001" max="90" min="-90" value="<?php if (isset($latitude)) {
+                                                                                                                                                    echo $latitude;
+                                                                                                                                                }
+                                                                                                                                                ?>" />
         </div>
         <div class="cttm-custom-flexcontainer">
             <label for="<?php echo ('cttm-longitude-' . $marker_number); ?>" class="cttm-label"><?php _e('Longitude', 'travelers-map'); ?></label>
-            <input id="<?php echo ('cttm-longitude-' . $marker_number); ?>" type="number" name="longitude[]" step="0.00001" value="<?php if (isset($longitude)) {
-                                                                                                                                        echo $longitude;
-                                                                                                                                    }
-                                                                                                                                    ?>" />
+            <input id="<?php echo ('cttm-longitude-' . $marker_number); ?>" type="number" name="<?php if ($isContainerToCopy) {
+
+                                                                                                    echo 'RemoveWhenCopiedlongitude[]';
+                                                                                                } else {
+                                                                                                    echo 'longitude[]';
+                                                                                                } ?> " step="0.00001" value="<?php if (isset($longitude)) {
+                                    echo $longitude;
+                                }
+                                ?>" />
         </div>
 
         <div class="customize-popover-container">
@@ -224,17 +255,27 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
             <div class="customize-popover-content">
                 <div class="cttm-custom-flexcontainer">
                     <label id="<?php echo ('cttm-customtitle-label-' . $marker_number); ?>" for="<?php echo ('cttm-customtitle-' . $marker_number); ?>" class="cttm-label"> <?php _e('Post title', 'travelers-map'); ?></label>
-                    <input id="<?php echo ('cttm-customtitle-' . $marker_number); ?>" class="cttm-input" name="customtitle[]" type="text" value="<?php if (isset($customtitle)) {
-                                                                                                                                                        echo $customtitle;
-                                                                                                                                                    }
-                                                                                                                                                    ?>"> <br>
+                    <input id="<?php echo ('cttm-customtitle-' . $marker_number); ?>" class="cttm-input" name="<?php if ($isContainerToCopy) {
+
+                                                                                                                    echo 'customtitle[]';
+                                                                                                                } else {
+                                                                                                                    echo 'customtitle[]';
+                                                                                                                } ?>" type="text" value="<?php if (isset($customtitle)) {
+                                echo $customtitle;
+                            }
+                            ?>"> <br>
                 </div>
                 <div class="cttm-custom-flexcontainer">
                     <label id="<?php echo ('cttm-customexcerpt-label-' . $marker_number); ?>" for="<?php echo ('cttm-customexcerpt-' . $marker_number); ?>" class="cttm-label"> <?php _e('Post excerpt', 'travelers-map'); ?></label>
-                    <textarea class="cttm-textarea" id="<?php echo ('cttm-customexcerpt-' . $marker_number); ?>" name="customexcerpt[]" type="text"><?php if (isset($customexcerpt)) {
-                                                                                                                                                        echo $customexcerpt;
-                                                                                                                                                    }
-                                                                                                                                                    ?></textarea><br>
+                    <textarea class="cttm-textarea" id="<?php echo ('cttm-customexcerpt-' . $marker_number); ?>" name="<?php if ($isContainerToCopy) {
+
+                                                                                                                            echo 'RemoveWhenCopiedcustomexcerpt[]';
+                                                                                                                        } else {
+                                                                                                                            echo 'customexcerpt[]';
+                                                                                                                        } ?>" type="text"><?php if (isset($customexcerpt)) {
+                        echo $customexcerpt;
+                    }
+                    ?></textarea><br>
                 </div>
                 <div class="cttm-custom-flexcontainer">
                     <label class="cttm-label"> <?php _e('Post thumbnail', 'travelers-map'); ?></label>
@@ -284,16 +325,21 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 
 
                     <!-- A hidden input to set and post the chosen image id -->
-                    <input id="<?php echo ('cttm-customthumbnail-' . $marker_number); ?>" class="custom-img-id" name="customthumbnail[]" type="hidden" value="<?php echo esc_attr($your_img_id); ?>" />
+                    <input id="<?php echo ('cttm-customthumbnail-' . $marker_number); ?>" class="custom-img-id" name="<?php if ($isContainerToCopy) {
+
+                                                                                                                            echo 'RemoveWhenCopiedcustomthumbnail[]';
+                                                                                                                        } else {
+                                                                                                                            echo 'customthumbnail[]';
+                                                                                                                        } ?>" type="hidden" value="<?php echo esc_attr($your_img_id); ?>" />
                 </div>
             </div>
 
 
 
 
-           
+
         </div>
-        <button id="<?php echo ('btn-delete-current-marker-' . $marker_number); ?>" type="button" class="components-button is-button is-destructive cttm-delete-marker"  title="<?php _e('Delete this marker', 'travelers-map'); ?>"><?php _e('Delete', 'travelers-map'); ?></button>
+        <button id="<?php echo ('btn-delete-current-marker-' . $marker_number); ?>" type="button" class="components-button is-button is-destructive cttm-delete-marker" title="<?php _e('Delete this marker', 'travelers-map'); ?>"><?php _e('Delete', 'travelers-map'); ?></button>
     </div>
 <?php } // cttm_generate_marker_form_HTML()
 
@@ -326,6 +372,7 @@ function cttm_meta_save($post_id)
     if (!(isset($_POST['cttm_nonce']) && wp_verify_nonce($_POST['cttm_nonce'], basename(__FILE__)))) {
         return;
     }
+
     //Abort if no marker is set
     if (!is_array($_POST['marker'])) {
         return;
@@ -333,9 +380,10 @@ function cttm_meta_save($post_id)
 
     $number_of_markers = count($_POST['marker']);
 
+
     if ($number_of_markers === 1) {
         $marker_data_array = cttm_get_sanitized_markerdata_array($post_id, 0, $number_of_markers);
-
+        
         if (!$marker_data_array) {
             return;
         }
@@ -343,6 +391,7 @@ function cttm_meta_save($post_id)
     }
     if ($number_of_markers > 1) {
         $markers_data_array = cttm_get_sanitized_markerdata_array($post_id, 0, $number_of_markers);
+
 
         $number_of_validated_markers = $number_of_markers;
 
@@ -360,9 +409,9 @@ function cttm_meta_save($post_id)
         if ($number_of_validated_markers !== $number_of_markers) {
             $markers_data_array = cttm_update_multiplemarkers_in_array($number_of_validated_markers, $markers_data_array);
         }
-
         $markers_json_array = cttm_json_encode_markers($markers_data_array);
     }
+
     cttm_update_postmeta_and_privatetax($post_id, $markers_json_array);
 }
 
@@ -375,7 +424,7 @@ function cttm_get_sanitized_markerdata_array($post_id, $index, $number_of_marker
     }
 
     $markerdata = cttm_get_markerdata($_POST['marker'][$index]);
-
+    
     if (!$markerdata) {
         return false;
     }
@@ -465,6 +514,7 @@ function cttm_delete_marker_from_database($post_id)
 
 function cttm_update_postmeta_and_privatetax($post_id, $markers_json_array)
 {
+
     if ($markers_json_array != null) {
         // Update post meta
         update_post_meta($post_id, '_latlngmarker', $markers_json_array);
