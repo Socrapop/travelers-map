@@ -77,17 +77,33 @@ document.addEventListener('DOMContentLoaded', function (event) {
       const newId = numberOfMarkers;
       const containerToClone = document.querySelector("#form-copy-multimarker .col-markers-container");
       let clonedContainerHTML = containerToClone.innerHTML;
-      clonedContainerHTML.replace("ReplaceWithID",newId);
+      clonedContainerHTML = clonedContainerHTML.replace(/ReplaceWithID/g,newId);
       const newContainer = document.createElement("div");
       newContainer.className = 'col-markers-container';
-      newContainer.dataset.markerNumber =newId;
+      newContainer.dataset.markerNumber = newId;
       newContainer.innerHTML = clonedContainerHTML;
       lastContainer.insertAdjacentElement("afterend",newContainer);
-      console.log('newContainer :>> ', newContainer);
       //Update all data attributes and values
       const newRadios = newContainer.querySelectorAll(
         '.cttm-markers input'
       );
+
+      // Get selected marker radio element
+      // create myIcon object for leaflet
+      // Add it to iconsList array.
+      let checkedRadio = document.querySelector(
+        "input[name='marker[" + newId + "]']:checked"
+      );
+      let iconurl = checkedRadio.nextElementSibling.currentSrc;
+      let imgwidth = checkedRadio.nextElementSibling.width;
+      let imgheight = checkedRadio.nextElementSibling.height;
+      let iconAnchor = [parseInt(imgwidth / 2), imgheight];
+      let myIcon = L.icon({
+        iconUrl: iconurl,
+        iconAnchor: iconAnchor,
+      });
+
+      iconsList.push(myIcon);
 
       //Bind all events on the new container
       initJqueryCustomMediaUpload();
@@ -105,9 +121,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
             });
 
             //if marker is already displayed on the map, change marker icon
-            if (markersList[index]) {
-              markersList[index].setIcon(myIcon);
-              refreshSelectedMarker(index);
+            if (markersList[newId]) {
+              markersList[newId].setIcon(myIcon);
+              refreshSelectedMarker(newId);
             }
           }
         };
@@ -118,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
       });
 
       // Select current marker container
-      refreshSelectedMarker("'" + newId + "'");
+      refreshSelectedMarker(newId);
 
       updateNumberOfMarkers();
     };
@@ -145,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
       });
 
       iconsList.push(myIcon);
-
+      
       // Get all markers inputs of current index marker
       let radios = document.querySelectorAll(
         "input[name='marker[" + index + "]']"
@@ -203,10 +219,10 @@ document.addEventListener('DOMContentLoaded', function (event) {
     } // END LOOP MARKERS
 
     //Set selectedMarker on init
-    refreshSelectedMarker('0'); // by default, set the first marker as selected.
+    refreshSelectedMarker(0); // by default, set the first marker as selected.
     markerContainers.forEach((container) => {
       container.addEventListener('click', function () {
-        refreshSelectedMarker(this.dataset.markerNumber);
+        refreshSelectedMarker(parseInt(this.dataset.markerNumber));
       });
     });
 
@@ -245,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
           // set new latitude and longitude
           markersList[currentSelectedMarkerID].setLatLng(e.latlng);
-
+        
           //remove transform style after the transition timeout
           setTimeout(function () {
             markersList[currentSelectedMarkerID]._icon.style.transition = null;
@@ -263,6 +279,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         }
         // If no marker exist, create one and add it the map
         else {
+         
           markersList[currentSelectedMarkerID] = L.marker(e.latlng, {
             draggable: true,
             icon: iconsList[currentSelectedMarkerID],
@@ -294,8 +311,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
             let currentLongInput = document.querySelector(
               'input#cttm-longitude-' + currentSelectedMarkerID
             );
-            currentLatInput.value = e.latlng.lat.toFixed(5);
-            currentLongInput.value = e.latlng.lng.toFixed(5);
+            currentLatInput.value = e.target._latlng.lat.toFixed(5);
+            currentLongInput.value = e.target._latlng.lng.toFixed(5);
           });
         }
       }
@@ -530,6 +547,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
 
     function refreshSelectedMarker(ID) {
+      console.log('Refresh ID :>> ', ID);
       //Remove/add "active" class  on container
       markerContainers.forEach((markerContainer, index) => {
         if (index == ID) {
@@ -887,7 +905,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     document
       .getElementById('current_query_markers')
       .addEventListener('change', function (e) {
-        console.log(this);
+        
         //If checked, set output
         if (this.checked) {
           current_query_markers = ' current_query_markers=true';
