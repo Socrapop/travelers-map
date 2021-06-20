@@ -257,7 +257,7 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
                     <label id="<?php echo ('cttm-customtitle-label-' . $marker_number); ?>" for="<?php echo ('cttm-customtitle-' . $marker_number); ?>" class="cttm-label"> <?php _e('Post title', 'travelers-map'); ?></label>
                     <input id="<?php echo ('cttm-customtitle-' . $marker_number); ?>" class="cttm-input" name="<?php if ($isContainerToCopy) {
 
-                                                                                                                    echo 'customtitle[]';
+                                                                                                                    echo 'RemoveWhenCopiedcustomtitle[]';
                                                                                                                 } else {
                                                                                                                     echo 'customtitle[]';
                                                                                                                 } ?>" type="text" value="<?php if (isset($customtitle)) {
