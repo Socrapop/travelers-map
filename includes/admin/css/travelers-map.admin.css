@@ -4159,7 +4159,6 @@ html {
 
 .col-markers-container.active {
   border: 3px solid #006ba1;
-  border: 3px solid var(--wp-admin-theme-color-darker-10);
  
 }
 .cttm-delete-marker {
