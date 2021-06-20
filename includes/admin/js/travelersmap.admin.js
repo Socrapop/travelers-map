@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
               iconUrl: iconurl,
               iconAnchor: iconAnchor,
             });
-
+            iconsList[newId] = myIcon;
             //if marker is already displayed on the map, change marker icon
             if (markersList[newId]) {
               markersList[newId].setIcon(myIcon);
@@ -182,12 +182,13 @@ document.addEventListener('DOMContentLoaded', function (event) {
               iconUrl: iconurl,
               iconAnchor: iconAnchor,
             });
-
+            
             //if marker is already displayed on the map, change marker icon
             if (markersList[index]) {
               markersList[index].setIcon(myIcon);
               refreshSelectedMarker(index);
             }
+            
           }
         };
       });
@@ -295,6 +296,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
           );
           currentLatInput.value = e.latlng.lat.toFixed(5);
           currentLongInput.value = e.latlng.lng.toFixed(5);
+          refreshSelectedMarker(currentSelectedMarkerID);
 
           //If marker is drag&dropped, change the form latitude and longitude, keeping only 5 decimals
           markersList[currentSelectedMarkerID].on('dragend', function (e) {
@@ -548,7 +550,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
 
     function refreshSelectedMarker(ID) {
-      console.log('Refresh ID :>> ', ID);
       //Remove/add "active" class  on container
       markerContainers.forEach((markerContainer, index) => {
         if (index == ID) {
