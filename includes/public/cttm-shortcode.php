@@ -270,7 +270,7 @@ function cttm_shortcode($attr)
                 $latlngmarkerarr[0] = json_encode($latlngmarkerarr_decoded);
             }
             
-            //Create the $cttm_metas array to store all the markers and posts informations. This will be send to out javascript file
+            //Create the $cttm_metas array to store all the markers and posts informations. This will be send to our javascript file
             $cttm_metas[$i]['markerdatas'] = $latlngmarkerarr[0];
             $cttm_metas[$i]['postdatas'] = $cttm_postdatas;
 
