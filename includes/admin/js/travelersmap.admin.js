@@ -138,6 +138,20 @@ document.addEventListener('DOMContentLoaded', function (event) {
       refreshSelectedMarker(newId);
 
       updateNumberOfMarkers();
+     
+      const popoverCustomizerOpeners = newContainer.querySelector(
+        '.customize-popover-title'
+      );
+      popoverCustomizerOpeners.onclick = (e) => {
+          //récupère le bloc à afficher
+          let customizerContainer = e.target.parentElement;
+          //Toggle class .is-open
+          if (customizerContainer.classList.contains('is-open')) {
+            customizerContainer.classList.remove('is-open');
+          } else {
+            customizerContainer.classList.add('is-open');
+          }
+        };
     };
 
     //LOOP through each markers at load time
