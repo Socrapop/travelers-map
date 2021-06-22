@@ -4184,8 +4184,42 @@ html {
   margin-top: 15px;
   margin-bottom: 20px;
 }
-
-
+.col-markers-container .cttm-input-anchor{
+  padding-left: 20px;
+}
+.col-markers-container .cttm-custom-flexcontainer--anchor{
+ position: relative;
+}
+.anchor-before{
+  position: absolute;
+  left: 2px;
+  top: 1px;
+  bottom: 1px;
+  height: auto;
+  border-right: 1px solid gray;
+content: "#";
+color: black;
+font-weight: bold;
+width: 15px;
+margin: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+pointer-events: none;
+padding: 0 0 0 2px;
+border-radius: 5px 0 0 5px;
+background: #f4f4f4;
+}
+.cttm-anchor-input-container{
+  position: relative;
+  width: 75%;
+}
+.cttm-anchor-label-container{
+  width: 25%;
+}
+.col-markers-container .cttm-custom-flexcontainer .cttm-anchor-input-container .cttm-input{
+width: 100%;
+}
 .customize-popover-content {
   background: #f4f4f4;
   padding: 10px 10px 5px;
@@ -4227,7 +4261,7 @@ html {
   background-color: #f4f4f4;
   padding: 2px;
   width: auto;
-  max-width: 40%;
+  max-width: 75%;
   display: inline-block;
 }
 .col-markers-container

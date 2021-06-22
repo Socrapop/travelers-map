@@ -164,6 +164,7 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
     $customtitle = $marker_data_array['customtitle'];
     $customexcerpt = $marker_data_array['customexcerpt'];
     $customthumbnail = $marker_data_array['customthumbnail'];
+    $customanchor = $marker_data_array['customanchor'];
 
     $marker_url_cleaned = esc_url($markerdata[0]);
     $isContainerToCopy = $marker_number === "ReplaceWithID" ? true : false;
@@ -245,9 +246,9 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
                                                                                                 } else {
                                                                                                     echo 'longitude[]';
                                                                                                 } ?> " step="0.00001" value="<?php if (isset($longitude)) {
-                                    echo $longitude;
-                                }
-                                ?>" />
+                                                                                                                                    echo $longitude;
+                                                                                                                                }
+                                                                                                                                ?>" />
         </div>
 
         <div class="customize-popover-container">
@@ -261,9 +262,9 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
                                                                                                                 } else {
                                                                                                                     echo 'customtitle[]';
                                                                                                                 } ?>" type="text" value="<?php if (isset($customtitle)) {
-                                echo $customtitle;
-                            }
-                            ?>"> <br>
+                                                                                                                                                echo $customtitle;
+                                                                                                                                            }
+                                                                                                                                            ?>"> <br>
                 </div>
                 <div class="cttm-custom-flexcontainer">
                     <label id="<?php echo ('cttm-customexcerpt-label-' . $marker_number); ?>" for="<?php echo ('cttm-customexcerpt-' . $marker_number); ?>" class="cttm-label"> <?php _e('Post excerpt', 'travelers-map'); ?></label>
@@ -273,9 +274,23 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
                                                                                                                         } else {
                                                                                                                             echo 'customexcerpt[]';
                                                                                                                         } ?>" type="text"><?php if (isset($customexcerpt)) {
-                        echo $customexcerpt;
-                    }
-                    ?></textarea><br>
+                                                                                                                                                echo $customexcerpt;
+                                                                                                                                            }
+                                                                                                                                            ?></textarea><br>
+                </div>
+                <div class="cttm-custom-flexcontainer cttm-custom-flexcontainer--anchor">
+                    <div class="cttm-anchor-label-container"> <label id="<?php echo ('cttm-customanchor-label-' . $marker_number); ?>" for="<?php echo ('cttm-customanchor-' . $marker_number); ?>" class="cttm-label"> <?php _e('Link anchor (#id)', 'travelers-map'); ?> </label><a href="#" target="_blank" class="description"><?php _e('What is this?', 'travelers-map'); ?></a></div>
+                    <div class="cttm-anchor-input-container"> <input id="<?php echo ('cttm-customanchor-' . $marker_number); ?>" class="cttm-input cttm-input-anchor" name="<?php if ($isContainerToCopy) {
+
+                                                                                                                                                                                echo 'RemoveWhenCopiedcustomanchor[]';
+                                                                                                                                                                            } else {
+                                                                                                                                                                                echo 'customanchor[]';
+                                                                                                                                                                            } ?>" type="text" value="<?php if (isset($customanchor)) {
+                                                                                            echo $customanchor;
+                                                                                        }
+                                                                                        ?>">
+                        <p class="anchor-before">#</p>
+                    </div>
                 </div>
                 <div class="cttm-custom-flexcontainer">
                     <label class="cttm-label"> <?php _e('Post thumbnail', 'travelers-map'); ?></label>
@@ -383,7 +398,7 @@ function cttm_meta_save($post_id)
 
     if ($number_of_markers === 1) {
         $marker_data_array = cttm_get_sanitized_markerdata_array($post_id, 0, $number_of_markers);
-        
+
         if (!$marker_data_array) {
             return;
         }
@@ -424,19 +439,22 @@ function cttm_get_sanitized_markerdata_array($post_id, $index, $number_of_marker
     }
 
     $markerdata = cttm_get_markerdata($_POST['marker'][$index]);
-    
+
     if (!$markerdata) {
         return false;
     }
 
     $customtitle = sanitize_text_field($_POST['customtitle'][$index]);
     $customexcerpt = cttm_purify_html($_POST['customexcerpt'][$index]);
+    $customanchorfirstword = explode(" ",$_POST['customanchor'][$index])[0];
+    //Remove http:// automatically added by esc_url_raw()
+    $customanchor = str_replace(["http://", "https://"], "", esc_url_raw($customanchorfirstword)); 
     $customthumbnail = cttm_sanitize_thumbnail_id($_POST['customthumbnail'][$index]);
     $latitude = cttm_float_to_string($_POST['latitude'][$index]);
     $longitude = cttm_float_to_string($_POST['longitude'][$index]);
 
     if ($index > 0) {
-        return compact('latitude', 'longitude', 'markerdata', 'customtitle', 'customexcerpt', 'customthumbnail');
+        return compact('latitude', 'longitude', 'markerdata', 'customtitle', 'customexcerpt', 'customthumbnail', 'customanchor');
     }
 
     if ($number_of_markers === 1) {
@@ -444,7 +462,7 @@ function cttm_get_sanitized_markerdata_array($post_id, $index, $number_of_marker
     } else {
         $multiplemarkers = $number_of_markers;
     }
-    return compact('latitude', 'longitude', 'markerdata', 'multiplemarkers', 'customtitle', 'customexcerpt', 'customthumbnail');
+    return compact('latitude', 'longitude', 'markerdata', 'multiplemarkers', 'customtitle', 'customexcerpt', 'customthumbnail', 'customanchor');
 }
 function cttm_update_multiplemarkers_in_array($number_of_markers, $markers_data_array)
 {
