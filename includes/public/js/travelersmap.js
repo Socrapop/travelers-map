@@ -38,7 +38,7 @@ function initTravelersMap() {
 
   function cttmMapLoop(cttm_shortcode_vars) {
     //If no markers are loaded, return without initiating leaflet
-    if(cttm_shortcode_vars.cttm_metas == "0"){
+    if (cttm_shortcode_vars.cttm_metas == '0') {
       return;
     }
     //Get shortcode options
@@ -101,7 +101,7 @@ function initTravelersMap() {
       'travelersmap-container-' + containerid
     );
 
-     //Prevent some plugins incompatibilities where the shortcode is executed multiple times, sending additionnal cttm_shortcode_... variables in the front-end.
+    //Prevent some plugins incompatibilities where the shortcode is executed multiple times, sending additionnal cttm_shortcode_... variables in the front-end.
     // This way, we prevent an error where the container was not found, by stopping the script if the container is not found.
     if (!container) {
       console.warn(
@@ -200,7 +200,7 @@ function initTravelersMap() {
         //If one remove a marker from a post, the other languages of this post will still appear in the query...
         if (cttm_metas[i].markerdatas) {
           //Get markerdatas object
-          var markerdatas = JSON.parse(cttm_metas[i].markerdatas);
+          let markerdatas = JSON.parse(cttm_metas[i].markerdatas);
 
           //Initialize all markers variables
           let markerlatitude = markerdatas.latitude;
@@ -210,10 +210,7 @@ function initTravelersMap() {
           let markerheight = markerdatas.markerdata[2];
 
           //Get linked postdatas object
-          let postdatas = cttm_metas[i].postdatas;
-
-          //////////// Use this for V2.
-          //////////// if (markerdatas.multiplemarkers) { }
+          let postdatas = Object.assign({}, cttm_metas[i].postdatas);
 
           //Alter postdatas array in case we have custom data set
           if (markerdatas.customtitle) {
@@ -225,7 +222,6 @@ function initTravelersMap() {
           if (markerdatas.customthumbnail) {
             postdatas.thumb = markerdatas.customthumbnail;
           }
-
           // Create a leaflet icon object and add it to the map, if not set, use default
           //"d" is returned when no icon is set
           if (markerURL != 'd') {
@@ -260,6 +256,69 @@ function initTravelersMap() {
             markersGroup.addLayer(
               marker.bindPopup(postPopoverOutput, popoverOptions)
             );
+          }
+
+          //Second loop for multiplemarkers
+          if (markerdatas.multiplemarkers) {
+            for (let index = 1; index < markerdatas.multiplemarkers; index++) {
+              let postdatas = Object.assign({}, cttm_metas[i].postdatas);
+              //Get markerdatas object
+              let markerdatasMultiple =
+                markerdatas['additional_marker_' + index];
+
+              //Initialize all markers variables
+              let markerlatitude = markerdatasMultiple.latitude;
+              let markerlongitude = markerdatasMultiple.longitude;
+              let markerURL = markerdatasMultiple.markerdata[0];
+              let markerwidth = markerdatasMultiple.markerdata[1];
+              let markerheight = markerdatasMultiple.markerdata[2];
+
+              //Alter postdatas array in case we have custom data set
+              if (markerdatasMultiple.customtitle) {
+                postdatas.thetitle = markerdatasMultiple.customtitle;
+              }
+              if (markerdatasMultiple.customexcerpt) {
+                postdatas.excerpt = markerdatasMultiple.customexcerpt;
+              }
+              if (markerdatasMultiple.customthumbnail) {
+                postdatas.thumb = markerdatasMultiple.customthumbnail;
+              }
+              // Create a leaflet icon object and add it to the map, if not set, use default
+              //"d" is returned when no icon is set
+              if (markerURL != 'd') {
+                //Create custom icon
+                let myIcon = L.icon({
+                  iconUrl: markerURL,
+                  iconSize: [markerwidth, markerheight],
+                  iconAnchor: [markerwidth / 2, markerheight],
+                  popupAnchor: [0, -markerheight + 3],
+                });
+                //Create marker object wih our icon
+                var marker = L.marker([markerlatitude, markerlongitude], {
+                  icon: myIcon,
+                });
+              } else {
+                //Create marker object with default icon
+                var marker = L.marker([markerlatitude, markerlongitude]);
+              }
+
+              let postPopoverOutput = cttmPopulatePopoversHTMLOutput(
+                postdatas,
+                popoverOutput,
+                cttm_options
+              );
+
+              //If "this_post" option is set
+              //Add the marker in our cluster group layer without popover
+              //Else add it with its popover
+              if (cttm_shortcode_options.this_post == 'true') {
+                markersGroup.addLayer(marker);
+              } else {
+                markersGroup.addLayer(
+                  marker.bindPopup(postPopoverOutput, popoverOptions)
+                );
+              }
+            }
           }
         } //END if(markerdatas)
       } //END For Loop through cttm_metas
@@ -329,7 +388,7 @@ function initTravelersMap() {
     //Avoid problem with tiles not loading inside the whole container.
     const mapindexcopy = mapindex;
     setTimeout(() => {
-      cttm_map[mapindexcopy].invalidateSize()
+      cttm_map[mapindexcopy].invalidateSize();
     }, 1000);
 
     mapindex++;
@@ -432,7 +491,7 @@ function cttmPopulatePopoversHTMLOutput(
   let posturl = postdatas.url;
   let postTitle = postdatas.thetitle;
   let postExcerpt = postdatas.excerpt;
-  let postDate = new Date(postdatas.date.replace(/ /g,"T")+"Z");
+  let postDate = new Date(postdatas.date.replace(/ /g, 'T') + 'Z');
   postDate = postDate.toLocaleDateString(undefined, {
     year: 'numeric',
     month: 'long',
