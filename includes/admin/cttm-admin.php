@@ -36,8 +36,8 @@ function cttm_scripts_admin($hook)
     if ($hook != 'post.php' && $hook != 'post-new.php' && $hook != 'travelers-map_page_cttm_travelersmap_shortcode' && $hook != 'toplevel_page_cttm_travelersmap') {
         return;
     }
-    wp_register_script('leaflet', plugins_url('js/leaflet.js', __FILE__));
-    wp_register_script('leaflet_search', plugins_url('js/leaflet-search.js', __FILE__));
+    wp_register_script('leaflet', plugins_url('js/leaflet/leaflet.js', __FILE__));
+    wp_register_script('leaflet_search', plugins_url('js/leaflet/leaflet-search.js', __FILE__));
     wp_enqueue_media();
     if ($hook != 'toplevel_page_cttm_travelersmap') {
         wp_register_script('travelersmap_admin', plugins_url('js/travelersmap.admin.js', __FILE__), array('jquery'), false, true);
