@@ -93,3 +93,16 @@ function cttm_thumbnail_column_setup($columns)
 }
 // replace posts with name of the post type to add the column on other post types   
 add_filter('manage_edit-cttm-marker_columns', 'cttm_thumbnail_column_setup');
+add_filter('script_loader_tag', 'cttm_add_type_attribute' , 10, 3);
+
+function cttm_add_type_attribute($tag, $handle, $src) {
+    // if not your script, do nothing and return original $tag
+    if ( 'travelersmap' !== $handle ) {
+        return $tag;
+    }
+    // change the script tag by adding type="module" and return it.
+    $tag = '<script type="module" content-type="application/javascript" src="' . esc_url( $src ) . '"></script>';
+    return $tag;
+}
+
+
