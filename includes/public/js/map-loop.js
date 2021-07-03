@@ -1,59 +1,49 @@
 import { cttmGeneratePopoverHTMLOutput } from "./generate-popover-html-output.js";
 import { cttmPopulatePopoversHTMLOutput } from "./populate-popovers-html-output.js";
+import { getGlobalOptions } from "./global-options.js";
 
-export function cttmMapLoop(cttm_shortcode_vars) {
-    //Get plugin options from the database, set in the setting page.
-    let json_cttm_options = cttm_options_params.cttm_options;
-
+export function cttmMapLoop(doc, shortcode) {
     //If no markers are loaded, return without initiating leaflet
-    if (cttm_shortcode_vars.cttm_metas == '0') {
+    if (shortcode.metas == '0') {
         return;
     }
-    //Get shortcode options
-    let json_cttm_shortcode = cttm_shortcode_vars.cttm_shortcode_options;
 
-    //Clean json string to be usable
-    json_cttm_options = json_cttm_options.replace(/&quot;/g, '\\"');
-    json_cttm_shortcode = json_cttm_shortcode.replace(/&quot;/g, '\\"');
-
-    //Get arrays of all the options and shortcode options
-    let cttm_options = JSON.parse(json_cttm_options);
-    var cttm_shortcode_options = JSON.parse(json_cttm_shortcode);
+    const global_options = getGlobalOptions(doc.defaultView);
 
     /**
      * Create leaflet map options object. This object is then passed as argument when the map initialized.
      */
-    let cttm_map_options = new Object();
+    let map_options = new Object();
 
     //Add max bounds on north and south of the map
-    cttm_map_options.maxBounds = [
+    map_options.maxBounds = [
         [-90, -Infinity],
         [90, Infinity],
     ];
 
     // If one-finger touch event is disabled on mobile
-    if (cttm_options['onefinger']) {
-        cttm_map_options.dragging = !L.Browser.mobile;
-        cttm_map_options.tap = !L.Browser.mobile;
+    if (global_options['onefinger']) {
+        map_options.dragging = !L.Browser.mobile;
+        map_options.tap = !L.Browser.mobile;
     }
     //Set maxzoom if defined
-    if (cttm_shortcode_options.maxzoom != '') {
-        cttm_map_options.maxZoom = cttm_shortcode_options.maxzoom;
+    if (shortcode.options.maxzoom != '') {
+        map_options.maxZoom = shortcode.options.maxzoom;
     }
     //Set minzoom if defined
-    if (cttm_shortcode_options.minzoom != '') {
-        cttm_map_options.minZoom = cttm_shortcode_options.minzoom;
+    if (shortcode.options.minzoom != '') {
+        map_options.minZoom = shortcode.options.minzoom;
     }
     //Set init_maxzoom if defined. Convert to integer to avoid error.
-    if (cttm_shortcode_options.init_maxzoom) {
-        var init_maxzoom = parseInt(cttm_shortcode_options.init_maxzoom);
+    if (shortcode.options.init_maxzoom) {
+        var init_maxzoom = parseInt(shortcode.options.init_maxzoom);
     } else {
         var init_maxzoom = 16;
     }
 
-    if (cttm_shortcode_options.max_cluster_radius) {
+    if (shortcode.options.max_cluster_radius) {
         var max_cluster_radius = parseInt(
-            cttm_shortcode_options.max_cluster_radius
+            shortcode.options.max_cluster_radius
         );
     } else {
         var max_cluster_radius = 45;
@@ -64,8 +54,8 @@ export function cttmMapLoop(cttm_shortcode_vars) {
      */
 
     //Get cttm_map container id
-    let containerid = cttm_shortcode_options.id;
-    let container = document.getElementById(
+    let containerid = shortcode.options.id;
+    let container = doc.getElementById(
         'travelersmap-container-' + containerid
     );
 
@@ -80,28 +70,32 @@ export function cttmMapLoop(cttm_shortcode_vars) {
 
     //Set Tiles Server URL + API key + Attribution
     //If a shortcode tile server is set, override global settings' tile server
-    let tileurl, subdomains, attribution;
-    if (cttm_shortcode_options.tileurl !== '') {
-        tileurl = cttm_shortcode_options.tileurl;
+    let tileurl;
+    if (shortcode.options.tileurl !== '') {
+        tileurl = shortcode.options.tileurl;
     } else {
-        tileurl = cttm_options['tileurl'];
+        tileurl = global_options['tileurl'];
     }
-    if (cttm_shortcode_options.subdomains !== '') {
-        subdomains = cttm_shortcode_options.subdomains;
+
+    let subdomains;
+    if (shortcode.options.subdomains !== '') {
+        subdomains = shortcode.options.subdomains;
     } else {
-        subdomains = cttm_options['subdomains'];
+        subdomains = global_options['subdomains'];
     }
-    if (cttm_shortcode_options.attribution !== '') {
-        attribution = cttm_shortcode_options.attribution;
+
+    let attribution;
+    if (shortcode.options.attribution !== '') {
+        attribution = shortcode.options.attribution;
     } else {
-        attribution = cttm_options['attribution'];
+        attribution = global_options['attribution'];
     }
 
     //Index of map objects in array
     let mapindex = 0;
 
     //Push current map object to array
-    cttm_map.push(L.map(container, cttm_map_options));
+    cttm_map.push(L.map(container, map_options));
     //Get Tiles server URL + API key + Attribution
     L.tileLayer(tileurl, {
         subdomains: subdomains,
@@ -130,7 +124,7 @@ export function cttmMapLoop(cttm_shortcode_vars) {
     //Create a markerClusterGroup if Clustering is activated (default),
     //else, create a FeatureGroup instead (we need "getBounds()" method for initial zoom, that's why we don't use a LayerGroup.)
     let markersGroup;
-    if (cttm_shortcode_options.disable_clustering === 'true') {
+    if (shortcode.options.disable_clustering === 'true') {
         markersGroup = L.featureGroup();
     } else {
         //default
@@ -149,30 +143,22 @@ export function cttmMapLoop(cttm_shortcode_vars) {
 
     // Generate Popover HTML Output and assign them to variables
     let [popoverOutput, popoverOptions] = cttmGeneratePopoverHTMLOutput(
-        cttm_shortcode_options,
-        cttm_options
+        shortcode.options,
+        global_options
     );
 
     //Get markers metas and linked posts datas from shortcode
-    let json_cttm_metas = cttm_shortcode_vars.cttm_metas;
-
     //If posts with markers exist
-    if (json_cttm_metas != 0) {
-        //Clean json string to be usable
-        json_cttm_metas = json_cttm_metas.replace(/&quot;/g, '\\"');
-
+    if (shortcode.metas != 0) {
         //Get an array of objects containing markerdatas and postdatas
-        const cttm_metas = JSON.parse(json_cttm_metas);
 
-        //Loop through cttm_metas array, create all the markers and popovers.
-        for (let i = 0; i < cttm_metas.length; i++) {
+        //Loop through shortcode.metas array, create all the markers and popovers.
+        for (let i = 0; i < shortcode.metas.length; i++) {
             //If current markerdata is not falsy:
             //Prevent bug with multilingual plugins, where metadatas are synced but not taxonomy:
             //If one remove a marker from a post, the other languages of this post will still appear in the query...
-            if (cttm_metas[i].markerdatas) {
-                //Get markerdatas object
-                let markerdatas = JSON.parse(cttm_metas[i].markerdatas);
-
+            let markerdatas = shortcode.metas[i].markerdatas;
+            if (markerdatas) {
                 //Initialize all markers variables
                 let markerlatitude = markerdatas.latitude;
                 let markerlongitude = markerdatas.longitude;
@@ -181,7 +167,7 @@ export function cttmMapLoop(cttm_shortcode_vars) {
                 let markerheight = markerdatas.markerdata[2];
 
                 //Get linked postdatas object
-                let postdatas = Object.assign({}, cttm_metas[i].postdatas);
+                let postdatas = Object.assign({}, shortcode.metas[i].postdatas);
 
                 //Alter postdatas array in case we have custom data set
                 if (markerdatas.customtitle) {
@@ -215,13 +201,13 @@ export function cttmMapLoop(cttm_shortcode_vars) {
                 let postPopoverOutput = cttmPopulatePopoversHTMLOutput(
                     postdatas,
                     popoverOutput,
-                    cttm_options
+                    global_options
                 );
 
                 //If "this_post" option is set
                 //Add the marker in our cluster group layer without popover
                 //Else add it with its popover
-                if (cttm_shortcode_options.this_post == 'true') {
+                if (shortcode.options.this_post == 'true') {
                     markersGroup.addLayer(marker);
                 } else {
                     markersGroup.addLayer(
@@ -232,7 +218,7 @@ export function cttmMapLoop(cttm_shortcode_vars) {
                 //Second loop for multiplemarkers
                 if (markerdatas.multiplemarkers) {
                     for (let index = 1; index < markerdatas.multiplemarkers; index++) {
-                        let postdatas = Object.assign({}, cttm_metas[i].postdatas);
+                        let postdatas = Object.assign({}, shortcode.metas[i].postdatas);
                         //Get markerdatas object
                         let markerdatasMultiple =
                             markerdatas['additional_marker_' + index];
@@ -276,13 +262,13 @@ export function cttmMapLoop(cttm_shortcode_vars) {
                         let postPopoverOutput = cttmPopulatePopoversHTMLOutput(
                             postdatas,
                             popoverOutput,
-                            cttm_options
+                            global_options
                         );
 
                         //If "this_post" option is set
                         //Add the marker in our cluster group layer without popover
                         //Else add it with its popover
-                        if (cttm_shortcode_options.this_post == 'true') {
+                        if (shortcode.options.this_post == 'true') {
                             markersGroup.addLayer(marker);
                         } else {
                             markersGroup.addLayer(
@@ -292,10 +278,10 @@ export function cttmMapLoop(cttm_shortcode_vars) {
                     }
                 }
             } //END if(markerdatas)
-        } //END For Loop through cttm_metas
+        } //END For Loop through shortcode.metas
 
         //add Leaflet.search to the map when option is checked
-        if (cttm_options['search_field'] == 1) {
+        if (global_options['search_field'] == 1) {
             cttm_map[mapindex].addControl(
                 new L.Control.Search({
                     url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
@@ -313,7 +299,7 @@ export function cttmMapLoop(cttm_shortcode_vars) {
             );
 
             //On focus, enable zoom with mousewheel on map.
-            document.querySelector('#searchtext9').addEventListener(
+            doc.querySelector('#searchtext9').addEventListener(
                 'focus',
                 function () {
                     cttm_map[mapindex].scrollWheelZoom.enable();
@@ -323,7 +309,7 @@ export function cttmMapLoop(cttm_shortcode_vars) {
         }
 
         //add Leaflet.fullscreen to the map when option is checked
-        if (cttm_options['fullscreen_button'] == 1) {
+        if (global_options['fullscreen_button'] == 1) {
             cttm_map[mapindex].addControl(
                 new L.Control.Fullscreen({
                     position: 'topright',
@@ -336,9 +322,9 @@ export function cttmMapLoop(cttm_shortcode_vars) {
 
         //Set the initial view
         //If centered_on_this is set, set view on this post
-        if (cttm_shortcode_options.centered_on_this == 'true') {
+        if (shortcode.options.centered_on_this == 'true') {
             //get the marker latitude and longitude, the first of our query.
-            let centered_on_marker = JSON.parse(cttm_metas[0].markerdatas);
+            let centered_on_marker = shortcode.metas[0].markerdatas;
             let centerlatitude = centered_on_marker.latitude;
             let centerlongitude = centered_on_marker.longitude;
 
@@ -353,9 +339,9 @@ export function cttmMapLoop(cttm_shortcode_vars) {
                 maxZoom: init_maxzoom,
             });
         }
-    } //END if (!json_cttm_metas)
+    } //END if (!json_shortcode.metas)
 
-    //Recalculate map size after 100ms to avoid problems with page builders changing element size on document load.
+    //Recalculate map size after 100ms to avoid problems with page builders changing element size on doc load.
     //Avoid problem with tiles not loading inside the whole container.
     const mapindexcopy = mapindex;
     setTimeout(() => {
