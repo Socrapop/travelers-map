@@ -179,6 +179,13 @@ export function cttmMapLoop(doc, shortcode) {
                 if (markerdatas.customthumbnail) {
                     postdatas.thumb = markerdatas.customthumbnail;
                 }
+                if (markerdatas.customanchor) {
+                    if(markerdatas.customanchor.charAt(0) == "#"){
+                        postdatas.url += markerdatas.customanchor;
+                    }else{
+                        postdatas.url += "#" + markerdatas.customanchor;
+                    }
+                }
                 // Create a leaflet icon object and add it to the map, if not set, use default
                 //"d" is returned when no icon is set
                 if (markerURL != 'd') {
@@ -222,7 +229,6 @@ export function cttmMapLoop(doc, shortcode) {
                         //Get markerdatas object
                         let markerdatasMultiple =
                             markerdatas['additional_marker_' + index];
-
                         //Initialize all markers variables
                         let markerlatitude = markerdatasMultiple.latitude;
                         let markerlongitude = markerdatasMultiple.longitude;
@@ -239,6 +245,14 @@ export function cttmMapLoop(doc, shortcode) {
                         }
                         if (markerdatasMultiple.customthumbnail) {
                             postdatas.thumb = markerdatasMultiple.customthumbnail;
+                        }
+                        if (markerdatasMultiple.customanchor) {
+                            if(markerdatasMultiple.customanchor.charAt(0) == "#"){
+                                postdatas.url += markerdatasMultiple.customanchor;
+                            }else{
+                                postdatas.url += "#" + markerdatasMultiple.customanchor;
+                            }
+                            
                         }
                         // Create a leaflet icon object and add it to the map, if not set, use default
                         //"d" is returned when no icon is set
