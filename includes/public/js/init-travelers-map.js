@@ -225,6 +225,14 @@ export function initTravelersMap() {
                     if (markerdatas.customthumbnail) {
                         postdatas.thumb = markerdatas.customthumbnail;
                     }
+                    if (markerdatas.customanchor) {
+                        if (markerdatas.customanchor.charAt(0) == "#") {
+                            postdatas.url += markerdatas.customanchor;
+                        } else {
+                            postdatas.url += "#" + markerdatas.customanchor;
+                        }
+                    }
+
                     // Create a leaflet icon object and add it to the map, if not set, use default
                     //"d" is returned when no icon is set
                     if (markerURL != 'd') {
@@ -285,6 +293,14 @@ export function initTravelersMap() {
                             }
                             if (markerdatasMultiple.customthumbnail) {
                                 postdatas.thumb = markerdatasMultiple.customthumbnail;
+                            }
+                            if (markerdatasMultiple.customanchor) {
+                                if (markerdatasMultiple.customanchor.charAt(0) == "#") {
+                                    postdatas.url += markerdatasMultiple.customanchor;
+                                } else {
+                                    postdatas.url += "#" + markerdatasMultiple.customanchor;
+                                }
+
                             }
                             // Create a leaflet icon object and add it to the map, if not set, use default
                             //"d" is returned when no icon is set
