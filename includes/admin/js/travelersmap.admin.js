@@ -75,19 +75,25 @@ document.addEventListener('DOMContentLoaded', function (event) {
     addAnotherMarkerButton.onclick = function (e) {
       const lastContainer = markerContainers[numberOfMarkers - 1];
       const newId = numberOfMarkers;
-      const containerToClone = document.querySelector("#form-copy-multimarker .col-markers-container");
+      const containerToClone = document.querySelector(
+        '#form-copy-multimarker .col-markers-container'
+      );
       let clonedContainerHTML = containerToClone.innerHTML;
-      clonedContainerHTML = clonedContainerHTML.replace(/ReplaceWithID/g,newId);
-      clonedContainerHTML = clonedContainerHTML.replace(/RemoveWhenCopied/g,"");
-      const newContainer = document.createElement("div");
+      clonedContainerHTML = clonedContainerHTML.replace(
+        /ReplaceWithID/g,
+        newId
+      );
+      clonedContainerHTML = clonedContainerHTML.replace(
+        /RemoveWhenCopied/g,
+        ''
+      );
+      const newContainer = document.createElement('div');
       newContainer.className = 'col-markers-container';
       newContainer.dataset.markerNumber = newId;
       newContainer.innerHTML = clonedContainerHTML;
-      lastContainer.insertAdjacentElement("afterend",newContainer);
+      lastContainer.insertAdjacentElement('afterend', newContainer);
       //Update all data attributes and values
-      const newRadios = newContainer.querySelectorAll(
-        '.cttm-markers input'
-      );
+      const newRadios = newContainer.querySelectorAll('.cttm-markers input');
 
       // Get selected marker radio element
       // create myIcon object for leaflet
@@ -138,20 +144,45 @@ document.addEventListener('DOMContentLoaded', function (event) {
       refreshSelectedMarker(newId);
 
       updateNumberOfMarkers();
-     
+
       const popoverCustomizerOpeners = newContainer.querySelector(
         '.customize-popover-title'
       );
       popoverCustomizerOpeners.onclick = (e) => {
-          //récupère le bloc à afficher
-          let customizerContainer = e.target.parentElement;
-          //Toggle class .is-open
-          if (customizerContainer.classList.contains('is-open')) {
-            customizerContainer.classList.remove('is-open');
-          } else {
-            customizerContainer.classList.add('is-open');
-          }
-        };
+        //récupère le bloc à afficher
+        let customizerContainer = e.target.parentElement;
+        //Toggle class .is-open
+        if (customizerContainer.classList.contains('is-open')) {
+          customizerContainer.classList.remove('is-open');
+        } else {
+          customizerContainer.classList.add('is-open');
+        }
+      };
+      const deletebtn = newContainer.querySelector('.cttm-delete-marker');
+      deletebtn.addEventListener('click', function (e) {
+        let buttonID = e.target.id.charAt(e.target.id.length - 1);
+        const LatInput = document.querySelector(
+          'input#cttm-latfield-' + buttonID
+        );
+        const LongInput = document.querySelector(
+          'input#cttm-longitude-' + buttonID
+        );
+        LatInput.value = '';
+        LongInput.value = '';
+        if (cttm_map.hasLayer(markersList[buttonID])) {
+          cttm_map.removeLayer(markersList[buttonID]);
+          markersList[buttonID].wasDeleted = true;
+        }
+
+        if (parseInt(buttonID) !== 0) {
+          const container = e.target.parentElement;
+          container.classList.add('is-deleted');
+          setTimeout(() => {
+            refreshSelectedMarker(0);
+          }, 1);
+        }
+        updateNumberOfMarkers();
+      });
     };
 
     //LOOP through each markers at load time
@@ -176,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
       });
 
       iconsList.push(myIcon);
-      
+
       // Get all markers inputs of current index marker
       let radios = document.querySelectorAll(
         "input[name='marker[" + index + "]']"
@@ -196,13 +227,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
               iconUrl: iconurl,
               iconAnchor: iconAnchor,
             });
-            
+            iconsList[index] = myIcon;
             //if marker is already displayed on the map, change marker icon
             if (markersList[index]) {
               markersList[index].setIcon(myIcon);
               refreshSelectedMarker(index);
             }
-            
           }
         };
       });
@@ -241,7 +271,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
         refreshSelectedMarker(parseInt(this.dataset.markerNumber));
       });
     });
-
+    //Change view to fit all markers on init if multiple markers
+    if (markersList.length > 0) {
+      const markersBounds = new L.featureGroup(markersList).getBounds();
+      cttm_map.fitBounds(markersBounds, { padding: [60, 60] });
+    }
     //InvalidateSize after 100ms for map resize issue in gutenberg
     setTimeout(function () {
       cttm_map.invalidateSize();
@@ -268,16 +302,18 @@ document.addEventListener('DOMContentLoaded', function (event) {
         }
       });
       if (hasChangedSelectedMarker == false) {
-        // If a marker already exist
-        if (markersList[currentSelectedMarkerID]) {
-          //
+        // If a marker already exist or was deleted
+        if (
+          markersList[currentSelectedMarkerID] &&
+          !markersList[currentSelectedMarkerID].wasDeleted
+        ) {
           //add transition style only on click, we don't want the transition if the user drag&drop the marker.
           markersList[currentSelectedMarkerID]._icon.style.transition =
             'transform 0.3s ease-out';
 
           // set new latitude and longitude
           markersList[currentSelectedMarkerID].setLatLng(e.latlng);
-        
+
           //remove transform style after the transition timeout
           setTimeout(function () {
             markersList[currentSelectedMarkerID]._icon.style.transition = null;
@@ -295,7 +331,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
         }
         // If no marker exist, create one and add it the map
         else {
-         
           markersList[currentSelectedMarkerID] = L.marker(e.latlng, {
             draggable: true,
             icon: iconsList[currentSelectedMarkerID],
@@ -471,6 +506,15 @@ document.addEventListener('DOMContentLoaded', function (event) {
         LongInput.value = '';
         if (cttm_map.hasLayer(markersList[buttonID])) {
           cttm_map.removeLayer(markersList[buttonID]);
+          markersList[buttonID].wasDeleted = true;
+        }
+        if (parseInt(buttonID) !== 0) {
+          const container = e.target.parentElement;
+          container.classList.add('is-deleted');
+          setTimeout(() => {
+            refreshSelectedMarker(0);
+          }, 1);
+          updateNumberOfMarkers();
         }
       });
     });
@@ -556,11 +600,25 @@ document.addEventListener('DOMContentLoaded', function (event) {
       }); //Custom media upload
     }
     function updateNumberOfMarkers() {
+      // Update numberOfMarkers variable
       markerContainers = document.querySelectorAll(
         '.row-markers-edit .col-markers-container[data-marker-number]'
       );
       numberOfMarkers = markerContainers.length;
-      
+
+      // Enable delete button on first marker if it's the only marker.
+
+      const visibleMarkerContainers = document.querySelectorAll(
+        '.row-markers-edit .col-markers-container[data-marker-number]:not(.is-deleted)'
+      );
+      const firstDeleteButton = document.querySelector(
+        '#btn-delete-current-marker-0'
+      );
+      if (visibleMarkerContainers.length == 1) {
+        firstDeleteButton.disabled = false;
+      } else {
+        firstDeleteButton.disabled = true;
+      }
     }
 
     function refreshSelectedMarker(ID) {
@@ -578,12 +636,15 @@ document.addEventListener('DOMContentLoaded', function (event) {
       );
       if (markersList.length > 1) {
         markersList.forEach((marker, index) => {
-          if (index == ID) {
-            marker._icon.classList.remove('inactive');
-            marker._icon.classList.add('active');
-          } else {
-            marker._icon.classList.add('inactive');
-            marker._icon.classList.remove('active');
+          if (marker._icon != null) {
+            if (index == ID) {
+              marker._icon.classList.remove('inactive');
+              marker._icon.classList.add('active');
+              cttm_map.flyTo(marker.getLatLng());
+            } else {
+              marker._icon.classList.add('inactive');
+              marker._icon.classList.remove('active');
+            }
           }
         });
       }
@@ -921,7 +982,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     document
       .getElementById('current_query_markers')
       .addEventListener('change', function (e) {
-        
         //If checked, set output
         if (this.checked) {
           current_query_markers = ' current_query_markers=true';

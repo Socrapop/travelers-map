@@ -170,7 +170,14 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
     $isContainerToCopy = $marker_number === "ReplaceWithID" ? true : false;
 ?>
     <div class="col-markers-container" data-marker-number="<?php echo $marker_number; ?>">
-        <h3><strong><?php _e('Edit marker information', 'travelers-map'); ?></strong></h3>
+        <?php if ($isContainerToCopy && $marker_number != "0") {
+        ?>
+            <h3><strong><?php _e('Edit marker', 'travelers-map'); ?></strong></h3>
+        <?php } else {
+        ?>
+            <h3><strong><?php _e('Edit main marker', 'travelers-map'); ?></strong></h3>
+        <?php }
+        ?>
         <p>
             <strong><?php _e('Choose marker image:', 'travelers-map'); ?></strong>
 
@@ -202,8 +209,7 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
                 }
                 echo '<img src="' . get_the_post_thumbnail_url($marker_post) . '"></label>';
             }
-            ?>
-            <label>
+            ?><label>
                 <?php
                 // If no marker was selected already, check default marker by default
                 if ($markerchecked == false) {
@@ -286,9 +292,9 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
                                                                                                                                                                             } else {
                                                                                                                                                                                 echo 'customanchor[]';
                                                                                                                                                                             } ?>" type="text" value="<?php if (isset($customanchor)) {
-                                                                                            echo $customanchor;
-                                                                                        }
-                                                                                        ?>">
+                                                                                                                                                                                                            echo $customanchor;
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                        ?>">
                         <p class="anchor-before">#</p>
                     </div>
                 </div>
@@ -354,7 +360,9 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 
 
         </div>
+
         <button id="<?php echo ('btn-delete-current-marker-' . $marker_number); ?>" type="button" class="components-button is-button is-destructive cttm-delete-marker" title="<?php _e('Delete this marker', 'travelers-map'); ?>"><?php _e('Delete', 'travelers-map'); ?></button>
+
     </div>
 <?php } // cttm_generate_marker_form_HTML()
 
@@ -406,7 +414,9 @@ function cttm_meta_save($post_id)
     }
     if ($number_of_markers > 1) {
         $markers_data_array = cttm_get_sanitized_markerdata_array($post_id, 0, $number_of_markers);
-
+        if (!$markers_data_array) {
+            return;
+        }
 
         $number_of_validated_markers = $number_of_markers;
 
@@ -446,9 +456,9 @@ function cttm_get_sanitized_markerdata_array($post_id, $index, $number_of_marker
 
     $customtitle = sanitize_text_field($_POST['customtitle'][$index]);
     $customexcerpt = cttm_purify_html($_POST['customexcerpt'][$index]);
-    $customanchorfirstword = explode(" ",$_POST['customanchor'][$index])[0];
+    $customanchorfirstword = explode(" ", $_POST['customanchor'][$index])[0];
     //Remove http:// automatically added by esc_url_raw()
-    $customanchor = str_replace(["http://", "https://"], "", esc_url_raw($customanchorfirstword)); 
+    $customanchor = str_replace(["http://", "https://"], "", esc_url_raw($customanchorfirstword));
     $customthumbnail = cttm_sanitize_thumbnail_id($_POST['customthumbnail'][$index]);
     $latitude = cttm_float_to_string($_POST['latitude'][$index]);
     $longitude = cttm_float_to_string($_POST['longitude'][$index]);

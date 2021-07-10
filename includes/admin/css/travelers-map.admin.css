@@ -4118,12 +4118,11 @@ html {
 }
 .cttm-markers img {
   border: transparent 2px solid;
-  padding: 9px;
+  padding: 2px;
   opacity: 0.8;
 }
 .cttm-markers img:hover {
   border: #a7a7a7 2px solid;
-  padding: 9px;
   opacity: 1;
 }
 .cttm-markers input:checked + img {
@@ -4160,6 +4159,9 @@ html {
 .col-markers-container.active {
   border: 3px solid #006ba1;
  
+}
+.col-markers-container.is-deleted{
+  display: none;
 }
 .cttm-delete-marker {
   position: absolute;
