@@ -154,7 +154,7 @@ function cttm_popup_section_html()
 };
 function cttm_multimarkers_section_html()
 {
-    echo '<p class="description">' . __('Multimarkers settings only apply to posts with with more than one marker linked to them.', 'travelers-map') . '<br></p>';
+    echo '<p class="description">' . __('Multimarkers settings only apply to posts with more than one marker linked to them.', 'travelers-map') . '<br></p>';
 };
 
 
