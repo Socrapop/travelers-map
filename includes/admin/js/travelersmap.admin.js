@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
       });
     });
     //Change view to fit all markers on init if multiple markers
-    if (markersList.length > 0) {
+    if (markersList.length > 1) {
       const markersBounds = new L.featureGroup(markersList).getBounds();
       cttm_map.fitBounds(markersBounds, { padding: [60, 60] });
     }
