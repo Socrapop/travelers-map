@@ -20,7 +20,8 @@ $cttm_default_options = array(
     'popup_css' => 0,
     'search_field' => 0,
     'fullscreen_button' => 0,
-    'onefinger' => 0
+    'onefinger' => 0,
+    'only_main_marker' => 0
 );
 
 $cttm_options = get_option('cttm_options', array());
