@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
       ],
     }).addTo(cttm_map);
 
+    observeGutenbergAccordion();
     /**
      * Set global variables
      */
@@ -653,6 +654,33 @@ document.addEventListener('DOMContentLoaded', function (event) {
       return document.querySelector(
         '.col-markers-container[data-marker-number="' + ID + '"]'
       );
+    }
+    /**
+     * Observe gutenberg accordion containing Travelers' map editing box.
+     * When opened, resize the map to avoid tiles and markers misplaced on the map.
+     */
+    function observeGutenbergAccordion() {
+      const mapContainer = document.getElementById('LatLngMarker');
+
+      const observer = new MutationObserver(function callback(mutationsList) {
+        for (let mutation of mutationsList) {
+          if (!mutation.target.classList.contains('closed') && cttm_map) {
+            cttm_map.invalidateSize();
+            if (markersList.length > 0) {
+              markersList.forEach((marker) => {
+                const markerHeight = marker._icon.height;
+                const markerWidth = marker._icon.width;
+                const iconAnchor = [parseInt(markerWidth / 2), markerHeight];
+                const markerIcon = marker.getIcon();
+                markerIcon.options.iconAnchor = iconAnchor;
+                
+              });
+            }
+          }
+        }
+      });
+
+      observer.observe(mapContainer, { attributes: true });
     }
   } //END IF document.getElementById("cttm-latfield")!=null
 
