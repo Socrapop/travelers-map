@@ -673,7 +673,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
                 const iconAnchor = [parseInt(markerWidth / 2), markerHeight];
                 const markerIcon = marker.getIcon();
                 markerIcon.options.iconAnchor = iconAnchor;
-                
+                marker.setIcon(markerIcon);
               });
             }
           }
