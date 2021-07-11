@@ -261,7 +261,7 @@ export function initTravelersMap() {
                     //If "this_post" option is set
                     //Add the marker in our cluster group layer without popover
                     //Else add it with its popover
-                    if (cttm_shortcode_options.this_post == 'true') {
+                    if (cttm_shortcode_options.this_post == 'true' && !markerdatas.multiplemarkers) {
                         markersGroup.addLayer(marker);
                     } else {
                         markersGroup.addLayer(
@@ -270,7 +270,11 @@ export function initTravelersMap() {
                     }
 
                     //Second loop for multiplemarkers
-                    if (markerdatas.multiplemarkers) {
+                    if (
+                        markerdatas.multiplemarkers &&
+                        (cttm_options['only_main_marker'] === 0 ||
+                            cttm_shortcode_options.this_post === 'true')
+                    ) {
                         for (let index = 1; index < markerdatas.multiplemarkers; index++) {
                             let postdatas = Object.assign({}, cttm_metas[i].postdatas);
                             //Get markerdatas object
@@ -330,7 +334,7 @@ export function initTravelersMap() {
                             //If "this_post" option is set
                             //Add the marker in our cluster group layer without popover
                             //Else add it with its popover
-                            if (cttm_shortcode_options.this_post == 'true') {
+                            if (cttm_shortcode_options.this_post == 'true' && !markerdatas.multiplemarkers) {
                                 markersGroup.addLayer(marker);
                             } else {
                                 markersGroup.addLayer(

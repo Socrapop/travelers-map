@@ -135,6 +135,11 @@ function cttm_admin_init()
 
     add_settings_field('popup_style', __('Popovers\' content', 'travelers-map'), 'cttm_popupstyle_html', 'cttm_travelersmap', 'popup-config');
     add_settings_field('popup_css', __('Disable popovers CSS', 'travelers-map'), 'cttm_popupcss_html', 'cttm_travelersmap', 'popup-config');
+
+    //add multimarkers settings section
+    add_settings_section('multimarkers-config', __('Multimarkers settings', 'travelers-map'), 'cttm_multimarkers_section_html', 'cttm_travelersmap');
+
+    add_settings_field('show_only_main_markers', __('Show only the main marker of each post on the map', 'travelers-map'), 'cttm_show_only_main_markers_html', 'cttm_travelersmap', 'multimarkers-config');
 }
 
 //Unused section header functions (mandatory)
@@ -147,6 +152,11 @@ function cttm_map_section_html()
 function cttm_popup_section_html()
 {
 };
+function cttm_multimarkers_section_html()
+{
+    echo '<p class="description">' . __('Multimarkers settings only apply to posts with with more than one marker linked to them.', 'travelers-map') . '<br></p>';
+};
+
 
 function cttm_posttypes_html()
 {
@@ -167,6 +177,7 @@ function cttm_posttypes_html()
     }
 
     echo '<p class="description">' . __('By default, Travelers\' Map is activated on posts only. You can also activate the plugin on pages and custom post types.', 'travelers-map') . '<br></p>';
+    echo '<hr style="margin:30px 0">';
 }
 
 function cttm_tileurl_html()
@@ -237,6 +248,7 @@ function cttm_onefinger_html()
     $onefinger = $options["onefinger"];
 
     echo '<label><input type="checkbox" name="cttm_options[onefinger]" value="1" ' . checked($onefinger, 1, false) . '> ' . __('Check this box to disable one-finger events on touch devices. ', 'travelers-map') . '</label> <br><span class="description" style="margin-top:5px; display:block">' . __('User needs to use two fingers to move or zoom the map. ', 'travelers-map') . '</span>';
+    echo '<hr style="margin:30px 0">';
 }
 
 function cttm_popupstyle_html()
@@ -266,8 +278,16 @@ function cttm_popupcss_html()
     $popup_css = $options["popup_css"];
 
     echo '<label><input type="checkbox" name="cttm_options[popup_css]" value="1" ' . checked($popup_css, 1, false) . '> ' . __('Check this box to disable Travelers\' Map popovers CSS. ', 'travelers-map') . '</label> <br><span class="description" style="margin-top:5px; display:block">' . __('Leaflet default CSS is still loaded. Please note that only the content chosen above is loaded. ', 'travelers-map') . '</span>';
+    echo '<hr style="margin:30px 0">';
 }
 
+function cttm_show_only_main_markers_html(){
+    $options = get_option('cttm_options');
+
+    $only_main_marker = $options["only_main_marker"];
+
+    echo '<label><input type="checkbox" name="cttm_options[only_main_marker]" value="1" ' . checked($only_main_marker, 1, false) . '> ' . __('Check this box to stop additionnal markers from showing on the map.', 'travelers-map') . '</label> <br><span class="description" style="margin-top:5px; display:block">' . __('The shortcode parameter <code>this_post=true</code> will still show additional markers', 'travelers-map') . '</span>';
+}
 function cttm_validate_option($input)
 {
 
@@ -334,6 +354,11 @@ function cttm_validate_option($input)
         } else {
             $input['onefinger'] = 0;
         }
+        if (isset($input['only_main_marker'])) {
+            $input['only_main_marker'] = intval($input['only_main_marker']);
+        } else {
+            $input['only_main_marker'] = 0;
+        }
 
         return $input;
     }
@@ -350,6 +375,7 @@ function cttm_validate_option($input)
             'search_field' => 0,
             'fullscreen_button' => 0,
             'onefinger' => 0,
+            'only_main_marker' => 0
         );
         $input['posttypes'] = $cttm_options_default['posttypes'];
         $input['tileurl'] = sanitize_text_field($cttm_options_default['tileurl']);
@@ -357,6 +383,7 @@ function cttm_validate_option($input)
         $input['attribution'] = $purifier->purify($cttm_options_default['attribution']);
         $input['popup_style'] = $cttm_options_default['popup_style'];
         $input['onefinger'] = intval($cttm_options_default['onefinger']);
+        $input['only_main_marker'] = intval($cttm_options_default['only_main_marker']);
         $input['popup_css'] = intval($cttm_options_default['popup_css']);
         $input['search_field'] = intval($cttm_options_default['search_field']);
         $input['fullscreen_button'] = intval($cttm_options_default['fullscreen_button']);
@@ -438,6 +465,8 @@ function cttm_validate_option($input)
         $input['search_field'] = $options['search_field'];
         $input['fullscreen_button'] = $options['fullscreen_button'];
         $input['onefinger'] = $options['onefinger'];
+        $input['only_main_marker'] = $options['only_main_marker'];
+        
         return $input;
     }
     //If Polylang sync is clicked
@@ -502,6 +531,7 @@ function cttm_validate_option($input)
         $input['search_field'] = $options['search_field'];
         $input['fullscreen_button'] = $options['fullscreen_button'];
         $input['onefinger'] = $options['onefinger'];
+        $input['only_main_marker'] = $options['only_main_marker'];
         return $input;
     }
     //If WPML sync is clicked
@@ -583,6 +613,7 @@ function cttm_validate_option($input)
         $input['search_field'] = $options['search_field'];
         $input['fullscreen_button'] = $options['fullscreen_button'];
         $input['onefinger'] = $options['onefinger'];
+        $input['only_main_marker'] = $options['only_main_marker'];
         return $input;
     }
 }
