@@ -12,9 +12,9 @@ function cttm_styles_admin($hook)
         return;
     }
 
-    wp_register_style('leaflet_css', plugins_url('css/leaflet.css', __FILE__));
-    wp_register_style('leaflet_search_css', plugins_url('css/leaflet-search.css', __FILE__));
-    wp_register_style('travelers_map_admin_css', plugins_url('css/travelers-map.admin.css', __FILE__));
+    wp_register_style('leaflet_css', plugins_url('css/leaflet.css', __FILE__),array(), TRAVELERSMAP_VERSION);
+    wp_register_style('leaflet_search_css', plugins_url('css/leaflet-search.css', __FILE__),array(), TRAVELERSMAP_VERSION);
+    wp_register_style('travelers_map_admin_css', plugins_url('css/travelers-map.admin.css', __FILE__),array(), TRAVELERSMAP_VERSION);
 
     wp_enqueue_style('leaflet_css');
     wp_enqueue_style('leaflet_search_css');
@@ -30,20 +30,20 @@ add_action('admin_enqueue_scripts', 'cttm_scripts_admin', 10);
 function cttm_scripts_admin($hook)
 {
 
-    wp_register_script('travelersmap_admin_notice', plugins_url('js/travelersmap-admin-notice.js', __FILE__), array('jquery'), false, true);
+    wp_register_script('travelersmap_admin_notice', plugins_url('js/travelersmap-admin-notice.js', __FILE__), array('jquery'), TRAVELERSMAP_VERSION, true);
     wp_enqueue_script('travelersmap_admin_notice');
 
     if ($hook != 'post.php' && $hook != 'post-new.php' && $hook != 'travelers-map_page_cttm_travelersmap_shortcode' && $hook != 'toplevel_page_cttm_travelersmap') {
         return;
     }
-    wp_register_script('leaflet', plugins_url('js/leaflet/leaflet.js', __FILE__));
-    wp_register_script('leaflet_search', plugins_url('js/leaflet/leaflet-search.js', __FILE__));
+    wp_register_script('leaflet', plugins_url('js/leaflet/leaflet.js', __FILE__), array(), TRAVELERSMAP_VERSION);
+    wp_register_script('leaflet_search', plugins_url('js/leaflet/leaflet-search.js', __FILE__), array('leaflet'),TRAVELERSMAP_VERSION);
     wp_enqueue_media();
     if ($hook != 'toplevel_page_cttm_travelersmap') {
-        wp_register_script('travelersmap_admin', plugins_url('js/travelersmap.admin.js', __FILE__), array('jquery'), false, true);
+        wp_register_script('travelersmap_admin', plugins_url('js/travelersmap.admin.js', __FILE__), array('jquery'), TRAVELERSMAP_VERSION, true);
     }
     //register travelersmap_admin.js in footer so wp_localize_script() works.
-    wp_register_script('travelersmap_admin', plugins_url('js/travelersmap.admin.js', __FILE__), array(), false, true);
+    wp_register_script('travelersmap_admin', plugins_url('js/travelersmap.admin.js', __FILE__), array(), TRAVELERSMAP_VERSION, true);
 
     wp_enqueue_script('leaflet');
     wp_enqueue_script('leaflet_search');
