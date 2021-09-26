@@ -5,10 +5,10 @@ Tags: geolocalize, openstreetmap, leaftlet, map, pin, travelers, markers, travel
 Requires at least: 4.6
 Tested up to: 5.8.1
 Requires PHP: 5.2.4
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 2.0.0
+Version 2.0.1
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -76,6 +76,7 @@ UX improvements:
 Fixes:
 * Added a version number to CSS and JS files to avoid browser caching issues after updates.
 * Fixed leaflet map not proprely displayed when loaded in a closed Gutenberg tab.
+* 2.0.1 : Fixed multiple markers backoffice map loaded with a big zoom in the middle of nowhere.
 
 = 1.12.0 - 13/05/2021 = 
 UX improvement:

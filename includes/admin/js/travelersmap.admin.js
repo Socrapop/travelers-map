@@ -254,7 +254,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
           icon: myIcon,
         }).addTo(cttm_map);
         cttm_map.setView([currentLatInput.value, currentLongInput.value]);
-
         //If marker is drag&dropped, change the form latitude and longitude, keeping only 5 decimals
         newMarker.on('dragend', function (e) {
           refreshSelectedMarker(index);
@@ -666,6 +665,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         for (let mutation of mutationsList) {
           if (!mutation.target.classList.contains('closed') && cttm_map) {
             cttm_map.invalidateSize();
+            
             if (markersList.length > 0) {
               markersList.forEach((marker) => {
                 const markerHeight = marker._icon.height;
@@ -676,6 +676,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
                 marker.setIcon(markerIcon);
               });
             }
+            const markersBounds = new L.featureGroup(markersList).getBounds();
+            cttm_map.fitBounds(markersBounds, { padding: [60, 60] });
           }
         }
       });
