@@ -3,7 +3,7 @@ Contributors: socrapop
 Donate link: https://www.paypal.me/CamilleVerrier
 Tags: geolocalize, openstreetmap, leaftlet, map, pin, travelers, markers, travel blog
 Requires at least: 4.6
-Tested up to: 5.6
+Tested up to: 5.8.1
 Requires PHP: 5.2.4
 Stable tag: 2.0.0
 License: GPLv3 or later
