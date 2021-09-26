@@ -77,6 +77,17 @@ Fixes:
 * Added a version number to CSS and JS files to avoid browser caching issues after updates.
 * Fixed leaflet map not proprely displayed when loaded in a closed Gutenberg tab.
 
+= 1.12.0 - 13/05/2021 = 
+UX improvement:
+* Added a different error message on the map when no markers are loaded.
+* Search in admin panel now automatically add / move the marker in the result location.
+Bugfixes:
+* Fixed the date in popovers to match with the post date set in the administration. Users from UTC+10 were having a 10 hours lag on the popover's date.
+* Fixed an error in the settings page when using PHP 8
+Other: 
+* Updated HTMLPurifier library to latest build
+* Added norwegian translation, thanks to user espenmn on Github! Thank you :)
+
 = 1.11.4 - 20/12/2020 = 
 * Adressing an issue with some page builders: 
  When the container of the map is resized after page load, the tiles were not loading properly inside the new container size -> Added a script to recalculate the container size after 1 second.
