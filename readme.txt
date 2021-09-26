@@ -62,8 +62,20 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 
 == Changelog ==
 
-= 2.0.0 - 01/01/2021 = 
+= 2.0.0 - 26/09/2021 = 
+Major update:
+* Multiple markers on a single post is now possible. 
+* Added custom anchor to markers, so the markers popovers can link to an anchor on the post.
+* Added only_main_marker global setting to show or not the multiple markers on the maps. The shortcode parameter this_post=true will still show additional markers
+* Major code rewriting to enable mutliple markers.
+* Code refactoring with the help of @CCR-G on Github (still in progress, will continue in the next versions)
 
+UX improvements:
+* Improved initial zoom when loading a single marker
+
+Fixes:
+* Added a version number to CSS and JS files to avoid browser caching issues after updates.
+* Fixed leaflet map not proprely displayed when loaded in a closed Gutenberg tab.
 
 = 1.11.4 - 20/12/2020 = 
 * Adressing an issue with some page builders: 
