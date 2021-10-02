@@ -256,7 +256,7 @@ function cttm_shortcode($attr)
             $cttm_postdatas['url'] = get_permalink($cttm_post->ID);
             $cttm_postdatas['thetitle'] = in_array('title', $popup_styles) ? get_the_title($cttm_post->ID) : '';
             $cttm_postdatas['excerpt'] = in_array('excerpt', $popup_styles) ? get_the_excerpt($cttm_post->ID) : '';
-            $cttm_postdatas['date'] = in_array('date',$popup_styles) ? get_the_date('Y-m-d H:i:s', $cttm_post->ID) : 0;
+            $cttm_postdatas['date'] = in_array('date',$popup_styles) ? get_the_date('Y-m-d H:i:s', $cttm_post->ID) : '';
             $latlngmarkerarr = get_post_meta($cttm_post->ID, '_latlngmarker');
 
             // If a custom thumbnail ID is defined, get the thumbnail url and replace it in the array
