@@ -4,7 +4,8 @@
   "description": "=== Travelers' Map ===\r Contributors: socrapop\r Donate link: https://www.paypal.me/CamilleVerrier\r Tags: geolocalize, openstreetmap, leaftlet, map, pin, travelers, markers, travel blog\r Requires at least: 4.6\r Tested up to: 5.8.1\r Requires PHP: 5.2.4\r Stable tag: 2.0.1\r License: GPLv3 or later\r License URI: https://www.gnu.org/licenses/gpl-3.0.html\r Version 2.0.1",
   "main": "index.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",

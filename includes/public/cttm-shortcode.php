@@ -256,24 +256,28 @@ function cttm_shortcode($attr)
             $cttm_postdatas['url'] = get_permalink($cttm_post->ID);
             $cttm_postdatas['thetitle'] = in_array('title', $popup_styles) ? get_the_title($cttm_post->ID) : '';
             $cttm_postdatas['excerpt'] = in_array('excerpt', $popup_styles) ? get_the_excerpt($cttm_post->ID) : '';
-            $cttm_postdatas['date'] = in_array('date',$popup_styles) ? get_the_date('Y-m-d H:i:s', $cttm_post->ID) : '';
+            $cttm_postdatas['date'] = in_array('date', $popup_styles) ? get_the_date('Y-m-d H:i:s', $cttm_post->ID) : '';
             $latlngmarkerarr = get_post_meta($cttm_post->ID, '_latlngmarker');
 
             // If a custom thumbnail ID is defined, get the thumbnail url and replace it in the array
             $latlngmarkerarr_decoded = json_decode($latlngmarkerarr[0], true);
 
             if (isset($latlngmarkerarr_decoded['customthumbnail'])) {
-                $cttm_thumbnail_id = intval($latlngmarkerarr_decoded['customthumbnail']); // = int: 114
-                $your_img_src = wp_get_attachment_image_src($cttm_thumbnail_id, 'travelersmap-thumb'); //Return false? This is not working, I don't know why.
-                if ($your_img_src != false) {
-                    $latlngmarkerarr_decoded['customthumbnail'] = $your_img_src[0];
-                } else {
-                    $latlngmarkerarr_decoded['customthumbnail'] = "";
-                }
 
-                $latlngmarkerarr[0] = json_encode($latlngmarkerarr_decoded);
+                $cttm_thumbnail_id = intval($latlngmarkerarr_decoded['customthumbnail']);
+                $latlngmarkerarr_decoded['customthumbnail'] = get_custom_thumbnail_url_with_id($cttm_thumbnail_id);
+
+                //Do the same for multiple markers
+                if ($latlngmarkerarr_decoded['multiplemarkers'] !== false) {
+                    for ($index = 1; $index < $latlngmarkerarr_decoded['multiplemarkers']; $index++) {
+                        $current_additional_marker = "additional_marker_" . $index;
+                        $cttm_thumbnail_id = intval($latlngmarkerarr_decoded[$current_additional_marker]['customthumbnail']);
+                        $latlngmarkerarr_decoded[$current_additional_marker]['customthumbnail'] = get_custom_thumbnail_url_with_id($cttm_thumbnail_id);
+                    }
+                }
             }
 
+            $latlngmarkerarr[0] = json_encode($latlngmarkerarr_decoded);
             //Create the $cttm_metas array to store all the markers and posts informations. This will be send to our javascript file
             $cttm_metas[$i]['markerdatas'] = $latlngmarkerarr[0];
             $cttm_metas[$i]['postdatas'] = $cttm_postdatas;
@@ -286,6 +290,7 @@ function cttm_shortcode($attr)
         //End If have_posts()
         $cttm_metas = 0;
     }
+
     //json_encode the array to send it to our javascript
     //htmlspecialchars to avoid errors with &quot; 
     $cttm_metas = htmlspecialchars(json_encode($cttm_metas));
@@ -335,4 +340,15 @@ function cttm_shortcode($attr)
         $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; position:relative;"><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">No markers found for this Travelers\' map. <br> Please add some markers to your posts before using this shortcode.</div></div>';
     }
     return $cttm_output;
+}
+// Get travelers map custom thumbnail with the image ID
+// Return an empty string if no image is found
+function get_custom_thumbnail_url_with_id($id)
+{
+    $url = wp_get_attachment_image_src($id, 'travelersmap-thumb');
+    if ($url != false) {
+        return $url[0];
+    } else {
+        return "";
+    }
 }
