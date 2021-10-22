@@ -5,10 +5,10 @@ Tags: geolocalize, openstreetmap, leaftlet, map, pin, travelers, markers, travel
 Requires at least: 4.6
 Tested up to: 5.8.1
 Requires PHP: 5.2.4
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 2.0.3
+Version 2.0.4
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -61,6 +61,9 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
 
 == Changelog ==
+= 2.0.4 - 22/10/2021 = 
+* Fix multiple markers custom thumbnail not showing in popovers.
+
 = 2.0.3 - 03/10/2021 = 
 * Fix the map not showing when the date was not added to the popovers.
 
