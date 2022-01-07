@@ -106,6 +106,7 @@ function cttm_shortcode($attr)
             'relation' => 'AND',
             array(
                 'taxonomy' => 'cttm-markers-tax',
+                'field' => 'name',
                 'terms' => 'hasmarker',
             ),
         );
@@ -121,9 +122,11 @@ function cttm_shortcode($attr)
         }
     } else {
         //If filtering is not set, set tax_query to only get our private taxonomy cttm-markers-tax
+       
         $tax_query = array(
             array(
                 'taxonomy' => 'cttm-markers-tax',
+                'field' => 'name',
                 'terms' => 'hasmarker',
             ),
         );
@@ -165,6 +168,7 @@ function cttm_shortcode($attr)
             'tax_query' => array(
                 array(
                     'taxonomy' => 'cttm-markers-tax',
+                    'field' => 'name',
                     'terms' => 'hasmarker',
                 ),
             ),
@@ -180,6 +184,7 @@ function cttm_shortcode($attr)
                 'tax_query' => array(
                     array(
                         'taxonomy' => 'cttm-markers-tax',
+                        'field' => 'name',
                         'terms' => 'hasmarker',
                     ),
                 ),
@@ -232,7 +237,6 @@ function cttm_shortcode($attr)
         //If "Centered on this" is not set, query posts with our arguments
         $cttm_query = new WP_Query($cttm_options_args);
     }
-
     /**
      * Loop through our query, save all markers informations and send them to front-end
      */
