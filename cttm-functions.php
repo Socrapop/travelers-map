@@ -50,7 +50,7 @@ function cttm_markers_register_post_type()
 
     register_post_type('cttm-marker', $args);
 }
-
+add_theme_support( 'post-thumbnails', array( 'cttm-marker' ) );
 /**
  * Register a private taxonomy for posts, automatically added to posts with markers metadata. Used to avoid heavy metadata queries, thus speeding up the query when showing the map in front-end. "Private" means it's only available internally by the plugin, and doesn't generate a url on it's own.
  * 
