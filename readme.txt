@@ -5,10 +5,10 @@ Tags: geolocalize, openstreetmap, leaftlet, map, pin, travelers, markers, travel
 Requires at least: 4.6
 Tested up to: 5.8.1
 Requires PHP: 5.2.4
-Stable tag: 2.0.5
+Stable tag: 2.0.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 2.0.5
+Version 2.0.6
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -61,6 +61,10 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
 
 == Changelog ==
+
+= 2.0.6 - 16/01/2022 = 
+* Add featured image "theme support" for custom markers post type, as some themes are enabling this for posts/pages exclusively.
+
 = 2.0.5 - 07/01/2022 = 
 * WP 5.8.3 security update of 07/01/2022 (and older versions security update) made the map bug. 
 Markers are not loading anymore on the map.
