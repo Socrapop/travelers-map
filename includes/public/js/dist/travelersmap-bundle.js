@@ -1,5 +1,4 @@
-/******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
+/******/ "use strict";
 var __webpack_exports__ = {};
 
 ;// CONCATENATED MODULE: ./includes/public/js/generate-popover-html-output.js
@@ -569,5 +568,3 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-/******/ })()
-;
