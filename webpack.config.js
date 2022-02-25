@@ -5,6 +5,7 @@ module.exports = {
   output: {
     filename: 'travelersmap-bundle.js',
     path: path.resolve(__dirname, './includes/public/js/dist'),
+    iife: false,
   },
   optimization: {
     minimize: false,
