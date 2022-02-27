@@ -15,8 +15,6 @@ function cttm_scripts_frontend()
 
 	wp_register_script('leaflet', plugins_url('js/leaflet/leaflet.js', __FILE__), array(),TRAVELERSMAP_VERSION);
 	wp_register_script('leaflet_markercluster', plugins_url('js/leaflet/leaflet.markercluster.js', __FILE__), array('leaflet'),TRAVELERSMAP_VERSION);
-	//register travelersmap.js in footer so wp_localize_script() works when shortcode is used.
-	wp_register_script('travelersmap', plugins_url('js/dist/travelersmap-bundle.js', __FILE__), array(), TRAVELERSMAP_VERSION, true);
 	wp_register_script('leaflet_search', plugins_url('js/leaflet/leaflet-search.js', __FILE__), array('leaflet'),TRAVELERSMAP_VERSION);
 	wp_register_script('leaflet_fullscreen', plugins_url('js/leaflet/Leaflet.fullscreen.min.js', __FILE__, array('leaflet'),TRAVELERSMAP_VERSION));
 }
