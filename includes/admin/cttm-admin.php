@@ -12,9 +12,9 @@ function cttm_styles_admin($hook)
         return;
     }
 
-    wp_register_style('leaflet_css', plugins_url('css/leaflet.css', __FILE__),array(), TRAVELERSMAP_VERSION);
-    wp_register_style('leaflet_search_css', plugins_url('css/leaflet-search.css', __FILE__),array(), TRAVELERSMAP_VERSION);
-    wp_register_style('travelers_map_admin_css', plugins_url('css/travelers-map.admin.css', __FILE__),array(), TRAVELERSMAP_VERSION);
+    wp_register_style('leaflet_css', plugins_url('css/leaflet.css', __FILE__), array(), TRAVELERSMAP_VERSION);
+    wp_register_style('leaflet_search_css', plugins_url('css/leaflet-search.css', __FILE__), array(), TRAVELERSMAP_VERSION);
+    wp_register_style('travelers_map_admin_css', plugins_url('css/travelers-map.admin.css', __FILE__), array(), TRAVELERSMAP_VERSION);
 
     wp_enqueue_style('leaflet_css');
     wp_enqueue_style('leaflet_search_css');
@@ -37,7 +37,7 @@ function cttm_scripts_admin($hook)
         return;
     }
     wp_register_script('leaflet', plugins_url('js/leaflet/leaflet.js', __FILE__), array(), TRAVELERSMAP_VERSION);
-    wp_register_script('leaflet_search', plugins_url('js/leaflet/leaflet-search.js', __FILE__), array('leaflet'),TRAVELERSMAP_VERSION);
+    wp_register_script('leaflet_search', plugins_url('js/leaflet/leaflet-search.js', __FILE__), array('leaflet'), TRAVELERSMAP_VERSION);
     wp_enqueue_media();
     if ($hook != 'toplevel_page_cttm_travelersmap') {
         wp_register_script('travelersmap_admin', plugins_url('js/travelersmap.admin.js', __FILE__), array('jquery'), TRAVELERSMAP_VERSION, true);
@@ -98,6 +98,7 @@ function cttm_add_custom_metaboxes()
 function cttm_meta_callback($post)
 {
     wp_nonce_field(basename(__FILE__), 'cttm_nonce');
+    $marker_data_array = null;
     if (metadata_exists('post', $post->ID, '_latlngmarker')) {
         $cttm_stored_meta = get_post_meta($post->ID, '_latlngmarker', true);
         $marker_data_array = json_decode($cttm_stored_meta, true);
@@ -133,7 +134,7 @@ function cttm_meta_callback($post)
         cttm_generate_marker_form_HTML(0, $the_markers_query, $marker_data_array);
 
         // If multiple markers are set, loop through each and create a form
-        if ($marker_data_array['multiplemarkers'] !== false) {
+        if (isset($marker_data_array['multiplemarkers']) && $marker_data_array['multiplemarkers'] !== false) {
             for ($index = 1; $index < $marker_data_array['multiplemarkers']; $index++) {
                 $current_additional_marker = "additional_marker_" . $index;
                 cttm_generate_marker_form_HTML($index, $the_markers_query, $marker_data_array[$current_additional_marker]);
@@ -158,15 +159,15 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
 {
     //get all variables inside $marker_data_array :
     //$latitude, longitude, $markerdata, $customtitle, $customexcerpt, $customthumbnail
-    $latitude = $marker_data_array['latitude'];
-    $longitude = $marker_data_array['longitude'];
-    $markerdata = $marker_data_array['markerdata'];
-    $customtitle = $marker_data_array['customtitle'];
-    $customexcerpt = $marker_data_array['customexcerpt'];
-    $customthumbnail = $marker_data_array['customthumbnail'];
-    $customanchor = $marker_data_array['customanchor'];
+    $latitude = isset($marker_data_array['latitude']) ? $marker_data_array['latitude'] : null;
+    $longitude = isset($marker_data_array['longitude']) ? $marker_data_array['longitude'] : null;
+    $markerdata = isset($marker_data_array['markerdata']) ? $marker_data_array['markerdata'] : null;
+    $customtitle = isset($marker_data_array['customtitle']) ? $marker_data_array['customtitle'] : null;
+    $customexcerpt = isset($marker_data_array['customexcerpt']) ? $marker_data_array['customexcerpt'] : null;
+    $customthumbnail = isset($marker_data_array['customthumbnail']) ? $marker_data_array['customthumbnail'] : null;
+    $customanchor = isset($marker_data_array['customanchor']) ? $marker_data_array['customanchor'] : null;
 
-    $marker_url_cleaned = esc_url($markerdata[0]);
+    $marker_url_cleaned = isset($markerdata[0]) ? esc_url($markerdata[0]) : null;;
     $isContainerToCopy = $marker_number === "ReplaceWithID" ? true : false;
 ?>
     <div class="col-markers-container" data-marker-number="<?php echo $marker_number; ?>">
