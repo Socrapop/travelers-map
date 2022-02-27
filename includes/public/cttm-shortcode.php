@@ -20,7 +20,8 @@ function cttm_shortcode($attr)
 
     wp_enqueue_script('leaflet');
     wp_enqueue_script('leaflet_markercluster');
-    wp_enqueue_script('travelersmap');
+    // Enqueuing travelersmap-bundle.js in footer so wp_localize_script() works when shortcode is used.
+    wp_enqueue_script('travelersmap', plugins_url('js/dist/travelersmap-bundle.js', __FILE__), array(), TRAVELERSMAP_VERSION, true);
 
     //Get post types selected in plugin settings
     $cttm_options = get_option('cttm_options');
@@ -334,7 +335,7 @@ function cttm_shortcode($attr)
         'cttm_metas' => $cttm_metas,
         'cttm_shortcode_options' => $cttm_shortcode_options,
     );
-
+    
     //Send Json variables to our javascript file 'travelersmap.js'
     wp_localize_script('travelersmap', 'cttm_options_params', $cttm_options_params);
     wp_localize_script('travelersmap', 'cttm_shortcode_' . $id, ${"cttm_shortcode_$id"});
