@@ -33,7 +33,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
     /**
      * Init leaflet
      */
-    var cttm_map = L.map('travelersmap-container').setView(
+
+    //Attach leaflet map object to the window object, to be accessible globally
+    window.cttm_map = L.map('travelersmap-container').setView(
       [45.280712, 5.89],
       3 //Zoom 3
     );
@@ -665,7 +667,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         for (let mutation of mutationsList) {
           if (!mutation.target.classList.contains('closed') && cttm_map) {
             cttm_map.invalidateSize();
-            
+
             if (markersList.length > 0) {
               markersList.forEach((marker) => {
                 const markerHeight = marker._icon.height;
@@ -1200,4 +1202,14 @@ document.addEventListener('DOMContentLoaded', function (event) {
       popoverPreviewImage.src = imageSrc;
     }
   }
+
+  // Create event to listen to know when the map is loaded.
+  // Useful if you want to add a leaflet plugin to your maps or to interact with the map.
+  let event_cttm = document.createEvent('Event');
+
+  // Define that the event name is 'cttm_map_loaded'.
+  event_cttm.initEvent('cttm_map_loaded', true, true);
+
+  // target can be any Element or other EventTarget.
+  document.dispatchEvent(event_cttm);
 });
