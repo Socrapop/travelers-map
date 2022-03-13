@@ -250,7 +250,7 @@ function cttm_shortcode($attr)
         foreach ($cttm_posts as $cttm_post) {
             // LOOP
             //for each posts get informations:
-            //postdatas() is an array of the post thumbnail, url and title
+            //postdatas() is an array of the post informations
             //latlngmarkerarr() is an array with only one value, a json array of markers' latitude, longitude and image url(<- or string "default"), boolean (multiplemarker true/false), custom title string, custom excerpt string, custom thumbnail string
             global $post;
             $post = get_post($cttm_post->ID);
@@ -262,6 +262,7 @@ function cttm_shortcode($attr)
             $cttm_postdatas['thetitle'] = in_array('title', $popup_styles) ? get_the_title($cttm_post->ID) : '';
             $cttm_postdatas['excerpt'] = in_array('excerpt', $popup_styles) ? get_the_excerpt($cttm_post->ID) : '';
             $cttm_postdatas['date'] = in_array('date', $popup_styles) ? get_the_date('Y-m-d H:i:s', $cttm_post->ID) : '';
+            $cttm_postdatas['postID'] = $cttm_post->ID;
             $latlngmarkerarr = get_post_meta($cttm_post->ID, '_latlngmarker');
 
             // If a custom thumbnail ID is defined, get the thumbnail url and replace it in the array
