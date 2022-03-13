@@ -259,6 +259,7 @@ export function initTravelersMap() {
                         var marker = L.marker([markerlatitude, markerlongitude]);
                     }
 
+          cttm_markers[mapindex].push(marker);
                     let postPopoverOutput = cttmPopulatePopoversHTMLOutput(
                         postdatas,
                         popoverOutput,
