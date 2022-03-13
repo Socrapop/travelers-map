@@ -29,12 +29,17 @@ export function initTravelersMap() {
     //Create cttm_map public array of object if not already created
     if (typeof cttm_map === 'undefined') {
         window.cttm_map = new Array();
+    window.cttm_markers = new Array();
     } else {
         //if our maps are already initialized, this removes them nicely before initializing them again. Can be used to refresh the maps.
         for (let i = cttm_map.length - 1; i >= 0; i--) {
             cttm_map[i].remove();
             cttm_map.splice(i, 1);
         }
+    for (let i = cttm_markers.length - 1; i >= 0; i--) {
+      cttm_markers[i].remove();
+      cttm_markers.splice(i, 1);
+    }
     }
 
     cttm_shortcode_vars_arr.forEach(cttmMapLoop);
@@ -134,6 +139,8 @@ export function initTravelersMap() {
 
         //Push current map object to array
         cttm_map.push(L.map(container, cttm_map_options));
+    cttm_markers.push(new Array());
+
         //Get Tiles server URL + API key + Attribution
         L.tileLayer(tileurl, {
             subdomains: subdomains,
@@ -324,7 +331,7 @@ export function initTravelersMap() {
                                 //Create marker object with default icon
                                 var marker = L.marker([markerlatitude, markerlongitude]);
                             }
-
+              cttm_markers[mapindex].push(marker);
                             let postPopoverOutput = cttmPopulatePopoversHTMLOutput(
                                 postdatas,
                                 popoverOutput,
