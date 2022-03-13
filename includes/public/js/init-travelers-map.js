@@ -259,7 +259,16 @@ export function initTravelersMap() {
                         var marker = L.marker([markerlatitude, markerlongitude]);
                     }
 
+          //Add custom values to our object for developers
+          //Note for future: additional data should be created by a function with a WP filter to hook on
+          marker.additionalData = {
+            postid: postdatas.postID,
+            title: postdatas.thetitle,
+            multipleMarkersIndex: 0
+          };
+
           cttm_markers[mapindex].push(marker);
+
                     let postPopoverOutput = cttmPopulatePopoversHTMLOutput(
                         postdatas,
                         popoverOutput,
@@ -332,6 +341,13 @@ export function initTravelersMap() {
                                 //Create marker object with default icon
                                 var marker = L.marker([markerlatitude, markerlongitude]);
                             }
+              //Add custom values to our object for developers
+              //Note for future: additional data should be created by a function with a WP filter to hook on
+              marker.additionalData = {
+                postid: postdatas.postID,
+                title: postdatas.thetitle,
+                multipleMarkersIndex: index
+              };
               cttm_markers[mapindex].push(marker);
                             let postPopoverOutput = cttmPopulatePopoversHTMLOutput(
                                 postdatas,
