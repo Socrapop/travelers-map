@@ -18,6 +18,7 @@ Travelers' Map allows you to display your blog posts on a dynamic map using the 
 
 See this plugin in action on my [hiking blog](https://camilles-travels.com/la-carte/).
 How to use: [Get started with Travelers' Map](https://camilles-travels.com/get-started-with-travelers-map-wordpress-plugin/)
+[Developers documentation](https://camilles-travels.com/get-started-with-travelers-map-wordpress-plugin/#dev-documentation)
 
 = Features of Travelers' Map =
 
