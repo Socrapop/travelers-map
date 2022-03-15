@@ -5,10 +5,10 @@ Tags: geolocalize, openstreetmap, leaftlet, map, pin, travelers, markers, travel
 Requires at least: 4.6
 Tested up to: 5.8.1
 Requires PHP: 5.2.4
-Stable tag: 2.0.6
+Stable tag: 2.1.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 2.0.6
+Version 2.1.0
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -61,6 +61,21 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
 
 == Changelog ==
+
+= 2.1.0 - 15/03/2022 = 
+Developers update and important fixes (PHP8, WP 5.9 and FSE):
+Developers documentation is located here: https://camilles-travels.com/get-started-with-travelers-map-wordpress-plugin/#dev-documentation
+Next update will add some filters for developers.
+
+* Added global "cttm_markers" array to the front-end
+Marker objects have additional information available in marker.additionalData: postid (int), title (string), multipleMarkersIndex.
+* Added "cttm_map_loaded" event and global "cttm_map" object in post edition interface.
+Developers can now access the map object in the admin "Edit page" area using the "cttm_map" object.
+The event "cttm_map_loaded" is triggerring after the map is loaded (same behaviour as in the front-end)
+-----
+* Fix: Fixed PHP 8 notices on posts without markers, when Travelers Map is enabled.
+* Fix: Global functions like initTravelersMap() are now accessible again in the front-end (regression from 2.0.2, since Webpack was introduced and added IIFE around the output).
+* Fix: Travelers Map is now working with Full Site Editing themes introduced in WP 5.9 (e.g. Twenty Twenty Two)
 
 = 2.0.6 - 16/01/2022 = 
 * Add featured image "theme support" for custom markers post type, as some themes are enabling this for posts/pages exclusively.
