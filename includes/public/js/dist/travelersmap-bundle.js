@@ -395,7 +395,7 @@ function initTravelersMap() {
           marker.additionalData = {
             postid: postdatas.postID,
             title: postdatas.thetitle,
-            multipleMarkersIndex: 0
+            multipleMarkersIndex: 0,
           };
 
           cttm_markers[mapindex].push(marker);
@@ -479,7 +479,7 @@ function initTravelersMap() {
               marker.additionalData = {
                 postid: postdatas.postID,
                 title: postdatas.thetitle,
-                multipleMarkersIndex: index
+                multipleMarkersIndex: index,
               };
               cttm_markers[mapindex].push(marker);
               let postPopoverOutput = cttmPopulatePopoversHTMLOutput(
@@ -587,7 +587,6 @@ function initTravelersMap() {
   // target can be any Element or other EventTarget.
   document.dispatchEvent(event_cttm);
 }
-
 ;// CONCATENATED MODULE: ./includes/public/js/travelersmap.js
 
 
