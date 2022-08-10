@@ -167,11 +167,12 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
     $customthumbnail = isset($marker_data_array['customthumbnail']) ? $marker_data_array['customthumbnail'] : null;
     $customanchor = isset($marker_data_array['customanchor']) ? $marker_data_array['customanchor'] : null;
 
-    $marker_url_cleaned = isset($markerdata[0]) ? esc_url($markerdata[0]) : null;;
+    $marker_url_cleaned = isset($markerdata[0]) ? esc_url($markerdata[0]) : null;
     $isContainerToCopy = $marker_number === "ReplaceWithID" ? true : false;
 ?>
     <div class="col-markers-container" data-marker-number="<?php echo $marker_number; ?>">
-        <?php if ($isContainerToCopy && $marker_number != "0") {
+ 
+        <?php if ($isContainerToCopy || $marker_number != "0") {
         ?>
             <h3><strong><?php _e('Edit marker', 'travelers-map'); ?></strong></h3>
         <?php } else {
