@@ -255,7 +255,6 @@ function cttm_shortcode($attr)
             global $post;
             $post = get_post($cttm_post->ID);
             setup_postdata($post);
-
             $cttm_postdatas = array();
             $cttm_postdatas['thumb'] = in_array('thumbnail', $popup_styles) ? get_the_post_thumbnail_url($cttm_post->ID, "travelersmap-thumb") : '';
             $cttm_postdatas['url'] = get_permalink($cttm_post->ID);
@@ -263,6 +262,12 @@ function cttm_shortcode($attr)
             $cttm_postdatas['excerpt'] = in_array('excerpt', $popup_styles) ? get_the_excerpt($cttm_post->ID) : '';
             $cttm_postdatas['date'] = in_array('date', $popup_styles) ? get_the_date('Y-m-d H:i:s', $cttm_post->ID) : '';
             $cttm_postdatas['postID'] = $cttm_post->ID;
+
+            $cttm_customfields = new stdClass();
+            $cttm_customfields->postID = $cttm_post->ID;
+            $cttm_customfields->fields = array();
+            $cttm_postdatas['customfields'] = apply_filters('cttm_add_customfields', $cttm_customfields);
+            
             $latlngmarkerarr = get_post_meta($cttm_post->ID, '_latlngmarker');
 
             // If a custom thumbnail ID is defined, get the thumbnail url and replace it in the array
@@ -286,7 +291,7 @@ function cttm_shortcode($attr)
             $latlngmarkerarr[0] = json_encode($latlngmarkerarr_decoded);
             //Create the $cttm_metas array to store all the markers and posts informations. This will be send to our javascript file
             $cttm_metas[$i]['markerdatas'] = $latlngmarkerarr[0];
-            $cttm_metas[$i]['postdatas'] = $cttm_postdatas;
+            $cttm_metas[$i]['postdatas'] = apply_filters('cttm_postdata_filter', $cttm_postdatas);
 
             $i += 1;
             wp_reset_postdata();
