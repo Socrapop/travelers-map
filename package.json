@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/Socrapop/travelers-map#readme",
   "devDependencies": {
-    "webpack": "^5.56.0",
-    "webpack-cli": "^4.8.0"
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }
