@@ -265,6 +265,7 @@ export function initTravelersMap() {
             postid: postdatas.postID,
             title: postdatas.thetitle,
             multipleMarkersIndex: 0,
+            customFields: postdatas.customfields.fields
           };
 
           cttm_markers[mapindex].push(marker);
