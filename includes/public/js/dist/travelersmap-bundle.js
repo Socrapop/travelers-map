@@ -90,6 +90,7 @@ function cttmPopulatePopoversHTMLOutput(
         month: 'long',
         day: 'numeric',
     });
+    let postCustomFields = postdatas.customFields;
     let popoverStyles = cttm_options['popup_style'].split(',');
     let postPopoverOutput = popoverOutput;
 
@@ -396,6 +397,7 @@ function initTravelersMap() {
             postid: postdatas.postID,
             title: postdatas.thetitle,
             multipleMarkersIndex: 0,
+            customFields: postdatas.customfields.fields
           };
 
           cttm_markers[mapindex].push(marker);

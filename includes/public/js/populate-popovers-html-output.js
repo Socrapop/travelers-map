@@ -21,6 +21,7 @@ export function cttmPopulatePopoversHTMLOutput(
         month: 'long',
         day: 'numeric',
     });
+    let postCustomFields = postdatas.customFields;
     let popoverStyles = cttm_options['popup_style'].split(',');
     let postPopoverOutput = popoverOutput;
 
