@@ -21,7 +21,7 @@ export function cttmPopulatePopoversHTMLOutput(
         month: 'long',
         day: 'numeric',
     });
-    let postCustomFields = postdatas.customFields;
+    let postCustomFields = postdatas.customfields.fields;
     let popoverStyles = cttm_options['popup_style'].split(',');
     let postPopoverOutput = popoverOutput;
 
@@ -55,6 +55,15 @@ export function cttmPopulatePopoversHTMLOutput(
             ''
         );
     }
+    if (postCustomFields) {
+        postPopoverOutput = postPopoverOutput.replace('%s_customfields', postCustomFields);
+    } else {
+        postPopoverOutput = postPopoverOutput.replace(
+            '%s_customfields',
+            ''
+        );
+    }
+
     postPopoverOutput = postPopoverOutput.replace('%s_url', posturl);
 
     return postPopoverOutput;

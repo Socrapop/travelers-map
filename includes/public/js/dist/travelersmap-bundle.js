@@ -33,6 +33,7 @@ function cttmGeneratePopoverHTMLOutput(cttm_shortcode_options, cttm_options) {
             popoverOutput += '<div class="nothumbplaceholder"></div>';
             popoverOutput += '<div class="title">%s_title</div>';
             popoverOutput += '<div class="date">%s_date</div></a>';
+            popoverOutput += '%s_customfields';
             popoverOutput += '<div class="excerpt">%s_excerpt</div>';
         } else {
             //Default Popup : Thumbnail with (title) and (date). () = optionnal
@@ -47,6 +48,7 @@ function cttmGeneratePopoverHTMLOutput(cttm_shortcode_options, cttm_options) {
             popoverOutput += '<div class="popup-thumb-text-wrapper">';
             popoverOutput += '<div class="title">%s_title</div>';
             popoverOutput += '<div class="date">%s_date</div>';
+            popoverOutput += '%s_customfields';
             popoverOutput += '</div></a>';
         }
     } else {
@@ -57,6 +59,7 @@ function cttmGeneratePopoverHTMLOutput(cttm_shortcode_options, cttm_options) {
             '<a class="tooltip-link" href="%s_url" target="' + popoverTarget + '">';
         popoverOutput += '<div class="title">%s_title</div>';
         popoverOutput += '<div class="date">%s_date</div>';
+        popoverOutput += '%s_customfields';
         popoverOutput += '<div class="excerpt">%s_excerpt</div></a>';
     }
 
@@ -90,7 +93,7 @@ function cttmPopulatePopoversHTMLOutput(
         month: 'long',
         day: 'numeric',
     });
-    let postCustomFields = postdatas.customFields;
+    let postCustomFields = postdatas.customfields.fields;
     let popoverStyles = cttm_options['popup_style'].split(',');
     let postPopoverOutput = popoverOutput;
 
@@ -124,6 +127,15 @@ function cttmPopulatePopoversHTMLOutput(
             ''
         );
     }
+    if (postCustomFields) {
+        postPopoverOutput = postPopoverOutput.replace('%s_customfields', postCustomFields);
+    } else {
+        postPopoverOutput = postPopoverOutput.replace(
+            '%s_customfields',
+            ''
+        );
+    }
+
     postPopoverOutput = postPopoverOutput.replace('%s_url', posturl);
 
     return postPopoverOutput;
