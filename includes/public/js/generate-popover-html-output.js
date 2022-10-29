@@ -29,6 +29,7 @@ export function cttmGeneratePopoverHTMLOutput(cttm_shortcode_options, cttm_optio
             popoverOutput += '<div class="nothumbplaceholder"></div>';
             popoverOutput += '<div class="title">%s_title</div>';
             popoverOutput += '<div class="date">%s_date</div></a>';
+            popoverOutput += '%s_customfields';
             popoverOutput += '<div class="excerpt">%s_excerpt</div>';
         } else {
             //Default Popup : Thumbnail with (title) and (date). () = optionnal
@@ -43,6 +44,7 @@ export function cttmGeneratePopoverHTMLOutput(cttm_shortcode_options, cttm_optio
             popoverOutput += '<div class="popup-thumb-text-wrapper">';
             popoverOutput += '<div class="title">%s_title</div>';
             popoverOutput += '<div class="date">%s_date</div>';
+            popoverOutput += '%s_customfields';
             popoverOutput += '</div></a>';
         }
     } else {
@@ -53,6 +55,7 @@ export function cttmGeneratePopoverHTMLOutput(cttm_shortcode_options, cttm_optio
             '<a class="tooltip-link" href="%s_url" target="' + popoverTarget + '">';
         popoverOutput += '<div class="title">%s_title</div>';
         popoverOutput += '<div class="date">%s_date</div>';
+        popoverOutput += '%s_customfields';
         popoverOutput += '<div class="excerpt">%s_excerpt</div></a>';
     }
 
