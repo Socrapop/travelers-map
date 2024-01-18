@@ -64,6 +64,7 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 == Changelog ==
 = 2.2.1 - 16/01/2024 = 
 * Security fix, thanks LVT-tholv2k from patchstack for the vulnerability report
+
 * Tested up to WP 6.4.2
 
 = 2.2.0 - 24/06/2023 = 
