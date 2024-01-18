@@ -345,6 +345,11 @@ function cttm_shortcode($attr)
     //Send Json variables to our javascript file 'travelersmap.js'
     wp_localize_script('travelersmap', 'cttm_options_params', $cttm_options_params);
     wp_localize_script('travelersmap', 'cttm_shortcode_' . $id, ${"cttm_shortcode_$id"});
+    $width = esc_attr($width);
+    $height = esc_attr($height);
+    $maxwidth = esc_attr($maxwidth);
+    $maxheight = esc_attr($maxheight);
+    
     if ($cttm_metas) {
         $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; position:relative;"><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">Travelers\' Map is loading... <br> If you see this after your page is loaded completely, leafletJS files are missing.</div></div>';
     } else {
