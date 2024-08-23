@@ -60,7 +60,7 @@ add_action('init', 'cttm_create_private_markers_taxonomy');
 function cttm_create_private_markers_taxonomy()
 {
     //Get all public post types that could be geolocalized to set them the private taxonomy.
-    $public_posttypes = get_post_types(['public' => true]);
+    $public_posttypes = apply_filters('cttm_available_post_types', get_post_types(['public' => true]));
 
     register_taxonomy(
         'cttm-markers-tax',

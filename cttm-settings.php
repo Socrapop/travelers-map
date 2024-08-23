@@ -166,7 +166,7 @@ function cttm_posttypes_html()
     //get checked post types string and transform it into an array
     $posttypes = explode(',', $options["posttypes"]);
     //get all public registered post types
-    $registered_posttypes = get_post_types(['public' => true], 'objects');
+    $registered_posttypes = apply_filters('cttm_available_post_types_objects', get_post_types(['public' => true], 'objects'));
 
     //Add a checkbox for each registered post type, and check it if already checked in options.
     foreach ($registered_posttypes as $registered_posttype) {
@@ -395,7 +395,7 @@ function cttm_validate_option($input)
 
         //Get all public post types, that could have been geolocalized.
         //We don't get the cttm_option post types set by the user because if one unchecked post types that already had markers, it would not delete them.
-        $public_posttypes = get_post_types(['public' => true]);
+        $public_posttypes = apply_filters('cttm_available_post_types', get_post_types(['public' => true]));
 
         //Get all posts with a marker set
         $cttm_delete_args = array(
@@ -627,7 +627,7 @@ function cttm_sanitize_post_types($posttypes)
 {
 
     //get all public registered post types
-    $registered_posttypes = get_post_types(['public' => true]);
+    $registered_posttypes = apply_filters('cttm_available_post_types', get_post_types(['public' => true]));
 
     //transform post_types string into array
     $posttypes = explode(',', $posttypes);
