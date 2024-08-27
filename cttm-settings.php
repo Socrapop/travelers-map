@@ -54,7 +54,8 @@ function cttm_options_page()
         <hr>
         <p><strong><?php _e('Need some help setting up this plugin?', 'travelers-map'); ?> </strong><br>
             <?php printf(__('Please check the <a href="%1$s" target="_blank">"Get Started" tutorial</a> on my blog.', 'travelers-map'), 'https://camilles-travels.com/get-started-with-travelers-map-wordpress-plugin/'); ?>
-            <br> </p>
+            <br>
+        </p>
         <hr>
 
 
@@ -94,7 +95,8 @@ function cttm_options_page()
             ?>
             <h2><?php _e('Clean database - Delete all geolocalisation data and markers', 'travelers-map'); ?></h2>
             <p><?php _e('This button cleans every geolocalisation meta-data added to your posts and every custom markers added.', 'travelers-map'); ?><br>
-                <strong><?php _e('Please understand this is irreversible.', 'travelers-map'); ?></strong><br></p>
+                <strong><?php _e('Please understand this is irreversible.', 'travelers-map'); ?></strong><br>
+            </p>
             <input type="submit" name="Delete" value="<?php _e('Delete all plugin data in database', 'travelers-map'); ?>" style="background:#e64949;border-color:#c91c1c;box-shadow: 0 1px 0 #831212;color: #fff;text-decoration: none;text-shadow: 0 -1px 1px #990b00,1px 0 1px #c50e0e,0 1px 1px #990500,-1px 0 1px #900;" class="button" onclick="return confirm('<?php _e('Are you sure you wish to delete every geolocalisation data and custom markers in your database? This action is irreversible.', 'travelers-map'); ?>');">
             <p class="description"><br><?php _e('To prevent unintentional loss of data, this is how Travelers\' Map works:', 'travelers-map'); ?> <br>
                 - <?php _e('Upon deactivation, every data (geolocalisation meta-data and settings) is kept. ', 'travelers-map'); ?> <br>
@@ -143,15 +145,9 @@ function cttm_admin_init()
 }
 
 //Unused section header functions (mandatory)
-function cttm_main_section_html()
-{
-};
-function cttm_map_section_html()
-{
-};
-function cttm_popup_section_html()
-{
-};
+function cttm_main_section_html() {};
+function cttm_map_section_html() {};
+function cttm_popup_section_html() {};
 function cttm_multimarkers_section_html()
 {
     echo '<p class="description">' . __('Multimarkers settings only apply to posts with more than one marker linked to them.', 'travelers-map') . '<br></p>';
@@ -281,7 +277,8 @@ function cttm_popupcss_html()
     echo '<hr style="margin:30px 0">';
 }
 
-function cttm_show_only_main_markers_html(){
+function cttm_show_only_main_markers_html()
+{
     $options = get_option('cttm_options');
 
     $only_main_marker = $options["only_main_marker"];
@@ -466,7 +463,7 @@ function cttm_validate_option($input)
         $input['fullscreen_button'] = $options['fullscreen_button'];
         $input['onefinger'] = $options['onefinger'];
         $input['only_main_marker'] = $options['only_main_marker'];
-        
+
         return $input;
     }
     //If Polylang sync is clicked
