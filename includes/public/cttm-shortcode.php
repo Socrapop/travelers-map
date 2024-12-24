@@ -279,7 +279,8 @@ function cttm_shortcode($attr)
                 $latlngmarkerarr_decoded['customthumbnail'] = get_custom_thumbnail_url_with_id($cttm_thumbnail_id);
 
                 //Do the same for multiple markers
-                if ($latlngmarkerarr_decoded['multiplemarkers'] !== false) {
+                
+                if (isset($latlngmarkerarr_decoded['multiplemarkers']) && is_int($latlngmarkerarr_decoded['multiplemarkers'])) {
                     for ($index = 1; $index < $latlngmarkerarr_decoded['multiplemarkers']; $index++) {
                         $current_additional_marker = "additional_marker_" . $index;
                         $cttm_thumbnail_id = intval($latlngmarkerarr_decoded[$current_additional_marker]['customthumbnail']);

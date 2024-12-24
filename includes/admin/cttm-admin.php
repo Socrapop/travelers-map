@@ -134,7 +134,7 @@ function cttm_meta_callback($post)
         cttm_generate_marker_form_HTML(0, $the_markers_query, $marker_data_array);
 
         // If multiple markers are set, loop through each and create a form
-        if (isset($marker_data_array['multiplemarkers']) && $marker_data_array['multiplemarkers'] !== false) {
+        if (isset($marker_data_array['multiplemarkers']) && is_int($marker_data_array['multiplemarkers'])) {
             for ($index = 1; $index < $marker_data_array['multiplemarkers']; $index++) {
                 $current_additional_marker = "additional_marker_" . $index;
                 cttm_generate_marker_form_HTML($index, $the_markers_query, $marker_data_array[$current_additional_marker]);
