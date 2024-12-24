@@ -350,9 +350,10 @@ function cttm_shortcode($attr)
     $height = esc_attr($height);
     $maxwidth = esc_attr($maxwidth);
     $maxheight = esc_attr($maxheight);
-    
+    $loadingmessage = apply_filters('cttm_loading_message',  __('Travelers\' Map is loading...', 'travelers-map') . '<br>' . __('If you see this after your page is loaded completely, leafletJS files are missing.', 'travelers-map'));
+
     if ($cttm_metas) {
-        $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; position:relative;"><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">Travelers\' Map is loading... <br> If you see this after your page is loaded completely, leafletJS files are missing.</div></div>';
+        $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; position:relative;"><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">'. $loadingmessage .'</div></div>';
     } else {
         $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; position:relative;"><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">No markers found for this Travelers\' map. <br> Please add some markers to your posts before using this shortcode.</div></div>';
     }
