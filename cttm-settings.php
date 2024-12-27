@@ -110,41 +110,11 @@ function cttm_options_page()
     </div>
 <?php
 }
-function cttm_create_new_marker($title, $content, $imagename)
-{
-	//Check if post exist by title and content, so we don't duplicate posts on re-activation of plugin
-	if (post_exists($title, $content) == 0) {
-		$cttm_marker_post = array(
-			'post_title'    => $title,
-			'post_content'  => $content,
-			'post_type'	  => "cttm-marker",
-			'post_status'   => 'publish'
-		);
-		//Insert post, return the id of the newly created post. If there is an error, return 0.
-		$cttm_post_id = wp_insert_post($cttm_marker_post);
 
-		//Check if returned id is different from 0.
-		if ($cttm_post_id != 0) {
-
-			//Set file url with $imagename
-			$cttm_file_url = plugin_dir_url(__FILE__) . 'images/' . $imagename;
-			//Download the image from specified URL and attach it to post
-			$cttm_image_id = media_sideload_image($cttm_file_url, $cttm_post_id, null, 'id');
-			//check if image was downloaded without error
-			if (!is_wp_error($cttm_image_id)) {
-				set_post_thumbnail($cttm_post_id, $cttm_image_id);
-			}else{
-                //if error with thumbnail (frequently SSL error), remove the marker.
-                 wp_delete_post($cttm_post_id, true);
-            }
-		}
-	}
-}
 
 add_action('admin_init', 'cttm_admin_init');
 function cttm_admin_init()
 {
-    cttm_create_new_marker(__('Default - Black', 'travelers-map'), 'black', 'cttm_markers-black.png');
     //Register new setting "cttm_options" in database (array).
     register_setting('cttm_options', 'cttm_options', 'cttm_validate_option');
 
