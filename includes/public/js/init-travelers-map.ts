@@ -1,5 +1,5 @@
-import { cttmGeneratePopoverHTMLOutput } from './generate-popover-html-output.js';
-import { cttmPopulatePopoversHTMLOutput } from './populate-popovers-html-output.js';
+import { cttmGeneratePopoverHTMLOutput } from './generate-popover-html-output';
+import { cttmPopulatePopoversHTMLOutput } from './populate-popovers-html-output';
 
 export function initTravelersMap() {
   /**
