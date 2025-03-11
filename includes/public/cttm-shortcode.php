@@ -123,7 +123,7 @@ function cttm_shortcode($attr)
         }
     } else {
         //If filtering is not set, set tax_query to only get our private taxonomy cttm-markers-tax
-       
+
         $tax_query = array(
             array(
                 'taxonomy' => 'cttm-markers-tax',
@@ -150,10 +150,13 @@ function cttm_shortcode($attr)
     elseif ($this_post == true || $centered_on_this == true) {
 
         global $post;
-        $current_id = $post->ID;
+        if (isset($post->ID)) {
+            $current_id = $post->ID;
+        } else {
+            $current_id = false;
+        }
     } // Else, set $current_id to false.
     else {
-
         $current_id = false;
     }
 
@@ -267,7 +270,7 @@ function cttm_shortcode($attr)
             $cttm_customfields->postID = $cttm_post->ID;
             $cttm_customfields->fields = array();
             $cttm_postdatas['customfields'] = apply_filters('cttm_add_customfields', $cttm_customfields);
-            
+
             $latlngmarkerarr = get_post_meta($cttm_post->ID, '_latlngmarker');
 
             // If a custom thumbnail ID is defined, get the thumbnail url and replace it in the array
@@ -279,7 +282,7 @@ function cttm_shortcode($attr)
                 $latlngmarkerarr_decoded['customthumbnail'] = get_custom_thumbnail_url_with_id($cttm_thumbnail_id);
 
                 //Do the same for multiple markers
-                
+
                 if (isset($latlngmarkerarr_decoded['multiplemarkers']) && is_int($latlngmarkerarr_decoded['multiplemarkers'])) {
                     for ($index = 1; $index < $latlngmarkerarr_decoded['multiplemarkers']; $index++) {
                         $current_additional_marker = "additional_marker_" . $index;
@@ -342,7 +345,7 @@ function cttm_shortcode($attr)
         'cttm_metas' => $cttm_metas,
         'cttm_shortcode_options' => $cttm_shortcode_options,
     );
-    
+
     //Send Json variables to our javascript file 'travelersmap.js'
     wp_localize_script('travelersmap', 'cttm_options_params', $cttm_options_params);
     wp_localize_script('travelersmap', 'cttm_shortcode_' . $id, ${"cttm_shortcode_$id"});
@@ -353,7 +356,7 @@ function cttm_shortcode($attr)
     $loadingmessage = apply_filters('cttm_loading_message',  __('Travelers\' Map is loading...', 'travelers-map') . '<br>' . __('If you see this after your page is loaded completely, leafletJS files are missing.', 'travelers-map'));
 
     if ($cttm_metas) {
-        $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; position:relative;"><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">'. $loadingmessage .'</div></div>';
+        $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; position:relative;"><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">' . $loadingmessage . '</div></div>';
     } else {
         $cttm_output =   '<div id="' . $containerid . '" class="travelersmap-container" style="z-index: 1; min-height: 10px; min-width:10px; height:' . $height . ';width:' . $width . '; max-width:' . $maxwidth . '; max-height:' . $maxheight . '; position:relative;"><div style="position:absolute; z-index:-1;top: 50%;text-align: center;display: block;left: 50%;transform: translate(-50%,-50%);">No markers found for this Travelers\' map. <br> Please add some markers to your posts before using this shortcode.</div></div>';
     }

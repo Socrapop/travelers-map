@@ -1,14 +1,14 @@
 === Travelers' Map ===
 Contributors: socrapop
 Donate link: https://www.paypal.me/CamilleVerrier
-Tags: geolocalize, openstreetmap, leaftlet, map, pin, travelers, markers, travel blog
+Tags: geolocalize, OpenStreetMap, map, pin, markers
 Requires at least: 4.6
-Tested up to: 6.7.1
+Tested up to: 6.7.2
 Requires PHP: 5.2.4
-Stable tag: 2.3.0
+Stable tag: 2.3.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 2.3.0
+Version 2.3.1
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -62,6 +62,10 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
 
 == Changelog ==
+= 2.3.1 - 03/2025 = 
+* Tested up to WP 6.7.2
+* Fix: warning on result page with "this_post" or "centered_on_this" parameter when no post found.
+
 = 2.3.0 - 09/2024 = 
 * Tested up to WP 6.7.1
 * Added filters for developer : 
