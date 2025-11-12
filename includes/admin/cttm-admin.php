@@ -171,7 +171,7 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
     $isContainerToCopy = $marker_number === "ReplaceWithID" ? true : false;
 ?>
     <div class="col-markers-container" data-marker-number="<?php echo $marker_number; ?>">
- 
+
         <?php if ($isContainerToCopy || $marker_number != "0") {
         ?>
             <h3><strong><?php _e('Edit marker', 'travelers-map'); ?></strong></h3>
@@ -270,7 +270,7 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
                                                                                                                 } else {
                                                                                                                     echo 'customtitle[]';
                                                                                                                 } ?>" type="text" value="<?php if (isset($customtitle)) {
-                                                                                                                                                echo $customtitle;
+                                                                                                                                                echo esc_html($customtitle);
                                                                                                                                             }
                                                                                                                                             ?>"> <br>
                 </div>
@@ -282,7 +282,7 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
                                                                                                                         } else {
                                                                                                                             echo 'customexcerpt[]';
                                                                                                                         } ?>" type="text"><?php if (isset($customexcerpt)) {
-                                                                                                                                                echo $customexcerpt;
+                                                                                                                                                echo esc_html($customexcerpt);
                                                                                                                                             }
                                                                                                                                             ?></textarea><br>
                 </div>
@@ -294,7 +294,7 @@ function cttm_generate_marker_form_HTML($marker_number, $markers_query, $marker_
                                                                                                                                                                             } else {
                                                                                                                                                                                 echo 'customanchor[]';
                                                                                                                                                                             } ?>" type="text" value="<?php if (isset($customanchor)) {
-                                                                                                                                                                                                            echo $customanchor;
+                                                                                                                                                                                                            echo esc_html($customanchor);
                                                                                                                                                                                                         }
                                                                                                                                                                                                         ?>">
                         <p class="anchor-before">#</p>
