@@ -498,7 +498,7 @@ function cttm_purify_html($string)
 {
     if ($string != "") {
         //In order to sanitize attribution without removing html code, we load HTMLPurifier http://htmlpurifier.org/
-        require_once plugin_dir_path(__FILE__) . '/HTMLPurifier/HTMLPurifier.auto.php';
+        require_once __DIR__ . '/cttm-htmlpurifier.php';
         $config = HTMLPurifier_Config::createDefault();
         $purifier = new HTMLPurifier($config);
         return $purifier->purify($string);

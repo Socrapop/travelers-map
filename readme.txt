@@ -3,12 +3,12 @@ Contributors: socrapop
 Donate link: https://www.paypal.me/CamilleVerrier
 Tags: geolocalize, OpenStreetMap, map, pin, markers
 Requires at least: 4.6
-Tested up to: 6.8.3
+Tested up to: 7.1
 Requires PHP: 5.2.4
-Stable tag: 2.3.3
+Stable tag: 2.3.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 2.3.3
+Version 2.3.4
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -62,6 +62,9 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 5. Shortcode Helper page. Change the default size of your map and it's behaviour, filter the posts you want to show by tags, category or post type.
 
 == Changelog ==
+
+= 2.3.4 =
+* Tested up to WP 7.1
 
 = 2.3.3 - 11/2025 = 
 * Security fix, thanks Muhammad Yudha - DJ from patchstack for the vulnerability report.

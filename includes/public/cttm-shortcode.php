@@ -69,7 +69,7 @@ function cttm_shortcode($attr)
 
     //If attribution is set, require HTMLPurifier and sanitize it
     if ($attribution !== false) {
-        require_once plugin_dir_path(__DIR__) . '/admin/HTMLPurifier/HTMLPurifier.auto.php';
+        require_once __DIR__ . '/../admin/cttm-htmlpurifier.php';
         $config = HTMLPurifier_Config::createDefault();
         $purifier = new HTMLPurifier($config);
         $attribution = $purifier->purify($attribution);
