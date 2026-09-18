@@ -300,17 +300,17 @@ function cttm_shortcodehelper_page()
                     <p> <?php _e('If you change your tile provider, you must fill all the fields below in order to avoid your map from not showing or having some tiles missing.', 'travelers-map'); ?><br>
                         <?php _e('By default, the map will use the tile provider set in Travelers\' Map settings.', 'travelers-map'); ?></p>
                     <div style="line-height: 2.2;">
-                        <label for="tileurl"><strong><?php _e('Tiles Server URL', 'travelers-map'); ?> </strong></label><br><input id="tileurl" type="text" style="width: 95%;max-width:600px; margin: 5px 0 15px 10px" placeholder="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png">
+                        <label for="tileurl"><strong><?php _e('Tiles Server URL', 'travelers-map'); ?> </strong></label><br><input id="tileurl" type="text" style="width: 95%;max-width:600px; margin: 5px 0 15px 10px" placeholder="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}">
                         <br>
 
                     </div>
                     <div style="line-height: 2.2;">
-                        <label for="subdomains"><strong><?php _e('Tiles Server sub-domains', 'travelers-map'); ?> </strong></label><br><input id="subdomains" type="text" style="width: 95%;max-width:200px; margin: 5px 0 15px 10px" placeholder="abcd">
+                        <label for="subdomains"><strong><?php _e('Tiles Server sub-domains', 'travelers-map'); ?> </strong></label><br><input id="subdomains" type="text" style="width: 95%;max-width:200px; margin: 5px 0 15px 10px" placeholder="abc">
                         <br>
 
                     </div>
                     <div style="line-height: 2.2;">
-                        <label for="attribution"><strong><?php _e('Attribution', 'travelers-map'); ?> </strong></label><br><textarea id="attribution" type="text" cols="100" style="max-width:95%; margin: 5px 0 15px 10px" placeholder='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and © <a href="https://carto.com/attributions">CARTO</a>'></textarea>
+                        <label for="attribution"><strong><?php _e('Attribution', 'travelers-map'); ?> </strong></label><br><textarea id="attribution" type="text" cols="100" style="max-width:95%; margin: 5px 0 15px 10px" placeholder='Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'></textarea>
                         <br>
                     </div>
                 </div>

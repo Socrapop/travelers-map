@@ -3,12 +3,12 @@ Contributors: socrapop
 Donate link: https://www.paypal.me/CamilleVerrier
 Tags: geolocalize, OpenStreetMap, map, pin, markers
 Requires at least: 4.6
-Tested up to: 7.1
+Tested up to: 7.1.1
 Requires PHP: 5.2.4
-Stable tag: 2.3.4
+Stable tag: 2.3.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Version 2.3.4
+Version 2.3.5
 
 Geolocate your posts and display them on an interactive OpenStreetMap map using a simple shortcode. Customize your markers and map. 
 
@@ -27,7 +27,7 @@ How to use: [Get started with Travelers' Map](https://camilles-travels.com/get-s
 * **Insert a dynamic map** that displays your articles using a **simple shortcode**. Choose the dimensions of your map.
 * **Filter the posts** you want to display on the map by their type, categories and tags.
 * **Markers clustering** is automatic when marker density is too high, to prevent them from overlapping.
-* **Customize** the appearance of your maps with OpenStreetMap tile providers. By default, the plugin uses CARTO's free and open "Voyager" map tiles.
+* **Customize** the appearance of your maps with OpenStreetMap tile providers. By default, the plugin uses Esri's World Topographic Map tiles.
 * **Customize** the popup style and content for your markers. You can also disable the plugin's CSS if you want to design your own popups.
 * Travelers' Map is **compatible with the new Gutenberg editor** and the classic editor.
 * This plugin **does not add any tables into your database**.
@@ -63,8 +63,13 @@ Bug reports for Travelers' map are welcomed on my [GitHub Repository](https://gi
 
 == Changelog ==
 
+= 2.3.5 =
+* Tested up to WP 7.1.1
+* Change default tile provider to Esri.WorldStreetMap because CartoDB now ask for an API key. This change only apply to new installations or a reset of settings. Nothing is done automatically.
+
 = 2.3.4 =
 * Tested up to WP 7.1
+* Updated HTMLPurifier library to latest build
 
 = 2.3.3 - 11/2025 = 
 * Security fix, thanks Muhammad Yudha - DJ from patchstack for the vulnerability report.
@@ -346,7 +351,7 @@ New options for developers:
 == Frequently Asked Questions ==
 
 = Is this open source and free of charge? =
-Yes, it is. This plugin uses [Leaflet](https://leafletjs.com/) to display the interactive maps. [OpenStreetMap](https://www.openstreetmap.org/) open data is used. By default, this plugin uses [CARTO’s Voyager](https://carto.com/attribution/) tiles, which require attribution but are free. 
+Yes, it is. This plugin uses [Leaflet](https://leafletjs.com/) to display the interactive maps. By default, this plugin uses Esri's World Topographic Map tiles, which require attribution.
 
 However, you may have to pay if you were to choose a premium Tile Provider.
 

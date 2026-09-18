@@ -13,9 +13,9 @@ update_option('travelersmap_version', TRAVELERSMAP_VERSION);
 // Travelers map default options 
 $cttm_default_options = array(
     'posttypes' => 'post',
-    'tileurl' => 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    'subdomains' => 'abcd',
-    'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    'tileurl' => 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+    'subdomains' => 'abc',
+    'attribution' => 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012',
     'popup_style' => 'thumbnail,title',
     'popup_css' => 0,
     'search_field' => 0,
@@ -25,6 +25,7 @@ $cttm_default_options = array(
 );
 
 $cttm_options = get_option('cttm_options', array());
+
 
 $cttm_updated_options = array_merge($cttm_default_options, $cttm_options);
 

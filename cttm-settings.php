@@ -196,7 +196,7 @@ function cttm_subdomains_html()
     $options = get_option('cttm_options');
     $subdomains = $options["subdomains"];
     echo '<input id="subdomains" name="cttm_options[subdomains]" type="text" value="' . $subdomains . '" style="width: 150px;" />';
-    echo '<div class="helptext"><br>' . __('In this plugin, default is <code>abcd</code> because we use CartoDB.', 'travelers-map') . ' <br>' . __('However the most common subdomain is <code>abc</code>, you can find the information on your provider\'s website.', 'travelers-map') . '<br>
+    echo '<div class="helptext"><br>' . __('The default subdomain is <code>abc</code>. You can find the required value on your tile provider\'s website.', 'travelers-map') . '<br>
         <p class="description">';
     printf(__(' If you use the <a href="%1$s" target="_blank">free tile providers list</a>, subdomains are displayed when different from "abc".', 'travelers-map'), 'http://leaflet-extras.github.io/leaflet-providers/preview/');
     echo '</p><br>';
@@ -365,9 +365,9 @@ function cttm_validate_option($input)
     else if (isset($_POST['Reset'])) {
         $cttm_options_default = array(
             'posttypes' => 'post',
-            'tileurl' => 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-            'subdomains' => 'abcd',
-            'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            'tileurl' => 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+            'subdomains' => 'abc',
+            'attribution' => 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012',
             'popup_style' => 'thumbnail,title',
             'popup_css' => 0,
             'search_field' => 0,
